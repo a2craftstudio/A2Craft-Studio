@@ -18,13 +18,15 @@ import { adminEventRoutes, eventRoutes } from './routes/events.js';
 import { adminOrderRoutes, orderRoutes } from './routes/orders.js';
 import { paymentWebhookRoutes } from './routes/payments.js';
 import { fileServingRoutes, uploadRoutes } from './routes/uploads.js';
-import { ensureStorage } from './services/files.js';
+import { diskStore, ensureStorage, type FileStore } from './services/files.js';
 import { createMailer, type Mailer } from './services/mail.js';
 
 export interface AppOptions {
   /** An already opened AND migrated database (`openDb(config.database)` then `migrate(db)`). */
   db: Db;
   mail?: Mailer;
+  /** Where accepted uploads are kept. Defaults to UPLOAD_DIR on disk. */
+  files?: FileStore;
 }
 
 declare module 'express-serve-static-core' {
@@ -38,7 +40,7 @@ export function createApp(config: Config, opts: AppOptions): Express {
   const log = createLogger(config.logLevel);
   const db = opts.db;
   ensureStorage(config);
-  const ctx: Ctx = { config, db, log, mail: opts.mail ?? createMailer(config, log) };
+  const ctx: Ctx = { config, db, log, mail: opts.mail ?? createMailer(config, log), files: opts.files ?? diskStore(config) };
 
   const app = express();
   app.ctx = ctx;

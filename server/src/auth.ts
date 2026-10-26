@@ -71,7 +71,7 @@ export async function userFromRequest(ctx: Ctx, req: Request): Promise<UserRow |
 }
 
 // ---------------------------------------------------------------- users and admin bootstrap
-export async function createUser(ctx: Ctx, input: { email: string; name: string; password: string; role: 'customer' | 'admin' }): Promise<UserRow> {
+export async function createUser(ctx: Omit<Ctx, 'files'>, input: { email: string; name: string; password: string; role: 'customer' | 'admin' }): Promise<UserRow> {
   const id = uuid();
   const hash = await hashPassword(ctx.config, input.password);
   await ctx.db.run('INSERT INTO users (id, email, name, role, password_hash, created_at) VALUES (?, ?, ?, ?, ?, ?)', id, input.email.toLowerCase(), input.name, input.role, hash, nowIso());
@@ -99,7 +99,7 @@ export async function bootstrapAdmin(ctx: Ctx): Promise<'created' | 'promoted' |
 }
 
 /** Used by the create-admin CLI: creates the admin, or promotes an existing account and resets its password. */
-export async function upsertAdmin(ctx: Ctx, email: string, password: string, name?: string): Promise<'created' | 'updated'> {
+export async function upsertAdmin(ctx: Omit<Ctx, 'files'>, email: string, password: string, name?: string): Promise<'created' | 'updated'> {
   const e = email.trim().toLowerCase();
   const existing = await ctx.db.get<UserRow>('SELECT * FROM users WHERE email = ?', e);
   if (!existing) {

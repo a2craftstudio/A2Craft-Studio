@@ -1,5 +1,3 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import { Router, type RequestHandler } from 'express';
 import { z } from 'zod';
 import { razorpayConfigured, simulatorAllowed } from '../config.js';
@@ -11,7 +9,7 @@ import { me, requireUser } from '../middleware/auth.js';
 import { MINUTE, userLimiter } from '../middleware/rate.js';
 import { validateBody } from '../middleware/validate.js';
 import { email, privatePath, text, textOpt, uuidStr } from '../schemas.js';
-import { SIGN_TTL_DOWNLOAD, ensureStorage, privateFile, randomName, removeFileQuiet, safeName, signedUrl } from '../services/files.js';
+import { SIGN_TTL_DOWNLOAD, randomName, removeFileQuiet, safeName, signedUrl } from '../services/files.js';
 import { notifyDeliveryReady, notifyOrderPaid } from '../services/mail.js';
 import { loadOrder, loadOrders, markOrderPaid } from '../services/orders.js';
 import { quoteFromDb, type CartLineInput } from '../services/pricing.js';
@@ -215,9 +213,8 @@ export function orderRoutes(ctx: Ctx): Router {
 
 // ---------------------------------------------------------------- admin routes (mounted under /api/admin)
 export function adminOrderRoutes(ctx: Ctx): Router {
-  const { db, config } = ctx;
+  const { db, config, files } = ctx;
   const r = Router();
-  const dirs = ensureStorage(config);
 
   r.get('/orders', ah(async (_req, res) => {
     res.json(await loadOrders(db, { includeNote: true }));
@@ -261,8 +258,12 @@ export function adminOrderRoutes(ctx: Ctx): Router {
     const file = req.file;
     if (!file) throw badRequest('Choose a file to upload.');
     const stored = `${randomName()}-${safeName(file.originalname)}`;
-    const dest = path.join(dirs.privateDir, stored);
-    fs.renameSync(file.path, dest);
+    const dest = `private/${stored}`;
+    try {
+      await files.save(dest, file.path);
+    } finally {
+      removeFileQuiet(file.path);
+    }
     let oldPath: string | undefined;
     try {
       await db.tx(async () => {
@@ -280,10 +281,10 @@ export function adminOrderRoutes(ctx: Ctx): Router {
         }
       });
     } catch (e) {
-      removeFileQuiet(dest);
+      await files.remove(dest);
       throw e;
     }
-    if (oldPath) removeFileQuiet(privateFile(config, oldPath) ?? undefined);
+    if (oldPath && oldPath !== dest) await files.remove(oldPath);
     await notifyDeliveryReady(config, db, ctx.mail, id, productId);
     res.status(204).end();
   }));
