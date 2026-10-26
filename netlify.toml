@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist/a2-craft-studio/browser"
+
+[functions]
+  node_bundler = "esbuild"
+  # pg loads its optional native driver lazily; shipping it unbundled keeps esbuild from trying to resolve it.
+  external_node_modules = ["pg"]
+  included_files = ["server/src/migrations/*.sql"]

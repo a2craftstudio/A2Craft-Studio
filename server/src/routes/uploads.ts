@@ -31,8 +31,7 @@ export function makeUploader(ctx: Ctx, maxBytes: number): RequestHandler {
 }
 
 export function uploadRoutes(ctx: Ctx): Router {
-  const { config } = ctx;
-  const dirs = ensureStorage(config);
+  const { config, files } = ctx;
   const r = Router();
 
   const uploaders = {
@@ -66,7 +65,7 @@ export function uploadRoutes(ctx: Ctx): Router {
         const ext = extOf(file.originalname);
         if (kind === 'file') {
           const stored = `${randomName()}-${safeName(file.originalname)}`;
-          fs.renameSync(tmp, path.join(dirs.privateDir, stored));
+          await files.save(`private/${stored}`, tmp);
           res.json({ path: `private/${stored}` });
           return;
         }
@@ -77,7 +76,7 @@ export function uploadRoutes(ctx: Ctx): Router {
           if (!sniffed) throw badRequest('That file does not look like a supported image or video.');
           if (sniffed.kind === 'image' && file.size > LIMITS.image) throw new HttpError(413, 'Images can be at most 10 MB.');
           const name = `${randomName()}.${sniffed.ext}`;
-          fs.renameSync(tmp, path.join(dirs.publicDir, name));
+          await files.save(`public/${name}`, tmp);
           res.json({ path: `public/${name}`, url: `/media/${name}` });
           return;
         }
@@ -85,7 +84,7 @@ export function uploadRoutes(ctx: Ctx): Router {
         if (!REFERENCE_EXTS.has(ext)) throw badRequest('Please upload a JPG, PNG or WebP image.');
         if (!sniffed || !REFERENCE_TYPES.has(sniffed.ext)) throw badRequest('That file is not a valid JPG, PNG or WebP image.');
         const name = `${randomName()}.${sniffed.ext}`;
-        fs.renameSync(tmp, path.join(dirs.privateDir, name));
+        await files.save(`private/${name}`, tmp);
         res.json({ path: `private/${name}` });
       } finally {
         removeFileQuiet(tmp);
@@ -94,12 +93,11 @@ export function uploadRoutes(ctx: Ctx): Router {
   );
 
   const signQuery = z.object({ path: z.string().trim().regex(PRIVATE_PATH_RE, 'Not a valid file path.') });
-  r.get('/uploads/sign', requireAdmin, validateQuery(signQuery), (req, res) => {
+  r.get('/uploads/sign', requireAdmin, validateQuery(signQuery), ah(async (req, res) => {
     const p = (req.query as { path: string }).path;
-    const abs = privateFile(config, p);
-    if (!abs || !fs.existsSync(abs)) throw notFound('File not found.');
+    if (!(await files.exists(p))) throw notFound('File not found.');
     res.json({ url: signedUrl(config, p, SIGN_TTL_ADMIN) });
-  });
+  }));
 
   return r;
 }

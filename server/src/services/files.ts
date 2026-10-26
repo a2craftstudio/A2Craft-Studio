@@ -24,6 +24,39 @@ export function ensureStorage(config: Config): StorageDirs {
   return d;
 }
 
+// ---------------------------------------------------------------- file store
+/** `public/<name>` (served at /media/<name>) or `private/<name>` (served only through signed /files links). */
+export const STORE_KEY_RE = /^(public|private)\/[A-Za-z0-9][A-Za-z0-9._-]{0,199}$/;
+
+/**
+ * Where accepted uploads live. Uploads always arrive as a temp file on disk first (multer); `save` moves it into the
+ * store. The default keeps files in UPLOAD_DIR; on Netlify the store is Netlify Blobs (the function disk is temporary).
+ */
+export interface FileStore {
+  save(key: string, tmpFile: string): Promise<void>;
+  exists(key: string): Promise<boolean>;
+  remove(key: string): Promise<void>;
+}
+
+export function diskStore(config: Config): FileStore {
+  const { root } = ensureStorage(config);
+  const abs = (key: string) => {
+    if (!STORE_KEY_RE.test(key)) throw new Error('Not a valid file key.');
+    return path.join(root, key);
+  };
+  return {
+    async save(key, tmpFile) {
+      fs.renameSync(tmpFile, abs(key));
+    },
+    async exists(key) {
+      return STORE_KEY_RE.test(key) && fs.existsSync(abs(key));
+    },
+    async remove(key) {
+      if (STORE_KEY_RE.test(key)) removeFileQuiet(abs(key));
+    },
+  };
+}
+
 // ---------------------------------------------------------------- signed URLs
 const signingKey = (config: Config) => crypto.createHmac('sha256', config.jwtSecret).update('a2-file-signing-v1').digest();
 

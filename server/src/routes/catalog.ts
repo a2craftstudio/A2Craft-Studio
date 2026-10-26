@@ -6,9 +6,7 @@ import { badRequest, conflict, notFound } from '../errors.js';
 import { ah } from '../middleware/async.js';
 import { validateBody, validateQuery } from '../middleware/validate.js';
 import { flag, mediaUrl, motif, palette, privatePath, text, textOpt, uuidStr } from '../schemas.js';
-import { privateFile } from '../services/files.js';
 import { bool, slugify } from '../util.js';
-import fs from 'node:fs';
 
 // ---------------------------------------------------------------- shapes
 interface ProductRow {
@@ -272,8 +270,7 @@ export function adminCatalogRoutes(ctx: Ctx): Router {
     const id = uuidParam.safeParse(req.params);
     if (!id.success || !(await db.get('SELECT 1 AS x FROM products WHERE id = ?', id.data.id))) throw notFound('Product not found.');
     const { path: p } = req.body as z.infer<typeof fileBody>;
-    const abs = privateFile(config, p);
-    if (!abs || !fs.existsSync(abs)) throw badRequest('That file has not been uploaded.');
+    if (!(await ctx.files.exists(p))) throw badRequest('That file has not been uploaded.');
     await db.run('INSERT INTO product_files (product_id, file_path) VALUES (?, ?) ON CONFLICT(product_id) DO UPDATE SET file_path = excluded.file_path', id.data.id, p);
     res.status(204).end();
   }));
