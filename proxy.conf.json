@@ -1,0 +1,5 @@
+﻿{
+  "/api": { "target": "http://localhost:3100", "secure": false, "changeOrigin": false },
+  "/media": { "target": "http://localhost:3100", "secure": false },
+  "/files": { "target": "http://localhost:3100", "secure": false }
+}
