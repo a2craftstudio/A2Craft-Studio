@@ -175,6 +175,7 @@ export class ApiBackend extends Backend {
   async saveCoupon(c: Coupon) { await this.req('PUT', `/admin/coupons/${encodeURIComponent(c.code.trim().toUpperCase())}`, c); }
   async deleteCoupon(code: string) { await this.req('DELETE', `/admin/coupons/${encodeURIComponent(code)}`); }
   listCustomers() { return this.req<Customer[]>('GET', '/admin/customers'); }
+  async setUserRole(id: string, role: 'customer' | 'admin') { await this.req('PUT', `/admin/users/${encodeURIComponent(id)}/role`, { role }); }
   getSettings() { return this.req<SiteSettings>('GET', '/settings'); }
   async saveSettings(s: SiteSettings) { await this.req('PUT', '/admin/settings', s); }
 
