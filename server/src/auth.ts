@@ -85,6 +85,14 @@ export async function createUser(ctx: Omit<Ctx, 'files'>, input: { email: string
 
 /** Creates the admin from ADMIN_EMAIL / ADMIN_PASSWORD, only when no admin exists yet. Returns what happened. */
 export async function bootstrapAdmin(ctx: Ctx): Promise<'created' | 'promoted' | 'skipped'> {
+  const owner = ctx.config.superAdminEmail;
+  if (owner) {
+    const row = await ctx.db.get<UserRow>('SELECT * FROM users WHERE email = ?', owner);
+    if (row && row.role !== 'admin') {
+      await ctx.db.run("UPDATE users SET role = 'admin' WHERE id = ?", row.id);
+      ctx.log.info(`[admin] promoted the super admin account ${owner} to admin.`);
+    }
+  }
   const { email, password, name } = ctx.config.admin;
   if (!email || !password) return 'skipped';
   if (await ctx.db.get('SELECT id FROM users WHERE role = ? LIMIT 1', 'admin')) return 'skipped';

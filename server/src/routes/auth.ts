@@ -29,7 +29,7 @@ export function authRoutes(ctx: Ctx): Router {
   const authLimit = limiter(config, 10, MINUTE);
 
   r.get('/auth/me', (req, res) => {
-    res.json({ user: req.user ? toSession(req.user, config.admin.email) : null });
+    res.json({ user: req.user ? toSession(req.user, config.superAdminEmail) : null });
   });
 
   r.post(
@@ -47,7 +47,7 @@ export function authRoutes(ctx: Ctx): Router {
         throw e;
       }
       issueSession(config, res, user);
-      res.json({ user: toSession(user, config.admin.email) });
+      res.json({ user: toSession(user, config.superAdminEmail) });
     }),
   );
 
@@ -64,7 +64,7 @@ export function authRoutes(ctx: Ctx): Router {
       }
       if (!(await checkPassword(b.password, user.password_hash))) throw new HttpError(401, WRONG);
       issueSession(config, res, user);
-      res.json({ user: toSession(user, config.admin.email) });
+      res.json({ user: toSession(user, config.superAdminEmail) });
     }),
   );
 
@@ -118,7 +118,7 @@ export function authRoutes(ctx: Ctx): Router {
         return (await db.get<UserRow>('SELECT * FROM users WHERE id = ?', row.user_id))!;
       });
       issueSession(config, res, user);
-      res.json({ user: toSession(user, config.admin.email) });
+      res.json({ user: toSession(user, config.superAdminEmail) });
     }),
   );
 
@@ -126,7 +126,7 @@ export function authRoutes(ctx: Ctx): Router {
     const u = me(req);
     const b = req.body as z.infer<typeof profileBody>;
     await db.run('UPDATE users SET name = ? WHERE id = ?', b.name, u.id);
-    res.json({ user: toSession({ ...u, name: b.name }, config.admin.email) });
+    res.json({ user: toSession({ ...u, name: b.name }, config.superAdminEmail) });
   }));
 
   r.post(

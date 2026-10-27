@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import type { Ctx } from '../context.js';
 import { nowIso } from '../db.js';
-import { badRequest, conflict, notFound } from '../errors.js';
+import { badRequest, conflict, forbidden, notFound } from '../errors.js';
 import { ah } from '../middleware/async.js';
 import { validateBody, validateQuery } from '../middleware/validate.js';
 import { email, emailOrEmpty, isoDate, text, textOpt, uuidStr } from '../schemas.js';
@@ -22,6 +22,8 @@ const couponBody = z
     used: z.number().optional(), // read-only: ignored
   })
   .strict();
+
+const roleBody = z.object({ role: z.enum(['customer', 'admin']) }).strict();
 
 const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;
 const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
@@ -68,7 +70,7 @@ const callbackPatch = z
 const subscriberQuery = z.object({ email });
 
 export function adminRoutes(ctx: Ctx): Router {
-  const { db } = ctx;
+  const { db, config } = ctx;
   const r = Router();
 
   // ---- reviews
@@ -126,7 +128,7 @@ export function adminRoutes(ctx: Ctx): Router {
     res.status(204).end();
   }));
 
-  // ---- customers (paid orders only, refunded excluded)
+  // ---- customers (every account; order counts and spend cover paid, non-refunded orders only)
   r.get('/customers', ah(async (_req, res) => {
     const rows = await db.all<{ id: string; email: string; name: string; role: 'customer' | 'admin'; created_at: string; orders: number; spent: number }>(
       `SELECT u.id, u.email, u.name, u.role, u.created_at,
@@ -136,6 +138,19 @@ export function adminRoutes(ctx: Ctx): Router {
         GROUP BY u.id ORDER BY u.created_at DESC LIMIT 5000`,
     );
     res.json(rows.map((u) => ({ id: u.id, email: u.email, name: u.name, role: u.role, orders: u.orders, spent: u.spent, joined: u.created_at })));
+  }));
+
+  // ---- roles: only the super admin (the ADMIN_EMAIL account) may promote or demote
+  r.put('/users/:id/role', validateBody(roleBody), ah(async (req, res) => {
+    const actor = req.user!;
+    if (!config.superAdminEmail || actor.email.toLowerCase() !== config.superAdminEmail) throw forbidden('Only the super admin can change roles.');
+    const id = uuidStr.safeParse(req.params['id']);
+    const target = id.success ? await db.get<{ id: string; email: string }>('SELECT id, email FROM users WHERE id = ?', id.data) : undefined;
+    if (!id.success || !target) throw notFound('User not found.');
+    if (target.email.toLowerCase() === config.superAdminEmail) throw conflict('The super admin role cannot be changed.');
+    const { role } = req.body as z.infer<typeof roleBody>;
+    await db.run('UPDATE users SET role = ? WHERE id = ?', role, target.id);
+    res.json({ id: target.id, role });
   }));
 
   // ---- settings

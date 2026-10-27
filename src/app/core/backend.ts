@@ -57,6 +57,7 @@ export abstract class Backend {
   abstract deleteCoupon(code: string): Promise<void>;
 
   abstract listCustomers(): Promise<Customer[]>;
+  abstract setUserRole(id: string, role: 'customer' | 'admin'): Promise<void>;
   abstract getSettings(): Promise<SiteSettings>;
   abstract saveSettings(s: SiteSettings): Promise<void>;
   abstract submitContact(m: { name: string; email: string; message: string }): Promise<void>;

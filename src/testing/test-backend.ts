@@ -60,6 +60,7 @@ export class TestBackend extends Backend {
   saveCoupon(...args: any[]): Promise<any> { return this.run('saveCoupon', args, () => undefined); }
   deleteCoupon(...args: any[]): Promise<any> { return this.run('deleteCoupon', args, () => undefined); }
   listCustomers(...args: any[]): Promise<any> { return this.run('listCustomers', args, () => []); }
+  setUserRole(...args: any[]): Promise<any> { return this.run('setUserRole', args, () => undefined); }
   getSettings(...args: any[]): Promise<any> { return this.run('getSettings', args, () => ({ announcement: '', whatsapp: '', supportEmail: '' })); }
   saveSettings(...args: any[]): Promise<any> { return this.run('saveSettings', args, () => undefined); }
   submitContact(...args: any[]): Promise<any> { return this.run('submitContact', args, () => undefined); }

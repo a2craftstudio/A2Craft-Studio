@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { Backend } from '../../core/backend';
 import { BusinessHours, ContactMessage, Coupon, Customer, DayKey, Order, Review, SiteSettings, Subscriber } from '../../core/models';
 import { DAYS, DEFAULT_HOURS, fmtRange, validateHours } from '../../core/hours';
-import { CatalogService, formatInr, SettingsService, ToastService } from '../../core/services';
+import { AuthService, CatalogService, formatInr, SettingsService, ToastService } from '../../core/services';
 import { StarsComponent } from '../../shared/stars.component';
 import { AdminStateService } from './admin-state.service';
 
@@ -33,7 +33,10 @@ function download(name: string, rows: string[][]) {
       <tbody>
         @for (c of shown(); track c.id) {
           <tr><td><strong>{{ c.name || '—' }}</strong><br /><span class="muted">{{ c.email }}</span></td><td><span class="pill" [class.dark]="c.role === 'admin'">{{ c.role }}</span></td><td>{{ c.orders }}</td><td>{{ money(c.spent) }}</td><td>{{ c.joined ? c.joined.slice(0, 10) : '—' }}</td>
-            <td><button class="btn small ghost" type="button" (click)="open.set(open() === c.id ? '' : c.id)" [attr.aria-expanded]="open() === c.id">{{ open() === c.id ? 'Hide' : 'Orders' }}</button></td></tr>
+            <td><button class="btn small ghost" type="button" (click)="open.set(open() === c.id ? '' : c.id)" [attr.aria-expanded]="open() === c.id">{{ open() === c.id ? 'Hide' : 'Orders' }}</button>
+              @if (canManageRoles() && c.id !== me()?.id && !isSuper(c)) {
+                <button class="btn small" type="button" [disabled]="busy() === c.id" (click)="setRole(c, c.role === 'admin' ? 'customer' : 'admin')">{{ c.role === 'admin' ? 'Remove admin' : 'Make admin' }}</button>
+              }</td></tr>
           @if (open() === c.id) {
             <tr class="det"><td colspan="6">
               @for (o of ordersOf(c); track o.id) { <div class="o"><span>#{{ o.id.slice(0, 8).toUpperCase() }} · {{ o.createdAt.slice(0, 10) }}</span><span>{{ o.items.map(titleOf).join(', ') }}</span><span class="pill">{{ o.status.replace('_', ' ') }}</span><strong>{{ money(o.total) }}</strong></div> }
@@ -43,13 +46,19 @@ function download(name: string, rows: string[][]) {
           }
         } @empty { <tr><td colspan="6" class="muted">No customers match.</td></tr> }
       </tbody></table></div>
-    <p class="muted s">Roles are changed in the database only (see README), never from the browser.</p>
+    <p class="muted s">@if (canManageRoles()) { As the super admin you can make any account an admin or remove admin rights. } @else { Only the super admin can change roles. }</p>
   `,
   styles: [`.s { font-size: .82rem; } .det > td { background: #fafafa; } .o { display: grid; grid-template-columns: 1.1fr 2fr auto auto; gap: 1rem; padding: .45rem 0; border-bottom: 1px solid var(--line); font-size: .9rem; align-items: center; } .btn { margin-top: .6rem; }`],
 })
 export class CustomersTabComponent implements OnInit {
   private backend = inject(Backend);
+  private auth = inject(AuthService);
+  private toast = inject(ToastService);
   money = formatInr;
+  me = this.auth.session;
+  canManageRoles = computed(() => !!this.me()?.superAdmin);
+  busy = signal('');
+  isSuper = (c: Customer) => c.email.toLowerCase() === this.me()?.email.toLowerCase();
   list = signal<Customer[]>([]);
   orders = signal<Order[]>([]);
   q = signal('');
@@ -60,6 +69,11 @@ export class CustomersTabComponent implements OnInit {
   titleOf = (i: Order['items'][number]) => i.title;
   async ngOnInit() {
     try { const [c, o] = await Promise.all([this.backend.listCustomers(), this.backend.listAllOrders()]); this.list.set(c); this.orders.set(o); } catch (e) { this.error.set((e as Error).message); }
+  }
+  async setRole(c: Customer, role: 'customer' | 'admin') {
+    if (!confirm(role === 'admin' ? `Make ${c.email} an admin? They will be able to manage the whole shop.` : `Remove admin rights from ${c.email}?`)) return;
+    this.busy.set(c.id);
+    try { await this.backend.setUserRole(c.id, role); this.list.update((l) => l.map((x) => (x.id === c.id ? { ...x, role } : x))); this.toast.show(role === 'admin' ? 'Admin added.' : 'Admin removed.'); } catch (e) { this.error.set((e as Error).message); } finally { this.busy.set(''); }
   }
   exportCsv() { download('customers', [['Name', 'Email', 'Role', 'Paid orders', 'Total spent INR', 'Joined']].concat(this.shown().map((c) => [c.name, c.email, c.role, String(c.orders), String(c.spent), c.joined.slice(0, 10)]))); }
 }
