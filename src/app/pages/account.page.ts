@@ -90,6 +90,7 @@ type Mode = 'signin' | 'signup' | 'forgot';
             <form class="card prof" [formGroup]="pf" (ngSubmit)="saveProfile()" novalidate>
               <div class="field"><label for="p-name">Name</label><input id="p-name" formControlName="name" /></div>
               <div class="field"><label for="p-email">Email</label><input id="p-email" [value]="auth.session()!.email" disabled /><span class="hint">To change your email, contact us.</span></div>
+              <div class="field"><label>Account type</label><p><span class="pill" [class.green]="auth.isAdmin()">{{ auth.roleLabel() }}</span></p></div>
               <button class="btn" type="submit">Save profile</button>
             </form>
             <form class="card prof" [formGroup]="pw" (ngSubmit)="savePassword()" novalidate>
