@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { after, before, describe, test } from 'node:test';
+import { bootstrapAdmin } from '../src/auth.js';
 import { adminAgent, makeApp, signup, uid, type Agent, type Harness } from './helpers.js';
 
 describe('role management (super admin only)', () => {
@@ -14,7 +15,7 @@ describe('role management (super admin only)', () => {
   const idOf = async (a: Agent, email: string) => ((await a.get('/api/admin/customers')).body as { id: string; email: string }[]).find((c) => c.email === email)!.id;
 
   before(async () => {
-    h = await makeApp({ admin: { email: 'boss@shop.test', password: '', name: 'Boss' } });
+    h = await makeApp({ superAdminEmail: 'boss@shop.test' });
     boss = await adminAgent(h, 'boss@shop.test');
     staff = await adminAgent(h, 'staff@shop.test');
     shopper = await signup(h.app, 'shopper@example.com', 'Shopper');
@@ -34,6 +35,19 @@ describe('role management (super admin only)', () => {
     assert.equal((await shopper.get('/api/admin/customers')).status, 200, 'promotion takes effect immediately');
     assert.equal((await boss.put(`/api/admin/users/${shopperId}/role`).send({ role: 'customer' })).status, 200);
     assert.equal((await shopper.get('/api/admin/customers')).status, 403);
+  });
+
+  test('startup promotes an existing SUPERADMIN_EMAIL account', async () => {
+    const owner = await makeApp({ superAdminEmail: 'owner@example.com' });
+    try {
+      const a = await signup(owner.app, 'owner@example.com', 'Owner');
+      assert.equal((await a.get('/api/admin/customers')).status, 403);
+      await bootstrapAdmin(owner.ctx);
+      assert.equal((await a.get('/api/admin/customers')).status, 200);
+      assert.equal((await a.get('/api/auth/me')).body.user.superAdmin, true);
+    } finally {
+      await owner.cleanup();
+    }
   });
 
   test('other admins and customers cannot change roles', async () => {

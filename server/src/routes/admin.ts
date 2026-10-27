@@ -143,11 +143,11 @@ export function adminRoutes(ctx: Ctx): Router {
   // ---- roles: only the super admin (the ADMIN_EMAIL account) may promote or demote
   r.put('/users/:id/role', validateBody(roleBody), ah(async (req, res) => {
     const actor = req.user!;
-    if (!config.admin.email || actor.email.toLowerCase() !== config.admin.email.toLowerCase()) throw forbidden('Only the super admin can change roles.');
+    if (!config.superAdminEmail || actor.email.toLowerCase() !== config.superAdminEmail) throw forbidden('Only the super admin can change roles.');
     const id = uuidStr.safeParse(req.params['id']);
     const target = id.success ? await db.get<{ id: string; email: string }>('SELECT id, email FROM users WHERE id = ?', id.data) : undefined;
     if (!id.success || !target) throw notFound('User not found.');
-    if (target.email.toLowerCase() === config.admin.email.toLowerCase()) throw conflict('The super admin role cannot be changed.');
+    if (target.email.toLowerCase() === config.superAdminEmail) throw conflict('The super admin role cannot be changed.');
     const { role } = req.body as z.infer<typeof roleBody>;
     await db.run('UPDATE users SET role = ? WHERE id = ?', role, target.id);
     res.json({ id: target.id, role });

@@ -45,6 +45,8 @@ export interface Config {
   paymentSimulator: boolean;
   mail: { resendApiKey: string; from: string; ownerEmail: string };
   admin: { email: string; password: string; name: string };
+  /** The owner account (SUPERADMIN_EMAIL, falling back to ADMIN_EMAIL): always an admin, and the only one who can change roles. */
+  superAdminEmail: string;
   bcryptCost: number;
   rateLimit: boolean;
   logLevel: 'silent' | 'error' | 'info';
@@ -178,6 +180,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, warn: (m: strin
     razorpay: { keyId: str(env['RAZORPAY_KEY_ID']), keySecret: str(env['RAZORPAY_KEY_SECRET']), webhookSecret: str(env['RAZORPAY_WEBHOOK_SECRET']) },
     paymentSimulator,
     mail: { resendApiKey: str(env['RESEND_API_KEY']), from: str(env['MAIL_FROM'], 'A2 Craft Studio <onboarding@resend.dev>'), ownerEmail: str(env['OWNER_EMAIL']) },
+    superAdminEmail: (str(env['SUPERADMIN_EMAIL']) || str(env['ADMIN_EMAIL'])).toLowerCase(),
     admin: { email: str(env['ADMIN_EMAIL']).toLowerCase(), password: env['ADMIN_PASSWORD'] ?? '', name: str(env['ADMIN_NAME'], 'Studio Admin') },
     bcryptCost: 12,
     rateLimit: true,
