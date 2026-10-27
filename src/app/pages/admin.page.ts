@@ -3,7 +3,9 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Backend } from '../core/backend';
-import { AuthService, SeoService } from '../core/services';
+import { BRAND } from '../core/config';
+import { AuthService, SeoService, SessionActions } from '../core/services';
+import { LogoMarkComponent } from '../shared/logo.component';
 import { AdminStateService } from './admin/admin-state.service';
 import { CallbacksTabComponent } from './admin/callbacks-tab.component';
 import { CategoriesTabComponent } from './admin/categories-tab.component';
@@ -46,9 +48,18 @@ const NAV: { group: string; items: Item[] }[] = [
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterLink, RoleBadgeComponent, CallbacksTabComponent, OverviewTabComponent, ProductsTabComponent, CategoriesTabComponent, OrdersTabComponent, CouponsTabComponent, InquiriesTabComponent, MessagesTabComponent, ReviewsTabComponent,
+  imports: [RouterLink, RoleBadgeComponent, LogoMarkComponent, CallbacksTabComponent, OverviewTabComponent, ProductsTabComponent, CategoriesTabComponent, OrdersTabComponent, CouponsTabComponent, InquiriesTabComponent, MessagesTabComponent, ReviewsTabComponent,
     CustomersTabComponent, SubscribersTabComponent, VisitorsTabComponent, PortfolioTabComponent, ContentTabComponent, SettingsTabComponent],
   template: `
+    <header class="top">
+      <a routerLink="/admin" class="brand" [attr.aria-label]="brand.name + ' admin home'"><app-logo-mark [size]="30" /><span>{{ brand.name }}</span></a>
+      <div class="right">
+        <a class="vs" routerLink="/" target="_blank">View the site ↗</a>
+        <app-role-badge [role]="auth.session()?.role" [superAdmin]="!!auth.session()?.superAdmin" />
+        <span class="me">{{ auth.session()?.name || auth.session()?.email }}</span>
+        <button class="out" type="button" (click)="logout()">Log out</button>
+      </div>
+    </header>
     <div class="shell">
       <aside class="side" [attr.aria-label]="auth.roleLabel() + ' menu'">
         <div class="who"><strong>{{ auth.roleLabel() }}</strong><span>{{ auth.session()?.email }}</span></div>
@@ -94,8 +105,15 @@ const NAV: { group: string; items: Item[] }[] = [
     </div>
   `,
   styles: [`
+    .top { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 60px; padding: 0 clamp(12px, 3vw, 32px); background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #111; font-weight: 800; letter-spacing: -.01em; }
+    .right { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .vs { font-size: .85rem; color: var(--muted); text-decoration: none; &:hover { color: #111; } }
+    .me { font-size: .85rem; font-weight: 600; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .out { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: .4rem .9rem; font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; &:hover { background: #efefef; } }
+    @media (max-width: 640px) { .me, .vs { display: none; } }
     .shell { display: grid; grid-template-columns: 240px 1fr; gap: clamp(16px, 3vw, 36px); max-width: 1500px; margin: 0 auto; padding: 24px clamp(12px, 3vw, 32px) 72px; align-items: start; }
-    .side { position: sticky; top: calc(var(--header-h) + 12px); background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 16px 12px; max-height: calc(100dvh - var(--header-h) - 24px); overflow: auto; }
+    .side { position: sticky; top: 76px; background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 16px 12px; max-height: calc(100dvh - 92px); overflow: auto; }
     .who { padding: 4px 10px 12px; strong { display: block; font-size: 1.05rem; } span { font-size: .78rem; color: var(--muted); word-break: break-all; } }
     .grp { margin: 14px 10px 4px; font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; color: var(--muted); }
     nav a { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: .55rem .8rem; border-radius: 14px; text-decoration: none; color: #111; font-weight: 500; font-size: .93rem; cursor: pointer; transition: background .2s;
@@ -111,6 +129,9 @@ const NAV: { group: string; items: Item[] }[] = [
 export class AdminPage implements OnInit {
   backend = inject(Backend);
   auth = inject(AuthService);
+  private session = inject(SessionActions);
+  brand = BRAND;
+  logout() { return this.session.logout(); }
   private state = inject(AdminStateService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
