@@ -50,7 +50,7 @@ const NAV: { group: string; items: Item[] }[] = [
     CustomersTabComponent, SubscribersTabComponent, VisitorsTabComponent, PortfolioTabComponent, ContentTabComponent, SettingsTabComponent],
   template: `
     <div class="shell">
-      <aside class="side" aria-label="Admin menu">
+      <aside class="side" [attr.aria-label]="auth.roleLabel() + ' menu'">
         <div class="who"><strong>Studio admin</strong><span>{{ auth.session()?.email }}</span></div>
         <nav>
           @for (g of nav; track g.group) {
@@ -66,7 +66,7 @@ const NAV: { group: string; items: Item[] }[] = [
       </aside>
 
       <main class="main">
-        <div class="mob"><label class="sr-only" for="adm-nav">Admin section</label>
+        <div class="mob"><label class="sr-only" for="adm-nav">{{ auth.roleLabel() }} section</label>
           <select id="adm-nav" [value]="tab()" (change)="open($any($event.target).value)">
             @for (g of nav; track g.group) { <optgroup [label]="g.group">@for (i of g.items; track i.id) { <option [value]="i.id" [selected]="tab() === i.id">{{ i.label }}{{ badge(i) ? ' (' + badge(i) + ')' : '' }}</option> }</optgroup> }
           </select></div>
@@ -138,7 +138,7 @@ export class AdminPage implements OnInit {
   }
 
   ngOnInit() {
-    this.seo.set({ title: 'Admin' });
+    this.seo.set({ title: this.auth.session()?.superAdmin ? 'Super admin' : 'Admin' });
     void this.state.refresh();
   }
 }

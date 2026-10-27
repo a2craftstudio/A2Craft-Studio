@@ -26,7 +26,7 @@ import { IconComponent } from '../shared/icon.component';
             <a role="menuitem" routerLink="/account" [queryParams]="{ tab: 'history' }">Viewing history</a>
             <a role="menuitem" routerLink="/account" [queryParams]="{ tab: 'custom' }">Custom requests</a>
             <a role="menuitem" routerLink="/account" [queryParams]="{ tab: 'profile' }">Profile and privacy</a>
-            @if (auth.isAdmin()) { <a role="menuitem" class="adm" routerLink="/admin">Admin dashboard</a> }
+            @if (auth.isAdmin()) { <a role="menuitem" class="adm" routerLink="/admin">{{ auth.dashboardLabel() }}</a> }
             <div class="sep"></div>
             <button role="menuitem" type="button" class="out" (click)="logout()">Log out</button>
             <button role="menuitem" type="button" class="clr" (click)="logoutAndClear()">Log out and clear this device</button>
@@ -54,7 +54,7 @@ import { IconComponent } from '../shared/icon.component';
     .who { padding: 8px 12px 6px; display: grid; gap: 1px; strong { font-size: 1.05rem; } span { font-size: .8rem; color: var(--muted); word-break: break-all; } em { justify-self: start; font-style: normal; font-size: .68rem; font-weight: 700; background: #111; color: #fff; padding: .05rem .5rem; border-radius: 999px; margin-top: 4px; } }
     .priv { margin: 0 12px 6px; font-size: .75rem; color: #14632a; display: flex; align-items: center; gap: 4px; }
     a, button[role=menuitem] { display: block; width: 100%; text-align: left; padding: .6rem .8rem; border-radius: 14px; border: 0; background: transparent; font: inherit; font-size: .93rem; color: #111; text-decoration: none; cursor: pointer; &:hover, &:focus-visible { background: #efefef; } }
-    a.primary { background: #e60023; color: #fff; font-weight: 700; text-align: center; &:hover { background: #ad081b; } } a.adm { font-weight: 700; }
+    a.primary { background: #e60023; color: #fff; font-weight: 700; text-align: center; &:hover { background: #ad081b; } } a.adm { font-weight: 700; color: #6d28d9; }
     .sep { height: 1px; background: var(--line); margin: 6px 4px; } .out { font-weight: 700; } .clr { color: #a3002a; }
     .hint { margin: 2px 12px 6px; font-size: .72rem; color: var(--muted); }
     @keyframes drop { from { opacity: 0; transform: translateY(-6px) scale(.98); } }
