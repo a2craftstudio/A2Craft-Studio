@@ -51,7 +51,7 @@ const NAV: { group: string; items: Item[] }[] = [
   template: `
     <div class="shell">
       <aside class="side" [attr.aria-label]="auth.roleLabel() + ' menu'">
-        <div class="who"><strong>Studio admin</strong><span>{{ auth.session()?.email }}</span></div>
+        <div class="who"><strong>{{ auth.roleLabel() }}</strong><span>{{ auth.session()?.email }}</span></div>
         <nav>
           @for (g of nav; track g.group) {
             <p class="grp">{{ g.group }}</p>
