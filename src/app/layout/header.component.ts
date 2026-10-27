@@ -71,7 +71,7 @@ export const NAV = [
   styles: [`
     .skip { position: absolute; left: -999px; top: 8px; background: var(--berry); color: #fff; padding: .6rem 1rem; border-radius: 10px; z-index: 200; } .skip:focus { left: 8px; }
     .hd { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.72); -webkit-backdrop-filter: saturate(180%) blur(16px); backdrop-filter: saturate(180%) blur(16px); transition: box-shadow .3s; } .hd.scrolled { box-shadow: 0 2px 14px rgba(0,0,0,.09); }
-    .bar { display: flex; align-items: center; gap: .8rem; height: var(--header-h); max-width: none; }
+    .bar { display: flex; align-items: center; gap: .8rem; height: var(--header-h); }
     .logo { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: #e60023; }
     .mark { width: 36px; height: 36px; border-radius: 12px; background: #e60023; color: #fff; display: grid; place-items: center; font-family: var(--font-serif); font-weight: 700; font-size: 1.1rem; }
     .name { font-size: 1.3rem; font-weight: 700; color: #e60023; letter-spacing: -.02em; white-space: nowrap; }
