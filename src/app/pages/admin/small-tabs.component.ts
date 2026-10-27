@@ -5,6 +5,7 @@ import { Backend } from '../../core/backend';
 import { BusinessHours, ContactMessage, Coupon, Customer, DayKey, Order, Review, SiteSettings, Subscriber } from '../../core/models';
 import { DAYS, DEFAULT_HOURS, fmtRange, validateHours } from '../../core/hours';
 import { AuthService, CatalogService, formatInr, SettingsService, ToastService } from '../../core/services';
+import { RoleBadgeComponent } from '../../shared/role-badge.component';
 import { StarsComponent } from '../../shared/stars.component';
 import { AdminStateService } from './admin-state.service';
 
@@ -21,7 +22,7 @@ function download(name: string, rows: string[][]) {
 @Component({
   selector: 'app-customers-tab',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RoleBadgeComponent],
   template: `
     <div class="adm-bar">
       <input type="search" aria-label="Search customers" placeholder="Search by name or email" [ngModel]="q()" (ngModelChange)="q.set($event)" />
@@ -32,7 +33,7 @@ function download(name: string, rows: string[][]) {
       <thead><tr><th>Customer</th><th>Role</th><th>Paid orders</th><th>Total spent</th><th>Joined</th><th></th></tr></thead>
       <tbody>
         @for (c of shown(); track c.id) {
-          <tr><td><strong>{{ c.name || '—' }}</strong><br /><span class="muted">{{ c.email }}</span></td><td><span class="pill" [class.dark]="c.role === 'admin'">{{ c.role }}</span></td><td>{{ c.orders }}</td><td>{{ money(c.spent) }}</td><td>{{ c.joined ? c.joined.slice(0, 10) : '—' }}</td>
+          <tr><td><strong>{{ c.name || '—' }}</strong><br /><span class="muted">{{ c.email }}</span></td><td>@if (c.role === 'admin') { <app-role-badge role="admin" [superAdmin]="isSuper(c)" /> } @else { <span class="pill">customer</span> }</td><td>{{ c.orders }}</td><td>{{ money(c.spent) }}</td><td>{{ c.joined ? c.joined.slice(0, 10) : '—' }}</td>
             <td><button class="btn small ghost" type="button" (click)="open.set(open() === c.id ? '' : c.id)" [attr.aria-expanded]="open() === c.id">{{ open() === c.id ? 'Hide' : 'Orders' }}</button>
               @if (canManageRoles() && c.id !== me()?.id && !isSuper(c)) {
                 <button class="btn small" type="button" [disabled]="busy() === c.id" (click)="setRole(c, c.role === 'admin' ? 'customer' : 'admin')">{{ c.role === 'admin' ? 'Remove admin' : 'Make admin' }}</button>
@@ -58,7 +59,7 @@ export class CustomersTabComponent implements OnInit {
   me = this.auth.session;
   canManageRoles = computed(() => !!this.me()?.superAdmin);
   busy = signal('');
-  isSuper = (c: Customer) => c.email.toLowerCase() === this.me()?.email.toLowerCase();
+  isSuper = (c: Customer) => !!c.superAdmin;
   list = signal<Customer[]>([]);
   orders = signal<Order[]>([]);
   q = signal('');

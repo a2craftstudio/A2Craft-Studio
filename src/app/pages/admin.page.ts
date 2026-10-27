@@ -1,3 +1,4 @@
+import { RoleBadgeComponent } from '../shared/role-badge.component';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -45,7 +46,7 @@ const NAV: { group: string; items: Item[] }[] = [
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterLink, CallbacksTabComponent, OverviewTabComponent, ProductsTabComponent, CategoriesTabComponent, OrdersTabComponent, CouponsTabComponent, InquiriesTabComponent, MessagesTabComponent, ReviewsTabComponent,
+  imports: [RouterLink, RoleBadgeComponent, CallbacksTabComponent, OverviewTabComponent, ProductsTabComponent, CategoriesTabComponent, OrdersTabComponent, CouponsTabComponent, InquiriesTabComponent, MessagesTabComponent, ReviewsTabComponent,
     CustomersTabComponent, SubscribersTabComponent, VisitorsTabComponent, PortfolioTabComponent, ContentTabComponent, SettingsTabComponent],
   template: `
     <div class="shell">
@@ -70,7 +71,7 @@ const NAV: { group: string; items: Item[] }[] = [
             @for (g of nav; track g.group) { <optgroup [label]="g.group">@for (i of g.items; track i.id) { <option [value]="i.id" [selected]="tab() === i.id">{{ i.label }}{{ badge(i) ? ' (' + badge(i) + ')' : '' }}</option> }</optgroup> }
           </select></div>
 
-        <header class="head"><h1>{{ current().label }}</h1><p class="adm-intro">{{ current().hint }}</p></header>
+        <header class="head"><h1>{{ current().label }} <app-role-badge [role]="auth.session()?.role" [superAdmin]="!!auth.session()?.superAdmin" /></h1><p class="adm-intro">{{ current().hint }}</p></header>
 
         @switch (tab()) {
           @case ('overview') { <app-overview-tab (go)="open($event)" /> }
