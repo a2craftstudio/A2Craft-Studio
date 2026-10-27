@@ -22,6 +22,8 @@ services:
         sync: false
       - key: SUPERADMIN_EMAIL
         sync: false
+      - key: SUPERADMIN_PASSWORD
+        sync: false
       - key: ADMIN_EMAIL
         sync: false
       - key: ADMIN_PASSWORD

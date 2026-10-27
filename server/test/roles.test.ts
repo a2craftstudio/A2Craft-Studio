@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { after, before, describe, test } from 'node:test';
 import { bootstrapAdmin } from '../src/auth.js';
+import request from 'supertest';
 import { adminAgent, makeApp, signup, uid, type Agent, type Harness } from './helpers.js';
 
 describe('role management (super admin only)', () => {
@@ -45,6 +46,20 @@ describe('role management (super admin only)', () => {
       await bootstrapAdmin(owner.ctx);
       assert.equal((await a.get('/api/admin/customers')).status, 200);
       assert.equal((await a.get('/api/auth/me')).body.user.superAdmin, true);
+    } finally {
+      await owner.cleanup();
+    }
+  });
+
+  test('SUPERADMIN_PASSWORD creates the owner and resets a changed password', async () => {
+    const owner = await makeApp({ superAdminEmail: 'owner2@example.com', superAdminPassword: 'owner-password-1' });
+    try {
+      await bootstrapAdmin(owner.ctx);
+      const login = (password: string) => request(owner.app).post('/api/auth/login').send({ email: 'owner2@example.com', password });
+      assert.equal((await login('owner-password-1')).status, 200);
+      await owner.ctx.db.run('UPDATE users SET password_hash = ? WHERE email = ?', 'x', 'owner2@example.com');
+      await bootstrapAdmin(owner.ctx);
+      assert.equal((await login('owner-password-1')).status, 200, 'password restored from the variable');
     } finally {
       await owner.cleanup();
     }

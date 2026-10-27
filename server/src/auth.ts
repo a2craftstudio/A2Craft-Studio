@@ -86,11 +86,22 @@ export async function createUser(ctx: Omit<Ctx, 'files'>, input: { email: string
 /** Creates the admin from ADMIN_EMAIL / ADMIN_PASSWORD, only when no admin exists yet. Returns what happened. */
 export async function bootstrapAdmin(ctx: Ctx): Promise<'created' | 'promoted' | 'skipped'> {
   const owner = ctx.config.superAdminEmail;
+  const ownerPassword = ctx.config.superAdminPassword;
   if (owner) {
     const row = await ctx.db.get<UserRow>('SELECT * FROM users WHERE email = ?', owner);
-    if (row && row.role !== 'admin') {
-      await ctx.db.run("UPDATE users SET role = 'admin' WHERE id = ?", row.id);
-      ctx.log.info(`[admin] promoted the super admin account ${owner} to admin.`);
+    if (ownerPassword && ownerPassword.length < 8) ctx.log.warn('[admin] SUPERADMIN_PASSWORD is shorter than 8 characters: it was ignored.');
+    else if (!row && ownerPassword) {
+      await createUser(ctx, { email: owner, name: ctx.config.admin.name, password: ownerPassword, role: 'admin' });
+      ctx.log.info(`[admin] created the super admin account ${owner}.`);
+    } else if (row) {
+      if (row.role !== 'admin') {
+        await ctx.db.run("UPDATE users SET role = 'admin' WHERE id = ?", row.id);
+        ctx.log.info(`[admin] promoted the super admin account ${owner} to admin.`);
+      }
+      if (ownerPassword && !(await checkPassword(ownerPassword, row.password_hash))) {
+        await ctx.db.run('UPDATE users SET password_hash = ?, token_version = token_version + 1 WHERE id = ?', await hashPassword(ctx.config, ownerPassword), row.id);
+        ctx.log.info(`[admin] reset the password of ${owner} from SUPERADMIN_PASSWORD.`);
+      }
     }
   }
   const { email, password, name } = ctx.config.admin;
