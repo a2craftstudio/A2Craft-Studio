@@ -23,8 +23,13 @@ export interface UserSession {
   email: string;
   name: string;
   role: 'customer' | 'admin';
+  /** True for the owner account: the admin whose email is ADMIN_EMAIL. */
+  superAdmin: boolean;
 }
-export const toSession = (u: Pick<UserRow, 'id' | 'email' | 'name' | 'role'>): UserSession => ({ id: u.id, email: u.email, name: u.name, role: u.role });
+export const toSession = (u: Pick<UserRow, 'id' | 'email' | 'name' | 'role'>, superEmail = ''): UserSession => ({
+  id: u.id, email: u.email, name: u.name, role: u.role,
+  superAdmin: u.role === 'admin' && !!superEmail && u.email.toLowerCase() === superEmail.toLowerCase(),
+});
 
 // ---------------------------------------------------------------- passwords
 export const hashPassword = (config: Config, password: string) => bcrypt.hash(password, config.bcryptCost);
