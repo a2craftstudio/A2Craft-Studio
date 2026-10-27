@@ -1,3 +1,4 @@
+import { RoleBadgeComponent } from '../shared/role-badge.component';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -11,7 +12,7 @@ type Mode = 'signin' | 'signup' | 'forgot';
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, MasonryComponent],
+  imports: [ReactiveFormsModule, RouterLink, MasonryComponent, RoleBadgeComponent],
   template: `
     <div class="container top">
       @if (resetToken()) {
@@ -48,7 +49,7 @@ type Mode = 'signin' | 'signup' | 'forgot';
         </div>
       } @else {
         <p class="eyebrow">My account</p>
-        <h1>Hello, {{ auth.session()!.name || 'there' }}</h1>
+        <h1>Hello, {{ auth.session()!.name || 'there' }} <app-role-badge [role]="auth.session()?.role" [superAdmin]="!!auth.session()?.superAdmin" /></h1>
         <div class="tabs" role="tablist">
           @for (t of tabs; track t.id) { <button role="tab" type="button" class="chip" [class.active]="tab() === t.id" [attr.aria-selected]="tab() === t.id" (click)="tab.set(t.id)">{{ t.label }}</button> }
           @if (auth.isAdmin()) { <a class="chip" routerLink="/admin">Admin dashboard</a> }
@@ -90,7 +91,7 @@ type Mode = 'signin' | 'signup' | 'forgot';
             <form class="card prof" [formGroup]="pf" (ngSubmit)="saveProfile()" novalidate>
               <div class="field"><label for="p-name">Name</label><input id="p-name" formControlName="name" /></div>
               <div class="field"><label for="p-email">Email</label><input id="p-email" [value]="auth.session()!.email" disabled /><span class="hint">To change your email, contact us.</span></div>
-              <div class="field"><label>Account type</label><p><span class="pill" [class.green]="auth.isAdmin()">{{ auth.roleLabel() }}</span></p></div>
+              <div class="field"><label>Account type</label><p><app-role-badge [role]="auth.session()?.role" [superAdmin]="!!auth.session()?.superAdmin" [showCustomer]="true" /></p></div>
               <button class="btn" type="submit">Save profile</button>
             </form>
             <form class="card prof" [formGroup]="pw" (ngSubmit)="savePassword()" novalidate>

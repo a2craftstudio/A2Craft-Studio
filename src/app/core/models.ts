@@ -176,6 +176,7 @@ export interface Customer {
   email: string;
   name: string;
   role: 'customer' | 'admin';
+  superAdmin?: boolean;
   orders: number;
   spent: number;
   joined: string;

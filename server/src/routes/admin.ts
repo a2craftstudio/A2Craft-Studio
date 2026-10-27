@@ -137,7 +137,7 @@ export function adminRoutes(ctx: Ctx): Router {
          LEFT JOIN orders o ON o.user_id = u.id AND o.payment_verified = 1 AND o.status <> 'refunded'
         GROUP BY u.id ORDER BY u.created_at DESC LIMIT 5000`,
     );
-    res.json(rows.map((u) => ({ id: u.id, email: u.email, name: u.name, role: u.role, orders: u.orders, spent: u.spent, joined: u.created_at })));
+    res.json(rows.map((u) => ({ id: u.id, email: u.email, name: u.name, role: u.role, superAdmin: u.role === 'admin' && u.email.toLowerCase() === config.superAdminEmail, orders: u.orders, spent: u.spent, joined: u.created_at })));
   }));
 
   // ---- roles: only the super admin (the ADMIN_EMAIL account) may promote or demote

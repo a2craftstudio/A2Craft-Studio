@@ -31,6 +31,12 @@ describe('role management (super admin only)', () => {
     assert.equal((await staff.get('/api/auth/me')).body.user.superAdmin, false);
   });
 
+  test('the customers list flags the super admin', async () => {
+    const list = (await staff.get('/api/admin/customers')).body as { email: string; superAdmin: boolean }[];
+    assert.equal(list.find((c) => c.email === 'boss@shop.test')!.superAdmin, true);
+    assert.equal(list.find((c) => c.email === 'staff@shop.test')!.superAdmin, false);
+  });
+
   test('the super admin can promote and demote', async () => {
     assert.equal((await boss.put(`/api/admin/users/${shopperId}/role`).send({ role: 'admin' })).status, 200);
     assert.equal((await shopper.get('/api/admin/customers')).status, 200, 'promotion takes effect immediately');
