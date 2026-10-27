@@ -118,6 +118,16 @@ a.btn:hover, button.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 1
 main > * { animation: reveal .6s var(--ease) both; }
 
 /* ---------- admin ---------- */
+/* admin summary tiles, shared by Products and Orders */
+.adm-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 1rem; }
+.adm-kpi { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: .85rem 1.1rem;
+  span { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; color: var(--muted); margin-bottom: .2rem; }
+  strong { font-size: 1.5rem; letter-spacing: -.02em; line-height: 1.2; }
+  &.warn { border-color: #f5c2cb; background: #fff5f7; strong { color: #a3263f; } } &.good strong { color: #17803d; } }
+table.tbl .pill { white-space: nowrap; }
+table.tbl tbody tr:not(.det):hover > td { background: #fafafa; }
+table.tbl .adm-actions { flex-wrap: nowrap; }
+table.tbl .adm-actions .btn.small { padding: .3rem .75rem; font-size: .8rem; white-space: nowrap; }
 .adm-intro { color: var(--muted); max-width: 72ch; margin: 0 0 1rem; font-size: .95rem; }
 .adm-h { font-size: 1.5rem; margin: 0 0 .3rem; }
 .adm-bar { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;

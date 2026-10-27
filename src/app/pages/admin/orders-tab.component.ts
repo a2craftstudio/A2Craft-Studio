@@ -16,6 +16,12 @@ type View = 'make' | 'waiting' | 'all';
   standalone: true,
   imports: [FormsModule],
   template: `
+    <div class="adm-kpis">
+      <div class="adm-kpi" [class.warn]="toMake().length"><span>To make and deliver</span><strong>{{ toMake().length }}</strong></div>
+      <div class="adm-kpi"><span>Awaiting payment</span><strong>{{ waiting().length }}</strong></div>
+      <div class="adm-kpi good"><span>Verified revenue</span><strong>{{ money(revenue()) }}</strong></div>
+      <div class="adm-kpi"><span>Orders today</span><strong>{{ today() }}</strong></div>
+    </div>
     <div class="adm-bar">
       <div class="adm-seg" role="group" aria-label="View">
         <button type="button" [class.on]="view() === 'make'" [attr.aria-pressed]="view() === 'make'" (click)="view.set('make')">To make and deliver ({{ toMake().length }})</button>
@@ -40,7 +46,7 @@ type View = 'make' | 'waiting' | 'all';
           <tr><td><strong>#{{ o.id.slice(0, 8).toUpperCase() }}</strong><br /><span class="muted s">{{ o.createdAt.slice(0, 10) }}</span></td>
             <td>{{ o.customerName }}<br /><span class="muted s">{{ o.email }}</span></td>
             <td class="s">{{ names(o) }}@if (needs(o)) { <br /><span class="pill red">needs delivery</span> }</td>
-            <td>{{ money(o.total) }}<br /><span class="muted s">{{ o.paymentVerified ? 'payment verified' : 'not paid' }}</span></td>
+            <td><strong>{{ money(o.total) }}</strong><br /><span class="s" [style.color]="o.paymentVerified ? '#17803d' : 'var(--muted)'">{{ o.paymentVerified ? '● Payment verified' : '○ Not paid' }}</span></td>
             <td><span class="pill" [class]="'pill ' + tone[o.status]">{{ label[o.status] }}</span></td>
             <td><button class="btn small ghost" type="button" (click)="open.set(open() === o.id ? '' : o.id)" [attr.aria-expanded]="open() === o.id">{{ open() === o.id ? 'Hide' : 'Details' }}</button></td></tr>
           @if (open() === o.id) {
@@ -103,6 +109,8 @@ export class OrdersTabComponent implements OnInit {
   needs = (o: Order) => o.paymentVerified && (o.status === 'paid' || o.status === 'in_progress') && o.items.some((i) => i.customization && !i.deliverable);
   toMake = computed(() => this.orders().filter((o) => this.needs(o)));
   waiting = computed(() => this.orders().filter((o) => o.status === 'pending'));
+  revenue = computed(() => this.orders().filter((o) => o.paymentVerified && o.status !== 'refunded').reduce((t, o) => t + o.total, 0));
+  today = computed(() => { const d = new Date().toISOString().slice(0, 10); return this.orders().filter((o) => o.createdAt.slice(0, 10) === d).length; });
 
   shown = computed(() => {
     const q = this.q().trim().toLowerCase();
