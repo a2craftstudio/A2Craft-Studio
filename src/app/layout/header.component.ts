@@ -58,7 +58,7 @@ export const NAV = [
             <p class="who"><strong>{{ s.name || 'My account' }}</strong><span>{{ s.email }}</span></p>
             <a routerLink="/account" [queryParams]="{ tab: 'orders' }">My orders and downloads</a>
             <a routerLink="/account" [queryParams]="{ tab: 'profile' }">Profile and privacy</a>
-            @if (auth.isAdmin()) { <a routerLink="/admin">Admin dashboard</a> }
+            @if (auth.isAdmin()) { <a routerLink="/admin">{{ auth.dashboardLabel() }}</a> }
             <button type="button" class="btn" (click)="logout()">Log out</button>
             <button type="button" class="btn ghost" (click)="logoutAndClear()">Log out and clear this device</button>
           } @else {

@@ -93,6 +93,12 @@ type Editing = Product & { isNew?: boolean; filePath?: string };
         </div>
       </form>
     } @else {
+      <div class="adm-kpis">
+        <div class="adm-kpi"><span>Products</span><strong>{{ products().length }}</strong></div>
+        <div class="adm-kpi good"><span>Published</span><strong>{{ count('published') }}</strong></div>
+        <div class="adm-kpi" [class.warn]="count('draft')"><span>Drafts</span><strong>{{ count('draft') }}</strong></div>
+        <div class="adm-kpi"><span>Archived</span><strong>{{ count('archived') }}</strong></div>
+      </div>
       <div class="adm-bar">
         <input type="search" aria-label="Search products" placeholder="Search by name or tag" [ngModel]="q()" (ngModelChange)="q.set($event)" />
         <select aria-label="Filter by status" [ngModel]="status()" (ngModelChange)="status.set($event)"><option value="">All statuses ({{ products().length }})</option><option value="published">Published ({{ count('published') }})</option><option value="draft">Draft ({{ count('draft') }})</option><option value="archived">Archived ({{ count('archived') }})</option></select>

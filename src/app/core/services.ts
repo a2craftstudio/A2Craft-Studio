@@ -25,6 +25,7 @@ export class AuthService {
   readonly session = this.backend.session;
   readonly isAdmin = computed(() => this.session()?.role === 'admin');
   readonly roleLabel = computed(() => (this.session()?.superAdmin ? 'Super admin' : this.session()?.role === 'admin' ? 'Admin' : 'Customer'));
+  readonly dashboardLabel = computed(() => (this.session()?.superAdmin ? 'Super admin dashboard' : 'Admin dashboard'));
   readonly loggedIn = computed(() => !!this.session());
   signIn = (e: string, p: string) => this.backend.signIn(e, p);
   signUp = (n: string, e: string, p: string) => this.backend.signUp(n, e, p);
