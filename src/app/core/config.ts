@@ -7,12 +7,24 @@ export const BRAND = {
     'Invitation designs, animated videos, memory books, scrapbooks and personalized digital gifts, crafted by hand and delivered instantly.',
   instagramUrl: 'https://www.instagram.com/a2craft.studio',
   instagramHandle: '@a2craft.studio',
+  youtubeUrl: 'https://www.youtube.com/@a2craft.studio',
+  youtubeHandle: '@a2craft.studio',
   contactEmail: 'a2crafts.studio@gmail.com',
   whatsappUrl: '',
   siteUrl: 'https://example.com',
   currency: 'INR',
   locale: 'en-IN',
 };
+
+/** Opens Gmail's compose window in the browser, so it works even without a desktop mail app. */
+export const gmailCompose = (to: string, subject = '', body = '') => {
+  const q = (k: string, v: string) => (v ? `&${k}=${encodeURIComponent(v)}` : '');
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}${q('su', subject)}${q('body', body)}`;
+};
+
+/** Pre-written subject and message for visitors emailing the studio. */
+export const ENQUIRY_SUBJECT = 'Enquiry from the A2 Craft Studio website';
+export const ENQUIRY_BODY = 'Hi A2 Craft Studio team,\n\nI would like to know more about ';
 
 export const PALETTES = [
   { id: 'blush', name: 'Blush', bg: '#F2DDE1', ink: '#71394E', accent: '#C78391' },

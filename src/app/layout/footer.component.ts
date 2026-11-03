@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BRAND } from '../core/config';
+import { BRAND, ENQUIRY_BODY, ENQUIRY_SUBJECT, gmailCompose } from '../core/config';
 import { POLICY_LINKS } from '../core/pages-content';
 import { IconComponent } from '../shared/icon.component';
 import { LogoMarkComponent } from '../shared/logo.component';
@@ -22,7 +22,11 @@ import { ConsentService, SettingsService } from '../core/services';
         <div>
           <p class="brand"><app-logo-mark [size]="32" /> {{ brand.name }}</p>
           <p class="muted">{{ brand.tagline }}.</p>
+          <div class="soc">
           <a class="btn ghost small" [href]="brand.instagramUrl" target="_blank" rel="noopener noreferrer"><app-icon name="insta" [size]="18" /> {{ brand.instagramHandle }}</a>
+          <a class="btn ghost small" [href]="brand.youtubeUrl" target="_blank" rel="noopener noreferrer"><app-icon name="youtube" [size]="18" /> {{ brand.youtubeHandle }}</a>
+          <a class="btn ghost small" [href]="gmail(brand.contactEmail, enquirySubject, enquiryBody)" target="_blank" rel="noopener noreferrer"><app-icon name="mail" [size]="18" /> {{ brand.contactEmail }}</a>
+          </div>
         </div>
         <nav aria-label="Shop"><h2>Shop</h2>
           <a routerLink="/shop">Shop all</a><a routerLink="/shop" [queryParams]="{ type: 'video' }">Videos</a><a routerLink="/custom-order">Custom orders</a></nav>
@@ -41,6 +45,7 @@ import { ConsentService, SettingsService } from '../core/services';
   styles: [`
     .ft { background: #fff; border-top: 1px solid var(--line); margin-top: 40px; padding-top: 56px; }
     .grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+    .soc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: .6rem; }
     .brand { display: flex; align-items: center; gap: .6rem; font-size: 1.4rem; font-weight: 700; color: #e60023; margin-bottom: .3rem; }
     h2 { font-family: var(--font-sans); font-size: .78rem; text-transform: uppercase; letter-spacing: .14em; color: var(--berry); }
     nav { display: flex; flex-direction: column; gap: .4rem; a { color: var(--brown); text-decoration: none; font-size: .93rem; &:hover { text-decoration: underline; } } }
@@ -53,6 +58,9 @@ import { ConsentService, SettingsService } from '../core/services';
 })
 export class FooterComponent {
   brand = BRAND;
+  gmail = gmailCompose;
+  enquirySubject = ENQUIRY_SUBJECT;
+  enquiryBody = ENQUIRY_BODY;
   private settings = inject(SettingsService);
   biz = this.settings.business;
   hours = this.settings.hoursSummary;

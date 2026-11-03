@@ -39,6 +39,11 @@ const COLORS = ['#c2185b', '#0a94a8', '#7a4330', '#d97706', '#e60023'];
           <a class="btn ghost" routerLink="/custom-order"><app-icon name="wand" [size]="18" /> Request something custom</a>
           <a class="status" routerLink="/contact" [class.closed]="!status().open" [attr.aria-label]="status().label"><i></i> {{ status().open ? 'Online now · ' : 'Offline · ' }}{{ status().short }}</a>
         </div>
+        <ul class="trust" aria-label="Why customers choose us">
+          <li><app-icon name="check" [size]="16" /> Secure UPI &amp; card checkout</li>
+          <li><app-icon name="sparkle" [size]="16" /> Personalised in minutes</li>
+          <li><app-icon name="down" [size]="16" /> Instant digital delivery</li>
+        </ul>
       </div>
 
       @if (colCount()) {
@@ -55,7 +60,10 @@ const COLORS = ['#c2185b', '#0a94a8', '#7a4330', '#d97706', '#e60023'];
     </section>
   `,
   styles: [`
-    .phero { position: relative; min-height: min(100vh, 980px); padding-top: 80px; overflow: hidden; text-align: center; background: #fff; }
+    .phero { position: relative; min-height: min(100vh, 980px); padding-top: 80px; overflow: hidden; text-align: center;
+      background: radial-gradient(900px 420px at 50% 0, color-mix(in srgb, var(--wc) 9%, #fff), #fff 70%); transition: background .8s; }
+    .trust { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 22px; margin: 22px 0 0; padding: 0; color: #5f5f5f; font-size: .88rem; font-weight: 600; }
+    .trust li { display: inline-flex; align-items: center; gap: 6px; } .trust svg { color: var(--wc); }
     .phero.noimg { min-height: 0; padding-bottom: 56px; }
     .inner { position: relative; z-index: 2; padding-inline: 16px; }
     h1 { font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; margin: 0; -webkit-text-fill-color: initial; }
