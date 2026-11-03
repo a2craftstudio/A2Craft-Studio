@@ -2,6 +2,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Backend } from '../../core/backend';
+import { gmailCompose } from '../../core/config';
 import { BusinessHours, ContactMessage, Coupon, Customer, DayKey, Order, Review, SiteSettings, Subscriber } from '../../core/models';
 import { DAYS, DEFAULT_HOURS, fmtRange, validateHours } from '../../core/hours';
 import { AuthService, CatalogService, formatInr, SettingsService, ToastService } from '../../core/services';
@@ -198,7 +199,7 @@ export class MessagesTabComponent implements OnInit {
   error = signal('');
   count = (s: string) => this.list().filter((m) => m.status === s).length;
   shown = computed(() => this.list().filter((m) => !this.filter() || m.status === this.filter()));
-  mailto = (m: ContactMessage) => `mailto:${m.email}?subject=${encodeURIComponent('Re: your message to us')}&body=${encodeURIComponent(`Hi ${m.name.split(' ')[0]},\n\n`)}`;
+  mailto = (m: ContactMessage) => gmailCompose(m.email, 'Re: your message to us', `Hi ${m.name.split(' ')[0]},\n\n`);
   async ngOnInit() { await this.load(); if (!this.count('new')) this.filter.set(''); }
   async load() { try { this.list.set(await this.backend.listContacts()); } catch (e) { this.error.set((e as Error).message); } }
   async toggle(m: ContactMessage) { await this.backend.updateContactStatus(m.id, m.status === 'new' ? 'replied' : 'new'); await this.load(); void this.state.refresh(); }

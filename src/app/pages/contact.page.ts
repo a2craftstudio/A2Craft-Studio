@@ -2,7 +2,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Backend } from '../core/backend';
-import { BRAND } from '../core/config';
+import { BRAND, ENQUIRY_BODY, ENQUIRY_SUBJECT, gmailCompose } from '../core/config';
 import { DAYS, fmtRange, istNow } from '../core/hours';
 import { SeoService, SettingsService } from '../core/services';
 
@@ -37,9 +37,9 @@ const WHEN = ['As soon as possible', 'Weekday evenings', 'Weekends'];
           <li><button type="button" class="way" (click)="show('callback')"><b>Request a call back</b><span>Leave your number and we’ll call you</span><small>No need to share a number publicly, and no waiting on hold</small></button></li>
           @if (waHref(); as wa) { <li><a class="way" [href]="wa" target="_blank" rel="noopener noreferrer"><b>Chat on WhatsApp</b><span>{{ status().open ? 'We’re online now' : 'Leave a message, we’ll reply when we open' }}</span><small>Fastest for quick questions</small></a></li> }
           <li><a class="way" routerLink="/custom-order"><b>Send an inquiry</b><span>Describe a custom gift, book or video</span><small>We reply with a quote and timeline</small></a></li>
-          <li><a class="way" [href]="'mailto:' + biz().supportEmail"><b>Email</b><span>{{ biz().supportEmail }}</span><small>Best for files and long messages</small></a></li>
+          <li><a class="way" [href]="gmail(biz().supportEmail, enquirySubject, enquiryBody)" target="_blank" rel="noopener noreferrer"><b>Email</b><span>{{ biz().supportEmail }}</span><small>Best for files and long messages</small></a></li>
         </ul>
-        <p class="muted tz">Instagram: <a [href]="brand.instagramUrl" target="_blank" rel="noopener noreferrer">{{ brand.instagramHandle }}</a></p>
+        <p class="muted tz">Instagram: <a [href]="brand.instagramUrl" target="_blank" rel="noopener noreferrer">{{ brand.instagramHandle }}</a> · YouTube: <a [href]="brand.youtubeUrl" target="_blank" rel="noopener noreferrer">{{ brand.youtubeHandle }}</a></p>
       </div>
 
       <div id="contact-form">
@@ -112,6 +112,9 @@ export class ContactPage implements OnInit {
   private settings = inject(SettingsService);
   private route = inject(ActivatedRoute);
   brand = BRAND;
+  gmail = gmailCompose;
+  enquirySubject = ENQUIRY_SUBJECT;
+  enquiryBody = ENQUIRY_BODY;
   days = DAYS;
   topics = TOPICS;
   when = WHEN;
