@@ -14,7 +14,8 @@
     "test": "node --import tsx --test --test-reporter=spec test/*.test.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
     "create-admin": "tsx src/cli/create-admin.ts",
-    "db": "tsx src/cli/db-info.ts"
+    "db": "tsx src/cli/db-info.ts",
+    "seed:demo": "tsx src/cli/seed-demo.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.11",

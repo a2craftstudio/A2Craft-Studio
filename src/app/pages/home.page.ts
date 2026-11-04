@@ -108,14 +108,24 @@ const PICKS = 8;
     </section>
 
     @if (reviews().length) {
-      <section class="sec" aria-labelledby="loved-h">
+      <section class="sec loved-sec" aria-labelledby="loved-h">
         <div class="wide">
           <span class="kicker"><app-icon name="heart" [size]="16" /> Reviews</span>
           <h2 id="loved-h" class="title">Kind words from <span class="hl">customers</span></h2>
-          <ul class="loved">@for (r of reviews(); track r.id) { <li [appReveal]="0"><app-stars [value]="r.rating" /><p>{{ r.body }}</p><span>{{ r.authorName }}</span></li> }</ul>
+          <ul class="loved">@for (r of reviews(); track r.id) { <li [appReveal]="0"><app-stars [value]="r.rating" /><p>{{ r.body }}</p><span class="who"><b aria-hidden="true">{{ r.authorName.charAt(0).toUpperCase() }}</b>{{ r.authorName }}</span></li> }</ul>
         </div>
       </section>
     }
+
+    <section class="sec cta-sec" aria-labelledby="cta-h">
+      <div class="wide">
+        <div class="cta-band" [appReveal]="0">
+          <h2 id="cta-h">Can’t find the <span class="hl">perfect one?</span></h2>
+          <p>Tell us what you have in mind and we’ll design it just for you.</p>
+          <a class="btn" routerLink="/custom-order"><app-icon name="wand" [size]="18" /> Request a custom design</a>
+        </div>
+      </div>
+    </section>
 
   `,
   styles: [`
@@ -140,11 +150,24 @@ const PICKS = 8;
     .cover img { width: 100%; height: 100%; object-fit: cover; } .cover img:first-child { grid-row: 1 / 3; }
     .board h3 { margin: 10px 0 0; font-size: 1.1rem; } .board p { margin: .1rem 0 0; color: var(--muted); font-size: .85rem; }
     .how ol { list-style: none; padding: 0; margin: 22px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .how li { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 22px; font-size: .92rem; color: var(--muted); strong { display: block; color: #111; font-size: 1.08rem; margin-bottom: .2rem; }
-      span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #e60023; color: #fff; font-weight: 700; margin-bottom: 12px; } }
-    .loved { list-style: none; padding: 0; margin: 22px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; li { background: #efefef; border-radius: 24px; padding: 22px; p { margin: .4rem 0; } span { font-size: .85rem; color: var(--muted); } } }
+    .how { background: linear-gradient(#fff, #fafafa 40%, #fff); }
+    .how li { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 22px; font-size: .92rem; color: var(--muted); transition: transform .3s var(--ease), box-shadow .3s; strong { display: block; color: #111; font-size: 1.08rem; margin-bottom: .2rem; }
+      span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #ff4d6a, #e60023); color: #fff; font-weight: 700; margin-bottom: 12px; box-shadow: 0 8px 16px -6px rgba(230,0,35,.5); } }
+    .how li:hover { transform: translateY(-4px); box-shadow: 0 18px 36px -22px rgba(0,0,0,.4); }
+    .cover img { transition: transform .5s var(--ease); } .board:hover .cover img { transform: scale(1.05); }
+    .board h3 { transition: color .2s; } .board:hover h3 { color: #e60023; }
+    .loved-sec { background: #fafafa; }
+    .loved { list-style: none; padding: 0; margin: 22px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;
+      li { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: .5rem; transition: transform .3s var(--ease), box-shadow .3s;
+        p { margin: 0; flex: 1; font-size: 1rem; line-height: 1.55; color: #222; } }
+      li:hover { transform: translateY(-3px); box-shadow: 0 18px 36px -22px rgba(0,0,0,.35); }
+      .who { display: flex; align-items: center; gap: .6rem; font-size: .88rem; font-weight: 600; color: #444; margin-top: .4rem;
+        b { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #fde8ec; color: #e60023; font-size: .85rem; } } }
+    .cta-band { text-align: center; padding: clamp(32px, 6vw, 64px) 20px; border-radius: 32px; background: linear-gradient(135deg, #fde8ec, #fff4d6 60%, #efe6fb);
+      h2 { margin-bottom: .3rem; } p { color: #5f5f5f; max-width: 46ch; margin: 0 auto 1.4rem; } }
     .btn.primary { background: #e60023; color: #fff; box-shadow: 0 12px 28px -8px rgba(230,0,35,.4); }
     @media (max-width: 860px) { .how ol { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .how ol { grid-template-columns: 1fr; } .head { align-items: flex-start; } }
   `],
 })
 export class HomePage implements OnInit {

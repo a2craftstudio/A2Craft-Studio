@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Backend } from '../../core/backend';
+import { gmailCompose } from '../../core/config';
 import { Inquiry } from '../../core/models';
 import { ToastService } from '../../core/services';
 import { AdminStateService } from './admin-state.service';
@@ -80,9 +81,7 @@ export class InquiriesTabComponent implements OnInit {
   soon = (i: Inquiry) => this.open(i) && (this.days(i) ?? 99) >= 0 && (this.days(i) ?? 99) <= 3;
 
   mailto(i: Inquiry) {
-    const subject = encodeURIComponent(`Re: your ${i.productType} request (${i.id})`);
-    const body = encodeURIComponent(`Hi ${i.name.split(' ')[0]},\n\nThank you for your request. `);
-    return `mailto:${i.email}?subject=${subject}&body=${body}`;
+    return gmailCompose(i.email, `Re: your ${i.productType} request (${i.id})`, `Hi ${i.name.split(' ')[0]},\n\nThank you for your request. `);
   }
   url(r: string) { return /^https?:|^data:/.test(r) ? r : ''; }
 

@@ -59,7 +59,7 @@ export const NAV = [
             <p class="who"><strong>{{ s.name || 'My account' }}</strong><span>{{ s.email }}</span></p>
             <a routerLink="/account" [queryParams]="{ tab: 'orders' }">My orders and downloads</a>
             <a routerLink="/account" [queryParams]="{ tab: 'profile' }">Profile and privacy</a>
-            @if (auth.isAdmin()) { <a routerLink="/admin">Admin dashboard</a> }
+            @if (auth.isAdmin()) { <a routerLink="/admin">{{ auth.dashboardLabel() }}</a> }
             <button type="button" class="btn" (click)="logout()">Log out</button>
             <button type="button" class="btn ghost" (click)="logoutAndClear()">Log out and clear this device</button>
           } @else {
@@ -72,18 +72,18 @@ export const NAV = [
   styles: [`
     .skip { position: absolute; left: -999px; top: 8px; background: var(--berry); color: #fff; padding: .6rem 1rem; border-radius: 10px; z-index: 200; } .skip:focus { left: 8px; }
     .hd { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.72); -webkit-backdrop-filter: saturate(180%) blur(16px); backdrop-filter: saturate(180%) blur(16px); transition: box-shadow .3s; } .hd.scrolled { box-shadow: 0 2px 14px rgba(0,0,0,.09); }
-    .bar { display: flex; align-items: center; gap: .8rem; height: var(--header-h); max-width: none; }
+    .bar { display: flex; align-items: center; gap: .8rem; height: var(--header-h); }
     .logo { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: #e60023; }
     .mark { width: 36px; height: 36px; border-radius: 12px; background: #e60023; color: #fff; display: grid; place-items: center; font-family: var(--font-serif); font-weight: 700; font-size: 1.1rem; }
     .name { font-size: 1.3rem; font-weight: 700; color: #e60023; letter-spacing: -.02em; white-space: nowrap; }
-    .nav { display: flex; gap: .1rem; a { text-decoration: none; padding: .45rem .8rem; border-radius: 999px; font-size: .92rem; font-weight: 500; color: var(--brown); transition: background .2s; &:hover { background: var(--blush); } &.on { background: #111111; color: #fff; font-weight: 600; } } }
+    .nav { display: flex; gap: .1rem; margin-left: 24.4px; a { text-decoration: none; padding: .45rem .8rem; border-radius: 999px; font-size: .92rem; font-weight: 500; color: var(--brown); transition: background .2s; &:hover { background: var(--blush); } &.on { background: #111111; color: #fff; font-weight: 600; } } }
     .search { flex: 0 1 230px; margin-left: auto; transition: flex-basis .35s var(--ease); } .search:focus-within { flex-basis: 360px; }
-    .icons { display: flex; gap: .2rem; }
+    .icons { display: flex; gap: .2rem; margin-right: -12px; }
     .icon { position: relative; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 0; background: transparent; color: var(--berry); text-decoration: none; transition: background .2s; &:hover { background: var(--blush); } }
     .dot { position: absolute; top: 3px; right: 1px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: #e60023; color: #fff; font-size: .68rem; font-weight: 700; display: grid; place-items: center; }
     .bagi.bump { animation: bump .5s var(--ease); } @keyframes bump { 30% { transform: scale(1.3) rotate(-8deg); } 65% { transform: scale(.94) rotate(4deg); } }
     .burger { display: none; }
-    @media (max-width: 1100px) { .nav { display: none; } .burger { display: grid; } .search { display: none; } .logo { margin-right: auto; } .name { font-size: 1.3rem; } }
+    @media (max-width: 1100px) { .nav { display: none; } .burger { display: grid; } .icons { margin-right: 0; } .search { display: none; } .logo { margin-right: auto; } .name { font-size: 1.3rem; } }
     @media (max-width: 480px) { .bar { gap: .3rem; } .icon { width: 40px; height: 40px; } .name { font-size: 1.12rem; } .icons a[aria-label="Saved designs"] { display: none; } }
     .scrim { position: fixed; inset: 0; background: rgba(71,54,51,.45); z-index: 80; animation: fade .25s both; }
     .drawer { position: fixed; z-index: 81; top: 0; bottom: 0; left: 0; width: min(340px, 88vw); background: var(--ivory); padding: 16px; display: flex; flex-direction: column; gap: 1rem; animation: slide .35s var(--ease) both; box-shadow: var(--shadow-md); }

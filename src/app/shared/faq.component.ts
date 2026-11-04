@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FAQ, FaqGroup } from '../core/faq-content';
 import { SettingsService } from '../core/services';
 import { inject } from '@angular/core';
-import { BRAND } from '../core/config';
+import { BRAND, ENQUIRY_BODY, ENQUIRY_SUBJECT, gmailCompose } from '../core/config';
 import { RevealDirective } from './reveal.directive';
 
 /** Grouped accordion FAQ. `compact` shows the first few questions only (for the home page). */
@@ -16,7 +16,7 @@ import { RevealDirective } from './reveal.directive';
     <section class="fq" id="faq" aria-labelledby="faq-h">
       <div class="head" [appReveal]="0">
         @if (page()) { <h1 id="faq-h">Frequently asked <em>questions</em></h1> } @else { <h2 id="faq-h">Frequently asked <em>questions</em></h2> }
-        <p>Everything you need to know before you start. Still stuck? Write to <a [href]="'mailto:' + email()">{{ email() }}</a>.</p>
+        <p>Everything you need to know before you start. Still stuck? Write to <a [href]="gmail(email(), enquirySubject, enquiryBody)" target="_blank" rel="noopener noreferrer">{{ email() }}</a>.</p>
         @if (!compact()) {
           <label class="sr-only" for="faq-q">Search the FAQ</label>
           <input id="faq-q" class="search" type="search" placeholder="Search questions…" [ngModel]="q()" (ngModelChange)="q.set($event)" />
@@ -66,6 +66,9 @@ export class FaqComponent {
   q = signal('');
   private settings = inject(SettingsService);
   private all = computed(() => this.settings.faq() ?? FAQ);
+  gmail = gmailCompose;
+  enquirySubject = ENQUIRY_SUBJECT;
+  enquiryBody = ENQUIRY_BODY;
   email = () => this.settings.settings().supportEmail || BRAND.contactEmail;
 
   groups = computed<FaqGroup[]>(() => {

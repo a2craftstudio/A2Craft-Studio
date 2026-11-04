@@ -12,9 +12,17 @@ const BUDGETS = ['Under ₹1,000', '₹1,000 – ₹2,500', '₹2,500 – ₹5,0
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   template: `
-    <div class="container narrow">
-      <p class="eyebrow">Custom orders</p>
-      <h1>Let’s make something just for them</h1>
+    <div class="container page">
+      <div class="intro">
+        <p class="eyebrow">Custom orders</p>
+        <h1>Let’s make something just for them</h1>
+        @if (!doneId()) {
+          <ol class="steps" aria-label="Progress">
+            @for (s of stepNames; track s; let i = $index) { <li [class.on]="i === step()" [class.done]="i < step()" [attr.aria-current]="i === step() ? 'step' : null">{{ i + 1 }}. {{ s }}</li> }
+          </ol>
+        }
+      </div>
+      <div class="panel">
       @if (doneId()) {
         <div class="card done reveal" role="status">
           <h2>Request received</h2>
@@ -23,9 +31,6 @@ const BUDGETS = ['Under ₹1,000', '₹1,000 – ₹2,500', '₹2,500 – ₹5,0
           <a class="btn" routerLink="/">Back to home</a>
         </div>
       } @else {
-        <ol class="steps" aria-label="Progress">
-          @for (s of stepNames; track s; let i = $index) { <li [class.on]="i === step()" [class.done]="i < step()" [attr.aria-current]="i === step() ? 'step' : null">{{ i + 1 }}. {{ s }}</li> }
-        </ol>
         <form class="card form" [formGroup]="f" (ngSubmit)="next()" novalidate>
           @switch (step()) {
             @case (0) {
@@ -56,10 +61,12 @@ const BUDGETS = ['Under ₹1,000', '₹1,000 – ₹2,500', '₹2,500 – ₹5,0
           </div>
         </form>
       }
+      </div>
     </div>
   `,
   styles: [`
-    .narrow { max-width: 720px; padding-block: 32px 64px; }
+    .page { max-width: 760px; padding-block: 40px 64px; }
+    .intro { text-align: center; margin-bottom: 28px; h1 { font-size: clamp(2.2rem, 3.2vw, 3.1rem); } .steps { justify-content: center; } }
     .steps { display: flex; gap: .5rem; flex-wrap: wrap; list-style: none; padding: 0; margin: 1rem 0; li { padding: .35rem .9rem; border-radius: 999px; background: var(--blush); font-size: .82rem; color: var(--muted); &.on { background: var(--berry); color: #fff; } &.done { color: var(--berry); } } }
     .form, .done { padding: clamp(20px, 4vw, 36px); }
     .nav { display: flex; justify-content: space-between; gap: .6rem; margin-top: .6rem; .btn:last-child { margin-left: auto; } }

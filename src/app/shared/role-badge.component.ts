@@ -15,7 +15,7 @@ import { Component, computed, input } from '@angular/core';
   `,
   styles: [`
     :host { display: inline-flex; vertical-align: middle; }
-    .rb { display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .6rem; border-radius: 999px; font-size: .68rem; font-weight: 700; letter-spacing: .02em; background: #111; color: #fff; line-height: 1.4; }
+    .rb { display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .6rem; border-radius: 999px; font-size: .68rem; font-weight: 700; letter-spacing: .02em; background: #6d28d9; color: #fff; line-height: 1.4; }
     .rb.plain { background: #efefef; color: #333; font-weight: 600; }
     .rb.super { background: linear-gradient(135deg, #f7e08a, #d4a017 55%, #b8860b); color: #3a2a00; box-shadow: 0 0 0 1px rgba(184, 134, 11, .55), 0 2px 8px rgba(212, 160, 23, .35); }
   `],

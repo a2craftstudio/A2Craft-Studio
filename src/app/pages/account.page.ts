@@ -52,7 +52,7 @@ type Mode = 'signin' | 'signup' | 'forgot';
         <h1>Hello, {{ auth.session()!.name || 'there' }} <app-role-badge [role]="auth.session()?.role" [superAdmin]="!!auth.session()?.superAdmin" /></h1>
         <div class="tabs" role="tablist">
           @for (t of tabs; track t.id) { <button role="tab" type="button" class="chip" [class.active]="tab() === t.id" [attr.aria-selected]="tab() === t.id" (click)="tab.set(t.id)">{{ t.label }}</button> }
-          @if (auth.isAdmin()) { <a class="chip" routerLink="/admin">Admin dashboard</a> }
+          @if (auth.isAdmin()) { <a class="chip" routerLink="/admin">{{ auth.dashboardLabel() }}</a> }
           <button class="chip" type="button" (click)="logout()">Log out</button>
         </div>
 
