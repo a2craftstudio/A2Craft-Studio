@@ -1,0 +1,53 @@
+# Runs the tests and the build on every pull request. The Netlify checks on a PR only say the
+# site deployed; nothing before this ran a test, so a red suite could reach main behind four
+# green ticks. Deploying to Pages stays in pages.yml.
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+# A new push to the same PR makes the previous run pointless, so stop it rather than queue it.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    name: Web tests and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # ubuntu-latest ships Chrome; karma-chrome-launcher finds it through CHROME_BIN.
+      - name: Karma specs
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+      - name: Production build
+        run: npm run build
+
+  server:
+    name: Server typecheck and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+        working-directory: server
+      - run: npm run typecheck
+        working-directory: server
+      # No DATABASE_URL, so these fall back to an in-memory PGlite and need no secrets.
+      - run: npm test
+        working-directory: server
