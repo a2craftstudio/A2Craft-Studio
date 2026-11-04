@@ -1,10 +1,12 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Backend } from '../core/backend';
 import { BRAND } from '../core/config';
 import { coverArt } from '../core/cover-art';
 import { Review } from '../core/models';
 import { CatalogService, RecentlyViewedService, SeoService } from '../core/services';
+import { CATEGORY_BLURBS, CATEGORY_MOTIFS, categorySlug, templatesByCategory, templateThumb } from '../core/templates';
 import { HeroComponent } from '../shared/hero.component';
 import { IconComponent } from '../shared/icon.component';
 import { MasonryComponent } from '../shared/masonry.component';
@@ -75,6 +77,23 @@ const PICKS = 8;
 
     }
 
+    <section class="sec" aria-labelledby="sites-h">
+      <div class="wide">
+        <span class="kicker" [appReveal]="0"><app-icon name="grid" [size]="16" /> Website templates</span>
+        <h2 id="sites-h" class="title" [appReveal]="80">Invitation <span class="hl">websites</span></h2>
+        <p class="lede" [appReveal]="120">Whole sites you can walk through, then edit in the browser — names, dates and photos.</p>
+        <div class="boards">
+          @for (b of siteBoards(); track b.slug; let i = $index) {
+            <a class="board" [routerLink]="['/templates/c', b.slug]" [appReveal]="(i % 4) * 70">
+              <div class="cover" [class.one]="b.imgs.length === 1" [class.two]="b.imgs.length === 2">@for (src of b.imgs; track $index) { <img [src]="src" alt="" loading="lazy" width="200" height="170" /> }</div>
+              <h3>{{ b.name }}</h3>
+              <p>{{ b.count }} {{ b.count === 1 ? 'design' : 'designs' }} · {{ b.blurb }}</p>
+            </a>
+          }
+        </div>
+      </div>
+    </section>
+
     <section class="sec how" aria-labelledby="how-h">
       <div class="wide">
         <span class="kicker" [appReveal]="0"><app-icon name="wand" [size]="16" /> Simple</span>
@@ -102,6 +121,7 @@ const PICKS = 8;
   styles: [`
     .sec { padding: clamp(36px, 6vw, 72px) 0; }
     .wide { max-width: 1600px; margin: 0 auto; padding: 0 16px; }
+    .lede { max-width: 52ch; margin: -6px 0 22px; color: var(--muted); }
     .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; margin-bottom: 22px; }
     .head + .adm-empty { margin-top: 0; }
     .recent { padding-bottom: 0; } .rtitle { display: flex; align-items: center; gap: .5rem; font-size: 1.3rem; margin: 0; }
@@ -133,6 +153,7 @@ export class HomePage implements OnInit {
   private seo = inject(SeoService);
   history = inject(RecentlyViewedService);
   private backend = inject(Backend);
+  private doc = inject(DOCUMENT);
   reviews = signal<Review[]>([]);
   /** Newest first, only designs that are still published. Up to six are shown. */
   recent = computed(() => this.history.ids().map((id) => this.catalog.byId(id)).filter((p): p is NonNullable<typeof p> => !!p).slice(0, 6));
@@ -140,13 +161,32 @@ export class HomePage implements OnInit {
   /** A short, curated row: trending first, then newest. The full catalog lives in the Shop. */
   picks = computed(() => [...this.catalog.products()].sort((a, b) => Number(b.trending) - Number(a.trending) || b.createdAt.localeCompare(a.createdAt)).slice(0, PICKS));
 
-  /** One board per category: a collage of its own designs, or a drawing when it has none yet. */
+  /** One board per shop category: a collage of its own designs, or a drawing when it has none yet. */
   boards = computed(() => {
     const all = this.catalog.products();
     return this.catalog.categories().map((c) => {
       const own = [...new Set(all.filter((p) => p.category === c.id).map((p) => p.gallery[0]?.url).filter((u): u is string => !!u))].slice(0, 3);
       const imgs = own.length ? own : [coverArt({ seed: c.id, title: '', label: ' ', palette: ['#F2F2F2', '#9A9A9A'], motif: c.motif, aspect: 1 })];
       return { id: c.id, name: c.name, blurb: c.blurb, count: all.filter((p) => p.category === c.id).length, imgs };
+    });
+  });
+
+  /**
+   * The same board, one per website-template category: a collage of the stills those
+   * templates ship, or a drawing where none of them has one. Stills rather than live frames,
+   * because this sits on the home page and a template runs to several megabytes.
+   */
+  siteBoards = computed(() => {
+    const base = this.doc.baseURI;
+    return templatesByCategory().map((g) => {
+      const imgs = g.items.map((t) => templateThumb(t, base)).filter((u): u is string => !!u).slice(0, 3);
+      return {
+        slug: categorySlug(g.category),
+        name: g.category,
+        blurb: CATEGORY_BLURBS[g.category],
+        count: g.items.length,
+        imgs: imgs.length ? imgs : [coverArt({ seed: g.category, title: '', label: ' ', palette: ['#F2F2F2', '#9A9A9A'], motif: CATEGORY_MOTIFS[g.category], aspect: 1 })],
+      };
     });
   });
 

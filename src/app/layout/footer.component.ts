@@ -25,7 +25,7 @@ import { ConsentService, SettingsService } from '../core/services';
           <a class="btn ghost small" [href]="brand.instagramUrl" target="_blank" rel="noopener noreferrer"><app-icon name="insta" [size]="18" /> {{ brand.instagramHandle }}</a>
         </div>
         <nav aria-label="Shop"><h2>Shop</h2>
-          <a routerLink="/shop">Shop all</a><a routerLink="/shop" [queryParams]="{ type: 'video' }">Videos</a><a routerLink="/custom-order">Custom orders</a></nav>
+          <a routerLink="/shop">Shop all</a><a routerLink="/shop" [queryParams]="{ type: 'video' }">Videos</a><a routerLink="/templates">Website templates</a><a routerLink="/custom-order">Custom orders</a></nav>
         <nav aria-label="Company"><h2>Studio</h2>
           <a routerLink="/our-work">Our work</a><a routerLink="/about">About</a><a routerLink="/faq">FAQ</a><a routerLink="/contact">Contact</a><a routerLink="/contact" [queryParams]="{ mode: 'callback' }">Request a call back</a><button type="button" class="tour" (click)="welcome.show()">Take the tour</button></nav>
         <nav aria-label="Policies"><h2>Policies</h2>

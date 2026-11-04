@@ -1,11 +1,11 @@
 // Generates public/sitemap.xml from the live API. Usage:
 //   SITE_URL=https://your-domain.com API_URL=https://your-domain.com node scripts/generate-sitemap.mjs
 // API_URL defaults to SITE_URL. If the API is unreachable only the static pages are listed.
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 
 const site = (process.env.SITE_URL ?? 'https://example.com').replace(/\/$/, '');
 const api = (process.env.API_URL ?? site).replace(/\/$/, '');
-const pages = ['', '/shop', '/our-work', '/custom-order', '/about', '/faq', '/contact', '/privacy', '/terms', '/delivery', '/refunds', '/licensing', '/custom-terms', '/cookies', '/grievance', '/takedown', '/accessibility'];
+const pages = ['', '/shop', '/templates', '/our-work', '/custom-order', '/about', '/faq', '/contact', '/privacy', '/terms', '/delivery', '/refunds', '/licensing', '/custom-terms', '/cookies', '/grievance', '/takedown', '/accessibility'];
 let slugs = [];
 
 try {
@@ -16,7 +16,19 @@ try {
   console.warn(`Could not read products from ${api}: ${e.message}. Listing static pages only.`);
 }
 
-const urls = [...pages, ...slugs.map((s) => `/product/${s}`)];
+// Website templates are a static list, so they are read straight out of the registry rather
+// than fetched. Categories come from the same file, lower-cased the way the route expects.
+const registry = readFileSync(new URL('../src/app/core/templates.ts', import.meta.url), 'utf8');
+const between = (start, end) => registry.slice(registry.indexOf(start), registry.indexOf(end, registry.indexOf(start)));
+const templateSlugs = [...between('WEB_TEMPLATES', '];').matchAll(/slug: '([^']+)'/g)].map((m) => m[1]);
+const categories = [...between('CATEGORIES =', '] as const').matchAll(/'([^']+)'/g)].map((m) => m[1].toLowerCase());
+
+const urls = [
+  ...pages,
+  ...categories.map((c) => `/templates/c/${c}`),
+  ...templateSlugs.map((s) => `/templates/${s}`),
+  ...slugs.map((s) => `/product/${s}`),
+];
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
   .map((u) => `  <url><loc>${site}${u}</loc></url>`)
   .join('\n')}\n</urlset>\n`;
