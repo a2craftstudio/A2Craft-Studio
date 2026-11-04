@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phulkari — Wedding Invitation Template</title>
+<meta name="description" content="A Punjabi wedding invitation template with phulkari embroidery motifs, drawn in SVG.">
+<meta name="theme-color" content="#B01E5A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap">
+<style>
+  :root{
+    --ivory:#FBF4E6;
+    --cream:#F3E7D0;
+    --khaddar:#8E1B38;
+    --fuchsia:#B01E5A;
+    --marigold:#E39A2E;
+    --parrot:#3F7D4E;
+    --indigo:#28386B;
+    --ink:#3A2415;
+    --muted:#7C6450;
+    --gold:#C9A227;
+    --display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    --body:"Jost","Segoe UI",system-ui,-apple-system,sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:var(--body);
+    font-weight:300;
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;line-height:1.15}
+  p{margin:0 0 1em}
+  .wrap{max-width:720px;margin:0 auto;padding:0 var(--gutter)}
+  .eyebrow{
+    font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--fuchsia);margin:0 0 .9rem;font-weight:400;
+  }
+  .rule{display:block;width:60px;height:1px;background:var(--gold);margin:1.4rem auto;border:0}
+
+  /* ---------- phulkari stitch motifs ---------- */
+  .motif{display:block;color:var(--fuchsia)}
+  .stitch line{stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+  .band{
+    width:100%;height:46px;color:var(--marigold);
+    opacity:.9;
+  }
+
+  /* ---------- cover ---------- */
+  #cover{
+    position:fixed;inset:0;z-index:50;
+    background:
+      radial-gradient(circle at 50% 18%,rgba(227,154,46,.22),transparent 55%),
+      linear-gradient(170deg,#7C1532,#A81D50 55%,#7C1532);
+    color:var(--cream);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:40px var(--gutter);
+    transition:opacity .9s ease,visibility .9s;
+  }
+  #cover.gone{opacity:0;visibility:hidden}
+  #cover .frame{
+    border:1px solid rgba(243,231,208,.42);
+    padding:38px 26px 30px;max-width:420px;width:100%;
+    position:relative;
+  }
+  #cover .frame::before,#cover .frame::after{
+    content:"";position:absolute;width:14px;height:14px;
+    border:1px solid var(--marigold);
+  }
+  #cover .frame::before{top:-6px;left:-6px;border-right:0;border-bottom:0}
+  #cover .frame::after{bottom:-6px;right:-6px;border-left:0;border-top:0}
+  #cover .names{font-size:clamp(2.6rem,12vw,3.8rem);color:#fff;margin:.2rem 0}
+  #cover .amp{display:block;font-style:italic;font-size:.5em;color:var(--marigold);margin:.1em 0}
+  #cover .sub{font-size:.78rem;letter-spacing:.26em;text-transform:uppercase;opacity:.86}
+  .open-btn{
+    margin-top:26px;background:none;color:var(--cream);
+    border:1px solid var(--marigold);border-radius:999px;
+    padding:12px 30px;font-family:var(--body);font-size:.74rem;
+    letter-spacing:.24em;text-transform:uppercase;cursor:pointer;
+    transition:background .3s,color .3s;
+  }
+  .open-btn:hover,.open-btn:focus-visible{background:var(--marigold);color:#5E1026}
+
+  /* ---------- hero ---------- */
+  .hero{
+    text-align:center;padding:72px var(--gutter) 10px;
+    background:linear-gradient(180deg,var(--cream),var(--ivory));
+  }
+  .hero .names{font-size:clamp(2.4rem,10vw,3.4rem)}
+  .hero .amp{font-style:italic;color:var(--fuchsia);font-size:.55em;display:block;margin:.12em 0}
+  .hero .when{
+    font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--muted);margin-top:1rem;
+  }
+
+  /* ---------- sections ---------- */
+  section{padding:58px 0}
+  section h2{font-size:clamp(1.7rem,6vw,2.3rem);text-align:center}
+  .lead{text-align:center;color:var(--muted);max-width:46ch;margin:1rem auto 0}
+
+  .pair{display:grid;gap:34px;margin-top:38px}
+  @media(min-width:640px){.pair{grid-template-columns:1fr 1fr;gap:28px}}
+  .person{text-align:center;padding:26px 18px;background:#fff;border:1px solid var(--cream)}
+  .person .motif{width:58px;height:58px;margin:0 auto 12px}
+  .person h3{font-size:1.9rem;margin-bottom:.1em}
+  .person .role{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--parrot)}
+  .person .folks{color:var(--muted);font-size:.92rem;margin-top:.7rem}
+
+  /* events */
+  .events{display:grid;gap:14px;margin-top:38px}
+  .event{
+    display:grid;grid-template-columns:62px 1fr;gap:16px;align-items:start;
+    background:#fff;border:1px solid var(--cream);padding:18px;
+  }
+  .event .day{
+    text-align:center;border-right:1px solid var(--cream);padding-right:12px;
+  }
+  .event .day .num{font-family:var(--display);font-size:1.7rem;display:block;color:var(--fuchsia)}
+  .event .day .mon{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .event h3{font-size:1.25rem}
+  .event .meta{font-size:.84rem;color:var(--muted);margin-top:.25rem}
+  .event .note{font-size:.88rem;margin-top:.5rem}
+
+  /* countdown */
+  .count{background:var(--khaddar);color:var(--cream);text-align:center}
+  .count h2{color:#fff}
+  .clock{display:flex;justify-content:center;gap:10px;margin-top:28px;flex-wrap:wrap}
+  .cell{min-width:72px;padding:14px 8px;border:1px solid rgba(243,231,208,.35)}
+  .cell b{display:block;font-family:var(--display);font-size:2rem;font-weight:500;color:var(--marigold)}
+  .cell span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;opacity:.8}
+
+  /* venue */
+  .venue{text-align:center}
+  .venue .addr{color:var(--muted);margin-top:.6rem}
+  .link{
+    display:inline-block;margin-top:18px;color:var(--fuchsia);
+    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    text-decoration:none;border-bottom:1px solid var(--marigold);padding-bottom:3px;
+  }
+
+  /* rsvp */
+  .rsvp{background:var(--cream)}
+  form{max-width:440px;margin:30px auto 0;display:grid;gap:14px}
+  label{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  input,select{
+    width:100%;padding:12px 14px;border:1px solid #DFCDAE;background:#fff;
+    font-family:var(--body);font-size:1rem;color:var(--ink);border-radius:0;
+  }
+  input:focus,select:focus{outline:2px solid var(--marigold);outline-offset:-2px}
+  button[type=submit]{
+    margin-top:6px;padding:14px;border:0;background:var(--fuchsia);color:#fff;
+    font-family:var(--body);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;
+    cursor:pointer;transition:background .3s;
+  }
+  button[type=submit]:hover{background:var(--khaddar)}
+  .said{text-align:center;color:var(--parrot);margin-top:14px;min-height:1.4em;font-size:.92rem}
+
+  footer{text-align:center;padding:54px var(--gutter);background:var(--ivory)}
+  footer .bless{font-family:var(--display);font-style:italic;font-size:1.25rem;color:var(--muted)}
+  footer .mark{font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-top:1.6rem}
+
+  /* reveal on scroll */
+  .rise{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+  .rise.seen{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .rise{opacity:1;transform:none;transition:none}
+    #cover{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ phulkari motif definitions ============ -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <!-- one darning-stitch petal: short parallel floats, the way phulkari is worked -->
+    <g id="petal" class="stitch">
+      <line x1="0" y1="-8"  x2="0" y2="-30"/>
+      <line x1="-4" y1="-9" x2="-4" y2="-26"/>
+      <line x1="4"  y1="-9" x2="4"  y2="-26"/>
+      <line x1="-8" y1="-11" x2="-8" y2="-21"/>
+      <line x1="8"  y1="-11" x2="8"  y2="-21"/>
+    </g>
+    <g id="bloom">
+      <use href="#petal" transform="rotate(0)"/>
+      <use href="#petal" transform="rotate(45)"/>
+      <use href="#petal" transform="rotate(90)"/>
+      <use href="#petal" transform="rotate(135)"/>
+      <use href="#petal" transform="rotate(180)"/>
+      <use href="#petal" transform="rotate(225)"/>
+      <use href="#petal" transform="rotate(270)"/>
+      <use href="#petal" transform="rotate(315)"/>
+      <g class="stitch">
+        <line x1="-3" y1="0" x2="3" y2="0"/>
+        <line x1="0" y1="-3" x2="0" y2="3"/>
+      </g>
+    </g>
+    <!-- lattice band: the geometric running border on a bagh -->
+    <pattern id="lattice" width="48" height="46" patternUnits="userSpaceOnUse">
+      <g class="stitch" stroke-width="1.4">
+        <line x1="0" y1="23" x2="24" y2="2"/>
+        <line x1="24" y1="2" x2="48" y2="23"/>
+        <line x1="0" y1="23" x2="24" y2="44"/>
+        <line x1="24" y1="44" x2="48" y2="23"/>
+        <line x1="24" y1="14" x2="24" y2="32"/>
+        <line x1="16" y1="23" x2="32" y2="23"/>
+      </g>
+    </pattern>
+  </defs>
+</svg>
+
+<!-- ============ cover ============ -->
+<div id="cover">
+  <svg viewBox="-50 -50 100 100" width="92" height="92" class="motif" style="color:var(--marigold);margin-bottom:20px">
+    <use href="#bloom" transform="scale(1.3)"/>
+  </svg>
+  <div class="frame">
+    <p class="sub" data-field="occasion">The wedding of</p>
+    <h1 class="names">
+      <span data-field="brideFirst">Simran</span>
+      <span class="amp">&amp;</span>
+      <span data-field="groomFirst">Harjot</span>
+    </h1>
+    <p class="sub" data-field="coverDate">Saturday, 13 February 2027</p>
+    <button class="open-btn" id="openBtn">Open the invitation</button>
+  </div>
+</div>
+
+<!-- ============ hero ============ -->
+<header class="hero">
+  <p class="eyebrow">Phulkari · a flower worked in thread</p>
+  <h1 class="names">
+    <span data-field="brideFirst">Simran</span>
+    <span class="amp">and</span>
+    <span data-field="groomFirst">Harjot</span>
+  </h1>
+  <p class="when" data-field="heroDate">13 February 2027 · Amritsar</p>
+  <svg viewBox="0 0 288 46" class="band" preserveAspectRatio="none" aria-hidden="true" style="margin-top:28px">
+    <rect width="288" height="46" fill="url(#lattice)"/>
+  </svg>
+</header>
+
+<main class="wrap">
+
+  <!-- couple -->
+  <section class="rise">
+    <h2>Two families, one thread</h2>
+    <p class="lead">Every phulkari is stitched from the back, flower by flower, without seeing the whole until it is done. So is a marriage.</p>
+    <div class="pair">
+      <article class="person">
+        <svg viewBox="-50 -50 100 100" class="motif" style="color:var(--fuchsia)"><use href="#bloom"/></svg>
+        <p class="role">The bride</p>
+        <h3 data-field="brideFirst">Simran</h3>
+        <p class="folks">Daughter of <span data-field="brideParents">Mr. &amp; Mrs. Gill</span></p>
+      </article>
+      <article class="person">
+        <svg viewBox="-50 -50 100 100" class="motif" style="color:var(--parrot)"><use href="#bloom"/></svg>
+        <p class="role">The groom</p>
+        <h3 data-field="groomFirst">Harjot</h3>
+        <p class="folks">Son of <span data-field="groomParents">Mr. &amp; Mrs. Sandhu</span></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- events -->
+  <section class="rise">
+    <h2>The days ahead</h2>
+    <p class="lead">Come for one, come for all of them.</p>
+    <div class="events" id="events"><!-- filled from INVITE.events --></div>
+  </section>
+
+</main>
+
+<!-- countdown -->
+<section class="count rise">
+  <div class="wrap">
+    <p class="eyebrow" style="color:var(--marigold)">Until the lavan</p>
+    <h2>Counting the days</h2>
+    <div class="clock" id="clock" role="timer" aria-live="off"></div>
+    <hr class="rule">
+    <p style="font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;opacity:.85" data-field="heroDate">13 February 2027</p>
+  </div>
+</section>
+
+<main class="wrap">
+  <!-- venue -->
+  <section class="venue rise">
+    <p class="eyebrow">Where</p>
+    <h2 data-field="venueName">Gurdwara Sahib &amp; Baagh Lawns</h2>
+    <p class="addr" data-field="venueAddr">Put the full address here · Amritsar, Punjab</p>
+    <a class="link" id="mapLink" href="#" target="_blank" rel="noopener">Get directions</a>
+  </section>
+</main>
+
+<!-- rsvp -->
+<section class="rsvp rise">
+  <div class="wrap">
+    <h2>Will you be there?</h2>
+    <p class="lead">Let us know by <span data-field="rsvpBy">20 January 2027</span>, so the langar is counted right.</p>
+    <form id="rsvpForm">
+      <div>
+        <label for="guest">Your name</label>
+        <input id="guest" name="guest" type="text" autocomplete="name" required>
+      </div>
+      <div>
+        <label for="seats">How many of you</label>
+        <select id="seats" name="seats">
+          <option>1</option><option>2</option><option>3</option>
+          <option>4</option><option>5 or more</option>
+        </select>
+      </div>
+      <div>
+        <label for="reply">Coming?</label>
+        <select id="reply" name="reply">
+          <option value="yes">Yes, with joy</option>
+          <option value="no">Sorry, cannot make it</option>
+        </select>
+      </div>
+      <button type="submit">Send reply</button>
+    </form>
+    <p class="said" id="said" role="status"></p>
+  </div>
+</section>
+
+<footer>
+  <svg viewBox="-50 -50 100 100" width="64" height="64" class="motif" style="color:var(--marigold);margin:0 auto 18px"><use href="#bloom"/></svg>
+  <p class="bless">May your years be as full as a bagh, with no cloth left bare.</p>
+  <p class="mark">Phulkari template · replace every placeholder before sending</p>
+</footer>
+
+<script>
+/* ---------------------------------------------------------------
+   Everything a couple needs to change lives in this one object.
+   --------------------------------------------------------------- */
+const INVITE = {
+  brideFirst:  "Simran",
+  groomFirst:  "Harjot",
+  brideParents:"Mr. & Mrs. Gill",
+  groomParents:"Mr. & Mrs. Sandhu",
+  occasion:    "The wedding of",
+  weddingDate: "2027-02-13T11:00:00+05:30",
+  venueName:   "Gurdwara Sahib & Baagh Lawns",
+  venueAddr:   "Put the full address here · Amritsar, Punjab",
+  mapQuery:    "Amritsar, Punjab",
+  rsvpBy:      "20 January 2027",
+  events: [
+    { date:"2027-02-09", name:"Roka",        time:"11:00 AM", place:"Family home",        note:"The word given, sweets passed around." },
+    { date:"2027-02-10", name:"Mehndi",      time:"4:00 PM",  place:"Courtyard",          note:"Henna, dhol and far too much tea." },
+    { date:"2027-02-11", name:"Jago",        time:"8:00 PM",  place:"Through the street", note:"Lamps on the head, the whole gali awake." },
+    { date:"2027-02-12", name:"Chooda",      time:"9:00 AM",  place:"Family home",        note:"Red and ivory on her wrists." },
+    { date:"2027-02-13", name:"Anand Karaj", time:"11:00 AM", place:"Gurdwara Sahib",     note:"Four lavan, taken slowly." },
+    { date:"2027-02-13", name:"Reception",   time:"7:30 PM",  place:"Baagh Lawns",        note:"Dinner, and dancing until they stop us." }
+  ]
+};
+
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const LONG   = ["January","February","March","April","May","June","July",
+                "August","September","October","November","December"];
+
+/* ---- fill the simple text fields ---- */
+const weddingAt = new Date(INVITE.weddingDate);
+const longDate  = weddingAt.getDate() + " " + LONG[weddingAt.getMonth()] + " " + weddingAt.getFullYear();
+
+const values = Object.assign({}, INVITE, {
+  heroDate:  longDate + " · " + INVITE.mapQuery.split(",")[0],
+  coverDate: longDate
+});
+document.querySelectorAll("[data-field]").forEach(function (el) {
+  const v = values[el.dataset.field];
+  if (typeof v === "string") el.textContent = v;
+});
+document.title = INVITE.brideFirst + " & " + INVITE.groomFirst + " — Wedding Invitation";
+document.getElementById("mapLink").href =
+  "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(INVITE.venueName + " " + INVITE.mapQuery);
+
+/* ---- events ---- */
+document.getElementById("events").innerHTML = INVITE.events.map(function (e) {
+  const d = new Date(e.date + "T00:00:00");
+  return '<article class="event">' +
+           '<div class="day"><span class="num">' + String(d.getDate()).padStart(2, "0") + '</span>' +
+           '<span class="mon">' + MONTHS[d.getMonth()] + '</span></div>' +
+           '<div><h3>' + e.name + '</h3>' +
+           '<p class="meta">' + e.time + " · " + e.place + '</p>' +
+           '<p class="note">' + e.note + '</p></div>' +
+         '</article>';
+}).join("");
+
+/* ---- countdown ---- */
+const clock = document.getElementById("clock");
+function tick() {
+  let left = Math.max(0, weddingAt - Date.now());
+  const d = Math.floor(left / 864e5);
+  const h = Math.floor(left / 36e5) % 24;
+  const m = Math.floor(left / 6e4) % 60;
+  const s = Math.floor(left / 1e3) % 60;
+  clock.innerHTML = [[d,"days"],[h,"hours"],[m,"min"],[s,"sec"]].map(function (p) {
+    return '<div class="cell"><b>' + String(p[0]).padStart(2, "0") + "</b><span>" + p[1] + "</span></div>";
+  }).join("");
+}
+tick();
+setInterval(tick, 1000);
+
+/* ---- cover ---- */
+const cover = document.getElementById("cover");
+document.body.style.overflow = "hidden";
+document.getElementById("openBtn").addEventListener("click", function () {
+  cover.classList.add("gone");
+  document.body.style.overflow = "";
+  setTimeout(function () { cover.remove(); }, 900);
+});
+
+/* ---- reveal on scroll ---- */
+const io = new IntersectionObserver(function (entries) {
+  entries.forEach(function (en) {
+    if (en.isIntersecting) { en.target.classList.add("seen"); io.unobserve(en.target); }
+  });
+}, { rootMargin: "-60px" });
+document.querySelectorAll(".rise").forEach(function (el) { io.observe(el); });
+
+/* ---- rsvp (local only — wire this to your own endpoint) ---- */
+document.getElementById("rsvpForm").addEventListener("submit", function (ev) {
+  ev.preventDefault();
+  const f = new FormData(ev.target);
+  const said = document.getElementById("said");
+  said.textContent = f.get("reply") === "yes"
+    ? "Thank you, " + f.get("guest") + " — " + f.get("seats") + " seat(s) kept for you."
+    : "Thank you for telling us, " + f.get("guest") + ". You will be missed.";
+  ev.target.reset();
+});
+</script>
+</body>
+</html>

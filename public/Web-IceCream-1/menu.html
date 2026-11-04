@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore – Sweet Drip</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="vendor/phosphor/regular/style.css" />
+  <link rel="stylesheet" href="vendor/phosphor/fill/style.css" />
+  <link rel="stylesheet" href="vendor/phosphor/duotone/style.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/story.css" />
+  <link rel="stylesheet" href="css/pin.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/controls.css" />
+  <link rel="stylesheet" href="css/upgrade.css" />
+  <link rel="stylesheet" href="css/business.css" />
+</head>
+<body data-page="menu">
+  <div id="site-header"></div>
+
+  <main class="container" style="max-width: 1600px; padding-top: 96px; padding-bottom: 60px">
+    <div class="head-row" style="margin-bottom: 0; align-items: center">
+      <div>
+        <h1 id="exploreTitle" style="font-size: clamp(30px, 4vw, 44px); display: flex; align-items: center; gap: 10px">Explore every treat</h1>
+        <p id="exploreCount" style="color: var(--choc-3)"></p>
+      </div>
+      <div class="explore-tools">
+        <label class="search">
+          <i class="ph ph-magnifying-glass" style="font-size: 20px"></i>
+          <input type="search" id="menuSearch" placeholder="Filter these treats…" />
+        </label>
+        <div class="price-chips" id="priceChips" role="group" aria-label="Price">
+          <button class="topic on" data-p="all">Any price</button>
+          <button class="topic" data-p="0-100">Under ₹100</button>
+          <button class="topic" data-p="100-200">₹100–200</button>
+          <button class="topic" data-p="200-9999">₹200+</button>
+        </div>
+        <label class="select-pill"><select id="sortBy" aria-label="Sort">
+          <option value="popular">Most popular</option>
+          <option value="rating">Top rated</option>
+          <option value="low">Price: low to high</option>
+          <option value="high">Price: high to low</option>
+        </select></label>
+      </div>
+    </div>
+    <div class="topics" id="topics"></div>
+    <div class="pin-grid" id="exploreGrid" style="margin-top: 16px"></div>
+    <p class="empty" id="menuEmpty">No treats match. Try “mango” or “chocolate”.</p>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/customize.js"></script>
+  <script src="js/business.js"></script>
+</body>
+</html>

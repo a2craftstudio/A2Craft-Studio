@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visit Us – Sweet Drip parlours, map &amp; contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="vendor/phosphor/regular/style.css" />
+  <link rel="stylesheet" href="vendor/phosphor/fill/style.css" />
+  <link rel="stylesheet" href="vendor/phosphor/duotone/style.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/story.css" />
+  <link rel="stylesheet" href="css/pin.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/controls.css" />
+  <link rel="stylesheet" href="css/upgrade.css" />
+  <link rel="stylesheet" href="css/business.css" />
+</head>
+<body data-page="contact">
+  <div id="site-header"></div>
+
+  <section class="phead">
+    <div class="container">
+      <span class="kicker" data-reveal="up"><i class="ph-fill ph-map-pin"></i> 6 parlours in Mumbai</span>
+      <h1 data-reveal="up" style="--d: 0.1s">Come over for a <span class="serif">scoop</span></h1>
+      <p data-reveal="up" style="--d: 0.2s">Find your nearest Sweet Drip, get directions, book a table or ask us anything.</p>
+      <div class="phead-actions" data-reveal="up" style="--d: 0.3s">
+        <button class="btn btn-primary" id="nearMe"><i class="ph ph-crosshair"></i> Find nearest to me</button>
+        <a class="btn btn-ghost" href="#book"><i class="ph ph-calendar-check"></i> Book a table</a>
+        <a class="btn btn-ghost" href="#ask"><i class="ph ph-chat-circle-dots"></i> Ask a question</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map + parlour list -->
+  <section id="find" style="padding-bottom: 70px">
+    <div class="container finder" style="max-width: 1400px">
+      <div class="finder-list">
+        <div class="finder-tools">
+          <label class="search finder-search"><i class="ph ph-magnifying-glass" style="font-size: 20px"></i><input id="branchSearch" type="search" placeholder="Search area — Juhu, Powai…" /></label>
+          <div class="finder-chips" id="branchFilters">
+            <button class="topic on" data-f="all">All</button>
+            <button class="topic" data-f="open">Open now</button>
+            <button class="topic" data-f="Seating">Seating</button>
+            <button class="topic" data-f="Parking">Parking</button>
+          </div>
+        </div>
+        <p class="finder-note" id="finderNote">Tap a parlour to see it on the map.</p>
+        <div id="branchList"></div>
+      </div>
+      <div class="finder-map">
+        <div id="map" role="region" aria-label="Map of Sweet Drip parlours"></div>
+        <button class="map-locate" id="mapLocate" title="Show my location" aria-label="Show my location"><i class="ph ph-crosshair"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking -->
+  <section class="section" id="book" style="background: var(--cream-2)">
+    <div class="container contact-wrap">
+      <div>
+        <span class="kicker" data-reveal="up"><i class="ph-fill ph-calendar-check"></i> Reservations</span>
+        <h2 class="title" data-reveal="up" style="--d: 0.1s">Book a table or <span class="hl">a party</span></h2>
+        <p class="lead" data-reveal="up" style="--d: 0.2s; margin-top: 14px">Birthdays, proposals, family Sundays or a gola counter for your wedding — tell us the plan and we'll call you back within an hour.</p>
+        <div class="book-perks">
+          <div data-reveal="left" style="--d: 0.3s"><i class="ph-duotone ph-cake"></i><div><b>Birthday table</b><span>Free scoop for the birthday star</span></div></div>
+          <div data-reveal="left" style="--d: 0.35s"><i class="ph-duotone ph-heart"></i><div><b>Proposal surprise</b><span>Ring hidden in a sundae, table decor</span></div></div>
+          <div data-reveal="left" style="--d: 0.4s"><i class="ph-duotone ph-snowflake"></i><div><b>Gola counter</b><span>For events of 50+ guests</span></div></div>
+        </div>
+      </div>
+      <form class="form-card" id="contactForm" data-reveal="right">
+        <h3>Tell us your plan</h3>
+        <p>Takes 30 seconds. No payment needed.</p>
+        <div class="form-grid">
+          <label class="field"><input name="name" required autocomplete="name" placeholder=" " /><span>Your name</span></label>
+          <label class="field"><input name="phone" type="tel" required autocomplete="tel" placeholder=" " /><span>Phone number</span></label>
+          <label class="field"><select name="branch" id="bookBranch"></select><span>Parlour</span></label>
+          <label class="field"><select name="type"><option>Table booking</option><option>Birthday party</option><option>Proposal / anniversary surprise</option><option>Gola counter for event</option><option>Bulk order</option></select><span>I'm planning a…</span></label>
+          <label class="field"><input name="date" type="date" required placeholder=" " id="bookDate" /><span>Date</span></label>
+          <label class="field"><select name="time"><option>12:00 PM</option><option>3:00 PM</option><option selected>6:00 PM</option><option>8:00 PM</option><option>10:00 PM</option></select><span>Time</span></label>
+          <label class="field full"><select name="guests"><option>2 guests</option><option>3–4 guests</option><option>5–10 guests</option><option>10+ guests</option></select><span>Guests</span></label>
+          <label class="field full"><textarea name="msg" placeholder=" "></textarea><span>Anything else? (optional)</span></label>
+        </div>
+        <button class="btn btn-primary" type="submit">Send request <i class="ph ph-arrow-right"></i></button>
+        <p class="form-note">Opens WhatsApp with your details filled in, so the parlour can call you back.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Ask a question -->
+  <section class="section" id="ask">
+    <div class="container ask">
+      <div>
+        <span class="kicker" data-reveal="up"><i class="ph-fill ph-question"></i> Ask us anything</span>
+        <h2 class="title" data-reveal="up" style="--d: 0.1s">Got a <span class="hl">question?</span></h2>
+        <p class="lead" data-reveal="up" style="--d: 0.2s; margin-top: 14px">Allergies, party plans, bulk orders, eggless cakes, a secret proposal — ask away and our team replies within a few hours.</p>
+        <div class="contact-quick">
+          <a href="tel:+919876543210" data-reveal="left" style="--d: 0.3s"><span class="info-ico"><i class="ph-duotone ph-phone"></i></span><div><b>Call us</b><span>+91 98765 43210</span></div></a>
+          <a href="https://wa.me/919876543210" target="_blank" rel="noopener" data-reveal="left" style="--d: 0.35s"><span class="info-ico" style="background: #dcfce7; color: #16a34a"><i class="ph-duotone ph-whatsapp-logo"></i></span><div><b>WhatsApp</b><span>Fastest replies, 11 AM – 1 AM</span></div></a>
+          <a href="mailto:hello@sweetdrip.in" data-reveal="left" style="--d: 0.4s"><span class="info-ico" style="background: var(--sky); color: #0a7bb5"><i class="ph-duotone ph-envelope-simple"></i></span><div><b>Email</b><span>hello@sweetdrip.in</span></div></a>
+        </div>
+      </div>
+      <div>
+        <form class="form-card" id="askForm" data-reveal="right">
+          <h3>Send your question</h3>
+          <div class="form-grid">
+            <label class="field"><input name="name" required maxlength="40" placeholder=" " /><span>Your name</span></label>
+            <label class="field"><select name="topic"><option>Menu &amp; allergies</option><option>Party &amp; events</option><option>Delivery</option><option>Proposal surprise</option><option>Something else</option></select><span>Topic</span></label>
+            <label class="field full"><textarea name="question" required maxlength="300" placeholder=" "></textarea><span>Your question</span></label>
+          </div>
+          <button class="btn btn-primary" type="submit">Ask the team <i class="ph ph-paper-plane-tilt"></i></button>
+        </form>
+        <div class="qa-list" id="qaList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq-sec" style="padding-top: 0">
+    <div class="container">
+      <div class="head-center">
+        <span class="kicker" data-reveal="up"><i class="ph-fill ph-info"></i> FAQ</span>
+        <h2 class="title" data-reveal="up" style="--d: 0.1s">Questions, <span class="hl">answered</span></h2>
+      </div>
+      <label class="faq-search" data-reveal="up"><i class="ph ph-magnifying-glass"></i><input type="search" id="faqSearch" placeholder="Search questions — delivery, eggless, party…" /></label>
+      <div class="faq" id="faq"></div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/customize.js"></script>
+  <script src="js/business.js"></script>
+</body>
+</html>

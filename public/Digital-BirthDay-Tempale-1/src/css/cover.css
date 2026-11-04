@@ -1,0 +1,16 @@
+/* index.html: position and size of every element.
+   left / top = position on the 930px-wide design, rotate / scale = turn and size. */
+
+.envelope-back { left: 252.25px; top: 247.47px; rotate: -8.05deg; width: 360px; height: 328px; }
+.card-box { left: 305.58px; top: 309.93px; rotate: -8.05deg; width: 264px; height: 235px; }
+.card { left: -16.54px; top: -6.67px; width: 316px; height: 559px; }
+.card-happy { left: 391.1px; top: 333.63px; rotate: -6.6deg; scale: 0.96; width: 101px; height: 29px; font-family: "Amsterdam One", cursive; font-size: 21.3333px; font-weight: 400; color: rgb(0, 0, 0); line-height: 29px; text-align: center; white-space: nowrap; }
+.card-birthday { left: 401.52px; top: 382.88px; rotate: -6.6deg; scale: 0.96; width: 107px; height: 30px; font-family: "Amsterdam One", cursive; font-size: 21.4969px; font-weight: 400; color: rgb(0, 0, 0); line-height: 30px; text-align: center; white-space: nowrap; }
+.envelope-front-box { left: 298.15px; top: 405.64px; rotate: -8.05deg; width: 313px; height: 158px; }
+.envelope-front { left: -9.79px; top: 0px; width: 332px; height: 166px; }
+.camera { left: 148.09px; top: 411.3px; width: 230px; height: 168px; }
+.bouquet { left: 548.78px; top: 252.78px; width: 245px; height: 327px; }
+.ribbon { left: 322.79px; top: 428.37px; width: 55px; height: 45px; }
+.little-hearts { left: 534.83px; top: 473.67px; rotate: 1.72deg; width: 39px; height: 39px; }
+.heart-sticker { left: 555.25px; top: 435.53px; rotate: -13.34deg; width: 32px; height: 28px; }
+.click-me-text { left: 428.97px; top: 575.47px; scale: 0.96; width: 68px; height: 28px; font-family: Schoolbell, cursive; font-size: 20.7106px; font-weight: 400; color: rgb(250, 244, 233); line-height: 28px; text-align: justify; white-space: nowrap; }

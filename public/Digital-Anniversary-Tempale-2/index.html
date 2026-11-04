@@ -1,0 +1,615 @@
+<!doctype html>
+<!--
+  Template 2 - Happy Anniversary. 3D scroll scenes.
+  src/photos : couple photos (swap per user). Slot -> file map is the DEFAULTS object near the bottom of this file.
+  src/layers : paper, stamps, frame, heart (design - never change)
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Anniversary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Lora:wght@400;500&family=Pinyon+Script&family=Homemade+Apple&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --maroon: #6b181c;
+    --ink: #7a2228;
+    --cream: #f4ebe1;
+    --paper: #ece6db;
+    --stamp: #f2f0eb;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--maroon);
+    color: var(--ink);
+    font-family: Lora, Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  /* ---------- Full-screen sections ---------- */
+  .slide {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid; place-items: center;
+    overflow: hidden;
+    perspective: 1400px;
+    color: var(--ink);
+    background: var(--paper) url("src/layers/texture-cream.jpg") center / cover;
+  }
+  .slide.dark {
+    color: var(--cream);
+    background: var(--maroon) url("src/layers/bg-maroon.jpg") center / cover;
+  }
+  /* Each section keeps the design's 16:9 composition, scaled to fit the screen */
+  .stage {
+    position: relative;
+    width: min(100vw, calc(100vh * 16 / 9));
+    width: min(100vw, calc(100svh * 16 / 9));
+    aspect-ratio: 16 / 9;
+    container-type: inline-size;
+    transition: transform .8s cubic-bezier(.2, .7, .2, 1);
+  }
+  .stage > * { position: absolute; }
+
+  /* Titles: swash script capitals + didone lowercase */
+  .title {
+    margin: 0;
+    font: 400 6cqw/1 "Bodoni Moda", Didot, serif;
+    letter-spacing: -.025em;
+    white-space: nowrap;
+  }
+  .title .c {
+    font-family: "Pinyon Script", cursive;
+    font-size: 1.3em;
+    margin-right: -.05em;
+    line-height: 0;
+  }
+  .body {
+    margin: 0;
+    font: 400 1.32cqw/1.42 Lora, Georgia, serif;
+  }
+  .body + .body { margin-top: .9em; }
+  .center { text-align: center; }
+  .names { font: 400 2.2cqw/1 "Bodoni Moda", serif; white-space: nowrap; }
+  .names .c { font-family: "Pinyon Script", cursive; font-size: 1.3em; margin-right: -.1em; }
+
+  /* ---------- Perforated stamp frame ---------- */
+  .stamp {
+    --r: 0deg;
+    transform: rotate(var(--r));
+    filter: drop-shadow(0 .35cqw .5cqw rgba(60, 30, 20, .28));
+  }
+  .perf {
+    --h: .38cqw;   /* hole radius */
+    --t: 1.05cqw;  /* hole spacing */
+    position: absolute; inset: 0;
+    background: var(--stamp);
+    -webkit-mask:
+      radial-gradient(circle at 50% 0, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / var(--t) 100% round,
+      radial-gradient(circle at 50% 100%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / var(--t) 100% round,
+      radial-gradient(circle at 0 50%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / 100% var(--t) round,
+      radial-gradient(circle at 100% 50%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / 100% var(--t) round;
+    -webkit-mask-composite: source-in;
+    mask:
+      radial-gradient(circle at 50% 0, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / var(--t) 100% round,
+      radial-gradient(circle at 50% 100%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / var(--t) 100% round,
+      radial-gradient(circle at 0 50%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / 100% var(--t) round,
+      radial-gradient(circle at 100% 50%, #0000 var(--h), #000 calc(var(--h) + .5px)) 0 0 / 100% var(--t) round;
+    mask-composite: intersect;
+  }
+  .perf::after {
+    content: ""; position: absolute; inset: .55cqw;
+    border: 1px solid rgba(0, 0, 0, .06);
+    pointer-events: none;
+  }
+
+  /* ---------- Photos ---------- */
+  .photo {
+    position: absolute; inset: 1.15cqw;
+    background: linear-gradient(135deg, #d9cbbb, #c4ad98);
+    background-size: cover; background-position: center;
+    overflow: hidden;
+  }
+  /* Full-bleed section background photo (section 4) */
+  .slide > .photo.bg { inset: -3%; filter: saturate(.9); }
+  .photo.bg::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(40, 18, 14, .35), rgba(30, 12, 10, .55));
+  }
+
+  /* ---------- Decorations ---------- */
+  .deco { pointer-events: none; }
+  /* Ornate gold frame image laid over the photo */
+  .gold {
+    transform: rotate(var(--r, 0deg));
+    filter: drop-shadow(0 .5cqw .8cqw rgba(0, 0, 0, .45));
+  }
+  .gold .photo { inset: 3.2% 13.1% 7.1% 11.7%; }
+  .gold::after {
+    content: ""; position: absolute; inset: 0;
+    background: url("src/layers/frame-gold.png") center / 100% 100%;
+  }
+  img.deco { height: auto; }
+  .sticker-img img { position: absolute; }
+  .card { background: #ebe5dc; }
+  .letter {
+    background: repeating-linear-gradient(180deg, #f7f2e8 0 1.15cqw, #e7dccb 1.15cqw calc(1.15cqw + 1px));
+    box-shadow: 0 .3cqw .8cqw rgba(0, 0, 0, .3);
+    transform: rotate(-3deg);
+    padding: 1cqw;
+    font: .78cqw/1.48 "Homemade Apple", cursive;
+    color: #4f3b33;
+    overflow: hidden;
+  }
+  /* Swirl lines cover the whole section so they run off the screen edges */
+  .swirl { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  /* ---------- Site navigation ---------- */
+  .dots {
+    position: fixed; right: 22px; top: 50%; z-index: 10;
+    translate: 0 -50%;
+    display: grid; gap: 12px;
+  }
+  .dots button {
+    width: 11px; height: 11px; padding: 0;
+    border-radius: 50%;
+    border: 1.5px solid var(--cream);
+    background: transparent;
+    cursor: pointer;
+    transition: transform .3s, background-color .3s, border-color .3s;
+  }
+  .dots button:hover { transform: scale(1.3); }
+  .dots button[aria-current="true"] { background: var(--cream); transform: scale(1.25); }
+  .dots.on-light button { border-color: var(--ink); }
+  .dots.on-light button[aria-current="true"] { background: var(--ink); }
+  .dots button:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+  .scroll-cue {
+    position: absolute; left: 50%; bottom: 22px; z-index: 2;
+    translate: -50% 0;
+    display: grid; justify-items: center; gap: 6px;
+    color: var(--cream);
+    font: 500 11px/1 Lora, serif; letter-spacing: .3em; text-transform: uppercase;
+    text-decoration: none;
+    opacity: .85;
+  }
+  .scroll-cue svg { width: 22px; height: 22px; animation: bob 1.8s ease-in-out infinite; }
+  @keyframes bob { 50% { translate: 0 6px; } }
+
+  @media (min-width: 761px) {
+    html { scroll-snap-type: y proximity; }
+    .slide { scroll-snap-align: start; }
+  }
+
+  /* ---------- 3D animation ---------- */
+  /* Every animated layer drifts with the pointer at its own depth (--d) */
+  .a {
+    translate: calc(var(--px, 0) * var(--d, 0) * 1cqw) calc(var(--py, 0) * var(--d, 0) * 1cqw);
+    transition: translate .6s cubic-bezier(.2, .7, .2, 1);
+  }
+  .a-title { transform-origin: 50% 85%; }
+
+  @keyframes a-drop  { from { opacity: 0; translate: 0 -8cqw 30cqw; rotate: x -60deg; } }
+  @keyframes a-flip  { from { opacity: 0; rotate: x 95deg; } }
+  @keyframes a-rise  { from { opacity: 0; translate: 0 3cqw; filter: blur(.5cqw); } }
+  @keyframes a-pop   { from { opacity: 0; scale: .2; rotate: y 200deg; } }
+  @keyframes a-zoom  { from { opacity: .15; scale: 1.3; } }
+  @keyframes a-draw  { from { stroke-dashoffset: 1; } }
+  @keyframes flap    { 50% { scale: .5 1; } }
+  @keyframes pulse   { 50% { scale: 1.08; } }
+
+  .anim-ready .slide:not(.play) .a { opacity: 0; }
+  .anim-ready .slide:not(.play) .swirl path { stroke-dashoffset: 1; }
+  .swirl path { stroke-dasharray: 1; }
+
+  .slide.play .a-photo { animation: a-drop 1.2s cubic-bezier(.16, .9, .25, 1) calc(.15s + var(--i) * .1s) backwards; }
+  .slide.play .a-title { animation: a-flip 1.1s cubic-bezier(.2, .8, .2, 1) calc(.1s + var(--i) * .1s) backwards; }
+  .slide.play .a-text  { animation: a-rise 1s ease-out calc(.35s + var(--i) * .1s) backwards; }
+  .slide.play .a-deco  { animation: a-pop 1s cubic-bezier(.3, 1.4, .5, 1) calc(.5s + var(--i) * .1s) backwards; }
+  .slide.play .a-bg    { animation: a-zoom 5s cubic-bezier(.2, .7, .2, 1) backwards; }
+  .slide.play .swirl path { animation: a-draw 2.6s ease-in-out .2s backwards; }
+  .slide.play img.deco[src*="62d39d17"] {
+    animation: a-pop 1s cubic-bezier(.3, 1.4, .5, 1) calc(.5s + var(--i) * .1s) backwards,
+               pulse 2.2s ease-in-out 2.5s infinite;
+  }
+  .sticker-img img + img { animation: flap 1.4s ease-in-out infinite; }
+
+  /* ---------- Phones: sections stack their content ---------- */
+  @media (max-width: 760px) {
+    html { scroll-behavior: auto; }
+    .slide { min-height: auto; padding: 64px 22px 72px; }
+    .slide:first-of-type { min-height: 100svh; }
+    .stage {
+      width: 100%; aspect-ratio: auto;
+      container-type: normal;
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+      gap: 26px 7%;
+    }
+    .stage > * {
+      position: relative !important;
+      left: auto !important; top: auto !important;
+      width: 100% !important; height: auto !important;
+    }
+    .slide > .swirl { display: none; }
+    .names { order: -3; font-size: 6vw; text-align: center; }
+    .title {
+      order: -2;
+      font-size: 12.5vw !important; line-height: 1.08 !important;
+      white-space: normal; text-align: center;
+    }
+    [data-text]:not(.title):not(.names) { order: -1; text-align: center; }
+    .body { font-size: 16px !important; line-height: 1.6; }
+    .stamp, .gold { width: 43% !important; aspect-ratio: 4 / 5; }
+    .gold { aspect-ratio: 632 / 740; }
+    .stamp { filter: drop-shadow(0 4px 6px rgba(60, 30, 20, .28)); }
+    .perf { --h: 1.4vw; --t: 3.9vw; }
+    .perf::after { inset: 2vw; }
+    .photo { inset: 3.8vw; }
+    .deco:not(.swirl) { display: none !important; }
+    /* Section 4's big cream card becomes the backdrop for its content */
+    .stage:has(> .stamp > .card) { padding: 0 18px; }
+    .stage > .stamp:has(> .card) {
+      position: absolute !important; inset: -34px -4px !important;
+      width: auto !important; aspect-ratio: auto;
+    }
+    .stage > .stamp:has(> .card) ~ * { z-index: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .slide.play .a, .slide.play .swirl path, .sticker-img img + img, .scroll-cue svg { animation: none !important; }
+    .a { translate: none; }
+  }
+
+  @media print {
+    @page { size: 13.333in 7.5in; margin: 0; }
+    .dots, .scroll-cue { display: none !important; }
+    .slide { min-height: 0; height: 7.5in; break-after: page; }
+    .stage { width: 13.333in; transform: none !important; }
+    .a, .swirl path, .sticker-img img + img { animation: none !important; opacity: 1 !important; stroke-dashoffset: 0 !important; translate: none !important; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+<style>html{scrollbar-width:none}html::-webkit-scrollbar{display:none}</style>
+</head>
+<body>
+
+<nav class="dots" aria-label="Sections"></nav>
+
+<main>
+
+  <!-- 1 · Cover -->
+  <section id="s1" class="slide dark">
+    <svg class="swirl deco" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path d="M-20 600 C 120 600, 210 690, 260 760 C 300 820, 240 870, 180 820 C 120 770, 230 700, 330 760 C 420 815, 520 880, 640 905" fill="none" stroke="#f4ebe1" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <div class="stage">
+      <div class="names" data-text style="left:5%;top:9%"><span class="c">X</span>YZ</div>
+      <h2 class="title center" data-text style="left:20%;width:60%;top:31%;font-size:7.2cqw;line-height:.95"><span class="c">H</span>appy<br><span class="c">A</span>nniversary</h2>
+      <div class="stamp" style="left:72%;top:7%;width:24%;height:38%;--r:8deg"><div class="perf"><div class="photo" data-slot="1a"></div></div></div>
+      <div class="stamp" style="left:4.5%;top:54%;width:16%;height:35%;--r:-9deg"><div class="perf"><div class="photo" data-slot="1b"></div></div></div>
+      <p class="body" data-text style="left:72%;top:82%;width:24%;font-size:1.4cqw">A celebration of love, growth, and beautiful moments.</p>
+    </div>
+    <a class="scroll-cue" href="#s2">Scroll<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+  </section>
+
+  <!-- 2 · Our Journey -->
+  <section id="s2" class="slide">
+    <div class="stage">
+      <div class="stamp" style="left:12%;top:14%;width:14%;height:32%"><div class="perf"><div class="photo" data-slot="2a"></div></div></div>
+      <h2 class="title center" data-text style="left:30%;width:40%;top:20%"><span class="c">O</span>ur <span class="c">J</span>ourney</h2>
+      <div data-text style="left:31%;width:38%;top:40%" class="center">
+        <p class="body">Every love story starts somewhere, and ours began with a simple hello — the kind of moment that felt ordinary at first, but ended up changing everything. From that very first conversation, something between us felt natural, effortless, like we had known each other far longer than we really had.</p>
+        <p class="body">What started as small moments slowly grew into something meaningful. Day by day, our connection strengthened in ways neither of us expected. It wasn’t rushed; it wasn’t forced. It was gentle, calm, and beautifully real.</p>
+      </div>
+      <img class="deco" src="src/layers/compass.png" alt="" style="left:88%;top:10%;width:7%">
+      <div class="stamp" style="left:72%;top:59%;width:21%;height:30%"><div class="perf"><div class="photo" data-slot="2b"></div></div></div>
+      <img class="deco" src="src/layers/stamp-lavender.png" alt="" style="left:88.5%;top:48%;width:7%;transform:rotate(6deg)">
+    </div>
+  </section>
+
+  <!-- 3 · The Moments -->
+  <section id="s3" class="slide">
+    <div class="stage">
+      <div class="stamp" style="left:7%;top:16%;width:24%;height:52%"><div class="perf"><div class="photo" data-slot="3a"></div></div></div>
+      <h2 class="title center" data-text style="left:37%;width:44%;top:21%"><span class="c">T</span>he <span class="c">M</span>oments</h2>
+      <div class="stamp" style="left:39%;top:37%;width:24%;height:32%"><div class="perf"><div class="photo" data-slot="3b"></div></div></div>
+      <div class="stamp" style="left:67%;top:37%;width:24%;height:32%"><div class="perf"><div class="photo" data-slot="3c"></div></div></div>
+      <div class="deco sticker-img" style="left:84%;top:27%;width:11%;aspect-ratio:1"><img src="src/layers/paper-round.png" alt="" style="inset:0;width:100%;height:100%"><img src="src/layers/butterfly.png" alt="" style="left:15%;top:15%;width:70%;height:70%"></div>
+      <div data-text style="left:6%;width:27%;top:74%">
+        <p class="body">Our relationship isn’t built on grand gestures — it’s built on moments. Moments that seemed small at the time, but now mean everything.</p>
+      </div>
+      <p class="body" data-text style="left:39%;width:25%;top:77%">It’s the late-night talks, when the world is quiet and it’s just us.</p>
+      <p class="body" data-text style="left:67%;width:26%;top:77%">It’s the shared laughter, the kind that comes unexpectedly, making our hearts feel lighter.</p>
+    </div>
+  </section>
+
+  <!-- 4 · What We Love -->
+  <section id="s4" class="slide">
+    <div class="photo bg" data-slot="4bg"></div>
+    <div class="stage">
+      <div class="stamp" style="left:15%;top:6%;width:51%;height:82%;--r:0deg"><div class="perf card"></div></div>
+      <h2 class="title center" data-text style="left:17%;width:47%;top:17%;font-size:5.4cqw"><span class="c">W</span>hat <span class="c">W</span>e <span class="c">L</span>ove</h2>
+      <div class="center" data-text style="left:20%;width:41%;top:38%">
+        <p class="body">What I love most about us is how naturally we understand each other. Even in silence, we feel connected — as if our hearts speak a language only we recognize. We don’t always get everything right, but we always try, and that understanding makes everything easier.</p>
+        <p class="body">I love how we support each other’s dreams. We celebrate every step forward, encourage every idea, and believe in each other even when doubts try to creep in. With you, every dream feels possible.</p>
+      </div>
+      <div class="letter deco" style="left:5.5%;top:67%;width:14%;height:25%">My dearest, I keep finding new reasons to fall for you — in the small mornings, the long talks, the quiet evenings. Thank you for every one of them. Always yours.</div>
+      <div class="stamp" style="left:70%;top:19%;width:22%;height:32%"><div class="perf"><div class="photo" data-slot="4a"></div></div></div>
+      <div class="stamp" style="left:70%;top:55%;width:22%;height:33%"><div class="perf"><div class="photo" data-slot="4b"></div></div></div>
+      <img class="deco" src="src/layers/stamp-peonies.png" alt="" style="left:83.5%;top:41%;width:12%;transform:rotate(-4deg)">
+    </div>
+  </section>
+
+  <!-- 5 · Favorite Things -->
+  <section id="s5" class="slide">
+    <div class="stage">
+      <h2 class="title center" data-text style="left:25%;width:50%;top:10%"><span class="c">F</span>avorite <span class="c">T</span>hings</h2>
+      <p class="body center" data-text style="left:23%;width:54%;top:26%">There are so many things I love about you, but these are the ones that stay with me every single day. These are just a few of my favorite things… because the truth is, there are countless reasons why I love you.</p>
+      <div class="stamp" style="left:6.5%;top:46%;width:29%;height:42%"><div class="perf"><div class="photo" data-slot="5a"></div></div></div>
+      <div class="stamp" style="left:41.5%;top:42%;width:18%;height:41%"><div class="perf"><div class="photo" data-slot="5b"></div></div></div>
+      <div class="stamp" style="left:68%;top:42%;width:23%;height:35%"><div class="perf"><div class="photo" data-slot="5c"></div></div></div>
+      <img class="deco" src="src/layers/heart-wax-red.png" alt="" style="left:1.5%;top:36%;width:12%">
+      <p class="body center" data-text style="left:65%;width:29%;top:80%">You have a way of treating people with warmth, patience, and sincerity.</p>
+    </div>
+  </section>
+
+  <!-- 6 · Our Growth -->
+  <section id="s6" class="slide">
+    <div class="stage">
+      <div class="stamp" style="left:8%;top:13%;width:27%;height:41%;--r:-11deg"><div class="perf"><div class="photo" data-slot="6a"></div></div></div>
+      <p class="body" data-text style="left:50%;width:35%;top:16%">We learned how to speak honestly, even when the truth felt heavy. We learned how to listen, not just with our ears but with our hearts.</p>
+      <img class="deco" src="src/layers/compass.png" alt="" style="left:86.5%;top:23%;width:7.5%">
+      <div class="stamp" style="left:44%;top:34%;width:23%;height:51%;--r:10deg"><div class="perf"><div class="photo" data-slot="6b"></div></div></div>
+      <div class="stamp" style="left:69%;top:49%;width:20%;height:27%;--r:-6deg"><div class="perf"><div class="photo" data-slot="6c"></div></div></div>
+      <img class="deco" src="src/layers/stamp-peonies.png" alt="" style="left:65.5%;top:36%;width:11.5%;transform:rotate(-2deg)">
+      <h2 class="title" data-text style="left:5%;top:61%"><span class="c">O</span>ur <span class="c">G</span>rowth</h2>
+      <p class="body" data-text style="left:5%;width:27%;top:80%">When I look back at how far we’ve come, I realize that our love didn’t just grow — we grew.</p>
+    </div>
+  </section>
+
+  <!-- 7 · Highlights of Our Year -->
+  <section id="s7" class="slide dark">
+    <svg class="swirl deco" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path d="M430 -10 C 560 70, 700 110, 820 160 C 930 205, 980 260, 1000 330 C 1020 400, 1110 380, 1170 345 C 1240 305, 1280 380, 1230 440 C 1190 490, 1300 520, 1400 545 C 1480 565, 1560 610, 1620 650" fill="none" stroke="#f4ebe1" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <div class="stage">
+      <div class="stamp" style="left:7%;top:12%;width:23%;height:36%;--r:-6deg"><div class="perf"><div class="photo" data-slot="7a"></div></div></div>
+      <div class="gold" style="left:36.8%;top:9.8%;width:27%;height:56%;--r:0deg"><div class="photo" data-slot="7b"></div></div>
+      <div class="stamp" style="left:77%;top:10%;width:16%;height:27%;--r:6deg"><div class="perf"><div class="photo" data-slot="7c"></div></div></div>
+      <h2 class="title center" data-text style="left:5%;width:90%;top:62%;font-size:6.4cqw"><span class="c">H</span>ighlights of <span class="c">O</span>ur <span class="c">Y</span>ear</h2>
+      <p class="body center" data-text style="left:20%;width:60%;top:83%">This past year wasn’t just a collection of days — it was a collection of moments that shaped us, strengthened us, and reminded us why our love matters.</p>
+    </div>
+  </section>
+
+  <!-- 8 · Gratitude -->
+  <section id="s8" class="slide">
+    <div class="stage">
+      <div class="stamp" style="left:8%;top:17%;width:24%;height:51%;--r:-5deg"><div class="perf"><div class="photo" data-slot="8a"></div></div></div>
+      <h2 class="title center" data-text style="left:34%;width:32%;top:16%"><span class="c">G</span>ratitude</h2>
+      <p class="body center" data-text style="left:36%;width:40%;top:30%">There are so many things I’m grateful for, but these are the ones that touch my heart the most.</p>
+      <div class="stamp" style="left:40.5%;top:46%;width:23%;height:34%"><div class="perf"><div class="photo" data-slot="8b"></div></div></div>
+      <div class="stamp" style="left:70%;top:39%;width:21%;height:31%;--r:-7deg"><div class="perf"><div class="photo" data-slot="8c"></div></div></div>
+      <div class="deco sticker-img" style="left:84%;top:23%;width:10.5%;aspect-ratio:1"><img src="src/layers/paper-round.png" alt="" style="inset:0;width:100%;height:100%"><img src="src/layers/butterfly.png" alt="" style="left:15%;top:15%;width:70%;height:70%"></div>
+      <img class="deco" src="src/layers/heart-wax-red.png" alt="" style="left:4%;top:55%;width:12%">
+      <p class="body center" data-text style="left:7%;width:30%;top:77%">Love isn’t only about the easy days — it’s about showing up when everything feels heavy. And you did.</p>
+      <p class="body center" data-text style="left:62%;width:32%;top:79%">Love is a choice, and you keep choosing this relationship with your actions, your patience, and your effort.</p>
+    </div>
+  </section>
+
+  <!-- 9 · My Promise -->
+  <section id="s9" class="slide">
+    <div class="stage">
+      <h2 class="title" data-text style="left:23%;top:13%"><span class="c">M</span>y <span class="c">P</span>romise</h2>
+      <p class="body" data-text style="left:7.5%;width:36%;top:34%">As we celebrate another year together, I want to make promises that come from the deepest part of my heart — promises I intend to keep, not just today, but for every season of our life.</p>
+      <div class="stamp" style="left:8.5%;top:52%;width:25%;height:36%"><div class="perf"><div class="photo" data-slot="9a"></div></div></div>
+      <img class="deco" src="src/layers/stamp-lavender.png" alt="" style="left:31%;top:61%;width:8%">
+      <img class="deco" src="src/layers/compass.png" alt="" style="left:45.5%;top:41%;width:8%">
+      <div class="stamp" style="left:53%;top:34%;width:13%;height:31%;--r:10deg"><div class="perf"><div class="photo" data-slot="9b"></div></div></div>
+      <div class="stamp" style="left:66%;top:13%;width:25%;height:54%;--r:-3deg"><div class="perf"><div class="photo" data-slot="9c"></div></div></div>
+      <p class="body" data-text style="left:50%;width:42%;top:75%">Not just in the bright seasons, but in the cold ones too. I promise to love you through change, through challenges, through growth, and through every moment we face.</p>
+    </div>
+  </section>
+
+  <!-- 10 · A Love Still Growing -->
+  <section id="s10" class="slide dark">
+    <svg class="swirl deco" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path d="M540 -10 C 420 60, 300 150, 220 200 C 150 245, 110 150, 150 120 C 190 90, 210 200, 140 300 C 90 370, 40 400, -20 420" fill="none" stroke="#f4ebe1" stroke-width="5" stroke-linecap="round"/>
+      <path d="M1620 520 C 1540 520, 1450 600, 1440 680 C 1432 745, 1500 770, 1520 730 C 1540 690, 1470 680, 1450 750 C 1430 820, 1460 870, 1480 910" fill="none" stroke="#f4ebe1" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <div class="stage">
+      <h2 class="title center" data-text style="left:18%;width:60%;top:21%;font-size:8.2cqw;line-height:1.02"><span class="c">A</span> <span class="c">L</span>ove<br><span class="c">S</span>till <span class="c">G</span>rowing</h2>
+      <p class="body center" data-text style="left:29%;width:42%;top:68%">In the end, our story isn’t defined by a single moment, but by all the quiet ones that led us here. Every step, every laugh, every challenge, every soft “it’s okay”.</p>
+      <div class="stamp" style="left:71.5%;top:13%;width:21%;height:35%;--r:9deg"><div class="perf"><div class="photo" data-slot="10a"></div></div></div>
+      <div class="stamp" style="left:6.5%;top:60%;width:14%;height:27%;--r:-12deg"><div class="perf"><div class="photo" data-slot="10b"></div></div></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Shared decoration symbols -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="heartGloss" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#b8484f"/>
+      <stop offset=".45" stop-color="#7d1c24"/>
+      <stop offset="1" stop-color="#4a0d12"/>
+    </radialGradient>
+    <symbol id="heart" viewBox="0 0 100 92">
+      <path d="M50 88 C 18 66, 2 46, 4 26 C 6 10, 20 2, 33 4 C 42 5, 48 12, 50 18 C 52 12, 58 5, 67 4 C 80 2, 94 10, 96 26 C 98 46, 82 66, 50 88 Z" fill="url(#heartGloss)"/>
+      <path d="M50 80 C 24 62, 11 45, 12 28 C 13 16, 23 10, 33 11 C 41 12, 46 18, 50 26 C 54 18, 59 12, 67 11 C 77 10, 87 16, 88 28 C 89 45, 76 62, 50 80 Z" fill="none" stroke="#3f0a0e" stroke-width="2" opacity=".5"/>
+      <ellipse cx="30" cy="22" rx="10" ry="5" fill="#fff" opacity=".35" transform="rotate(-30 30 22)"/>
+    </symbol>
+    <symbol id="compass" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="#d9c6a0" stroke="#a88f62" stroke-width="2"/>
+      <circle cx="50" cy="50" r="38" fill="none" stroke="#a88f62" stroke-width="1"/>
+      <path d="M50 8 L56 44 L92 50 L56 56 L50 92 L44 56 L8 50 L44 44 Z" fill="#b39a6a"/>
+      <path d="M50 20 L54 46 L80 50 L54 54 L50 80 L46 54 L20 50 L46 46 Z" fill="#8c7448" transform="rotate(45 50 50)"/>
+      <circle cx="50" cy="50" r="4" fill="#f1e4c8"/>
+    </symbol>
+    <symbol id="butterfly" viewBox="0 0 100 100">
+      <g transform="rotate(-18 50 50)">
+        <path d="M50 50 C 40 25, 18 18, 14 30 C 10 42, 28 50, 48 52 Z" fill="#6a4a3c"/>
+        <path d="M50 50 C 60 25, 82 18, 86 30 C 90 42, 72 50, 52 52 Z" fill="#6a4a3c"/>
+        <path d="M49 53 C 34 56, 24 70, 32 76 C 40 82, 47 66, 50 56 Z" fill="#7d5a49"/>
+        <path d="M51 53 C 66 56, 76 70, 68 76 C 60 82, 53 66, 50 56 Z" fill="#7d5a49"/>
+        <path d="M22 30 C 30 32, 38 38, 46 48 M78 30 C 70 32, 62 38, 54 48" stroke="#e9dccb" stroke-width="1.6" fill="none"/>
+        <rect x="48.6" y="40" width="2.8" height="30" rx="1.4" fill="#3b2a22"/>
+        <path d="M49 41 C 46 34, 42 31, 40 30 M51 41 C 54 34, 58 31, 60 30" stroke="#3b2a22" stroke-width="1" fill="none"/>
+      </g>
+    </symbol>
+    <symbol id="rose" viewBox="0 0 60 80">
+      <path d="M30 78 C 30 60, 28 45, 30 30" stroke="#4f6b4a" stroke-width="2.4" fill="none"/>
+      <path d="M30 58 C 20 54, 14 56, 10 62 C 18 64, 24 62, 30 58 Z M30 50 C 40 46, 46 48, 50 54 C 42 56, 36 54, 30 50 Z" fill="#5c7a55"/>
+      <circle cx="22" cy="26" r="11" fill="#c2434d"/>
+      <circle cx="40" cy="20" r="12" fill="#cd4b55"/>
+      <circle cx="32" cy="38" r="9" fill="#b63a45"/>
+      <path d="M17 26 C 20 21, 26 21, 27 27 M35 19 C 38 14, 45 15, 45 21 M28 38 C 30 34, 35 34, 36 39" stroke="#8a2430" stroke-width="1.5" fill="none"/>
+    </symbol>
+    <symbol id="rose-stamp-wide" viewBox="0 0 110 100">
+      <rect x="4" y="4" width="102" height="92" fill="#f2c9c2" stroke="#f7ebe7" stroke-width="6" stroke-dasharray="4 3"/>
+      <rect x="11" y="11" width="88" height="78" fill="none" stroke="#e1aaa2" stroke-width="1"/>
+      <use href="#rose" x="25" y="10" width="60" height="80"/>
+      <text x="18" y="24" font-family="Lora, serif" font-size="9" fill="#a24a52">20</text>
+    </symbol>
+    <symbol id="lavender-stamp" viewBox="0 0 70 100">
+      <rect x="4" y="4" width="62" height="92" fill="#ecd8bc" stroke="#f6eee2" stroke-width="6" stroke-dasharray="4 3"/>
+      <path d="M35 88 L35 30" stroke="#557055" stroke-width="2"/>
+      <path d="M35 72 C 25 70, 20 64, 18 58 C 26 60, 32 64, 35 72 Z M35 62 C 45 60, 50 54, 52 48 C 44 50, 38 54, 35 62 Z M35 50 C 26 48, 22 42, 21 36 C 28 38, 33 42, 35 50 Z" fill="#6c8a68"/>
+      <g fill="#8a5a8c">
+        <ellipse cx="35" cy="20" rx="4" ry="6"/><ellipse cx="30" cy="28" rx="4" ry="5"/><ellipse cx="40" cy="28" rx="4" ry="5"/>
+        <ellipse cx="26" cy="38" rx="3.5" ry="4.5"/><ellipse cx="44" cy="38" rx="3.5" ry="4.5"/><ellipse cx="22" cy="48" rx="3" ry="4"/><ellipse cx="48" cy="46" rx="3" ry="4"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<script>
+(() => {
+  const slides = [...document.querySelectorAll(".slide")];
+
+  // ---------- Photos from the Canva design ----------
+  // Which photo (in src/photos) fills each slot on each slide. Change the file names to use another user's photos.
+  const DEFAULTS = {
+    "1a": "photo-01.jpg", "1b": "photo-02.jpg",
+    "2a": "photo-03.jpg", "2b": "photo-04.jpg",
+    "3a": "photo-05.jpg", "3b": "photo-06.jpg", "3c": "photo-07.jpg",
+    "4bg": "photo-08.jpg", "4a": "photo-09.jpg", "4b": "photo-10.jpg",
+    "5a": "photo-11.jpg", "5b": "photo-12.jpg", "5c": "photo-13.jpg",
+    "6a": "photo-10.jpg", "6b": "photo-14.jpg", "6c": "photo-15.jpg",
+    "7a": "photo-01.jpg", "7b": "photo-16.jpg", "7c": "photo-17.jpg",
+    "8a": "photo-18.jpg", "8b": "photo-12.jpg", "8c": "photo-19.jpg",
+    "9a": "photo-20.jpg", "9b": "photo-21.jpg", "9c": "photo-18.jpg",
+    "10a": "photo-22.jpg", "10b": "photo-23.jpg"
+  };
+
+  document.querySelectorAll(".photo[data-slot]").forEach(el => {
+    const file = DEFAULTS[el.dataset.slot];
+    if (file) el.style.backgroundImage = `url("src/photos/${file}")`;
+  });
+
+  // ---------- 3D animation ----------
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const DEPTH = { "a-photo": 1, "a-deco": 1.8, "a-title": -.5, "a-text": -.3, "a-bg": -.7 };
+
+  const mark = (el, kind, i) => {
+    el.classList.add("a", kind);
+    el.style.setProperty("--i", i);
+    el.style.setProperty("--d", DEPTH[kind]);
+  };
+  slides.forEach(s => {
+    const bg = s.querySelector(":scope > .photo.bg");
+    if (bg) mark(bg, "a-bg", 0);
+    let i = 0;
+    [...s.querySelector(".stage").children].forEach(el => {
+      const kind =
+        el.matches(".stamp, .gold") ? "a-photo" :
+        el.matches(".title, .names") ? "a-title" :
+        el.matches(".deco:not(.swirl)") ? "a-deco" :
+        el.matches("[data-text]") ? "a-text" : null;
+      if (kind) mark(el, kind, i++);
+    });
+    s.querySelectorAll(".swirl path").forEach(p => p.setAttribute("pathLength", "1"));
+  });
+
+  // Restart a section's entrance animations
+  const play = s => {
+    s.classList.remove("play");
+    void s.offsetWidth;
+    s.classList.add("play");
+  };
+
+  // ---------- Dot navigation ----------
+  const dots = document.querySelector(".dots");
+  slides.forEach((s, n) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", `Go to section ${n + 1}`);
+    b.addEventListener("click", () => s.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }));
+    dots.append(b);
+  });
+  const dotButtons = [...dots.children];
+
+  // Each section animates in as it scrolls into view and resets once it has
+  // fully left, so it plays again next time. The most visible one lights its dot.
+  const checkVisible = () => {
+    const vh = window.innerHeight;
+    let current = 0, most = -1;
+    slides.forEach((s, n) => {
+      const r = s.getBoundingClientRect();
+      const visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+      if (visible > most) { most = visible; current = n; }
+      if (reduceMotion) return;
+      const shown = visible / Math.min(r.height, vh);
+      if (shown >= .35) { if (!s.classList.contains("play")) play(s); }
+      else if (shown === 0) s.classList.remove("play");
+    });
+    dotButtons.forEach((b, n) => b.setAttribute("aria-current", n === current ? "true" : "false"));
+    const s = slides[current];
+    dots.classList.toggle("on-light", !s.classList.contains("dark") && !s.querySelector(":scope > .photo.bg"));
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { ticking = false; checkVisible(); });
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+
+  if (reduceMotion) {
+    slides.forEach(s => s.classList.add("play"));
+  } else {
+    document.body.classList.add("anim-ready");
+
+    // Mouse tilt and depth parallax
+    slides.forEach(s => {
+      const stage = s.querySelector(".stage");
+      s.addEventListener("pointermove", e => {
+        if (e.pointerType !== "mouse") return;
+        const r = s.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width * 2 - 1;
+        const py = (e.clientY - r.top) / r.height * 2 - 1;
+        s.style.setProperty("--px", px.toFixed(3));
+        s.style.setProperty("--py", py.toFixed(3));
+        stage.style.transform = `rotateX(${(-py * 3).toFixed(2)}deg) rotateY(${(px * 4).toFixed(2)}deg)`;
+      });
+      s.addEventListener("pointerleave", () => {
+        s.style.setProperty("--px", 0);
+        s.style.setProperty("--py", 0);
+        stage.style.transform = "";
+      });
+    });
+  }
+  checkVisible();
+})();
+</script>
+</body>
+</html>

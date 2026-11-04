@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.sweetdrip.in/sitemap.xml

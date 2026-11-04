@@ -1,0 +1,11 @@
+/* THEME: soft blue - the colours and the backdrop around the book (the rest is in ../shared/base.css) */
+:root {
+  --ink: #53637c;
+  --blue: #7f9cbf;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% 58%, rgba(255, 255, 255, .3), rgba(255, 255, 255, 0) 62%),
+    linear-gradient(165deg, #aebfd6 0%, #c3bdcf 50%, #d3b7bd 100%);
+}

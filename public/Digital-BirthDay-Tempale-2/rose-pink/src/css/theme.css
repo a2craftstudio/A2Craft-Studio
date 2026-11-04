@@ -1,0 +1,11 @@
+/* THEME: rose pink - the colours and the backdrop around the book (the rest is in ../shared/base.css) */
+:root {
+  --ink: #7a566a;
+  --blue: #d4809f;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% 58%, rgba(255, 255, 255, .38), rgba(255, 255, 255, 0) 62%),
+    linear-gradient(165deg, #ecc3d6 0%, #dcc5e8 50%, #f3cfd0 100%);
+}

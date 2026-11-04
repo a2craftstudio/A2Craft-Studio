@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+  Cover page (opens first). Click through to content.html.
+  src/css    : styles (style.css = shared, cover.css / content.css = per page, fonts.css = fonts)
+  src/js     : main.js (animations, page transition, scroll ring)
+  src/fonts  : font files
+  src/photos : couple photos - swap these per person (photo-01.png ... photo-09)
+  src/layers : design art (envelopes, stickers, stars, frames) - never change
+  src/preview.jpg, src/favicon.png : link preview image and tab icon
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Happy Birthday</title>
+  <meta name="description" content="A little birthday surprise, made with love ♡">
+  <meta name="theme-color" content="#722525">
+  <!-- link preview (Instagram DMs, WhatsApp, etc.). After putting the site online,
+       replace "src/preview.jpg" with the full address, e.g. https://your-site.netlify.app/src/preview.jpg -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Happy Birthday ♡">
+  <meta property="og:description" content="A little birthday surprise, made with love. Tap to open ♡">
+  <meta property="og:image" content="src/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="src/favicon.png">
+  <link rel="stylesheet" href="src/css/style.css?v=21">
+  <link rel="stylesheet" href="src/css/cover.css?v=15">
+</head>
+<body class="fit-screen">
+  <svg class="defs" aria-hidden="true"><clipPath id="__id33"><path d="M277.853184,54.094848000000006C268.945408,23.8467584 240.190464,0.0008476416000000001 206.188544,0C177.64096,0 152.839168,16.107673600000002 140.301312,39.7652992C127.763456,16.1082368 102.96524799999999,0.0007116595200000001 74.418688,0C38.851583999999995,0 7.7438976,23.8467584 1.6360192,58.457600000000006C-13.85216,146.22259200000002 84.31308800000001,214.920704 140.522496,256C192.49151999999998,218.01984000000002 303.3216,140.57779200000002 277.853184,54.094848000000006Z"></path></clipPath></svg>
+  <main>
+  <section class="page" data-focus="150 225 670 400" style="--w: 930; --h: 767;">
+    <div class="stage">
+      <img class="envelope-back" src="src/layers/envelope-open.png" alt="">
+      <div class="bob-group">
+        <div class="bob">
+          <div class="card-box crop">
+            <img class="card" src="src/layers/paper-white.png" alt="">
+          </div>
+          <p class="card-happy">Happy</p>
+          <p class="card-birthday">Birthday</p>
+        </div>
+      </div>
+      <div class="envelope-front-box crop">
+        <img class="envelope-front" src="src/layers/envelope-flap.png" alt="">
+      </div>
+      <img class="camera" src="src/layers/camera.png" alt="">
+      <img class="bouquet" src="src/layers/flower-bouquet.png" alt="">
+      <img class="ribbon" src="src/layers/bow-red-outline.png" alt="">
+      <img class="little-hearts" src="src/layers/hearts-small.svg" alt="">
+      <img class="heart-sticker" src="src/layers/heart-gingham.png" alt="">
+      <a class="click-me-text click-me" href="content.html">click me!</a>
+    </div>
+  </section>
+  </main>
+  <script src="src/js/main.js?v=17"></script>
+</body>
+</html>

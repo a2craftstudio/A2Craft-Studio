@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ember &amp; Oak — Specialty Coffee House &amp; Bakery</title>
+  <meta name="description" content="Ember & Oak: single-origin espresso, croissants baked before sunrise and a rooftop-worthy atmosphere. Book a table or grab a free croissant.">
+  <meta property="og:title" content="Ember & Oak — Specialty Coffee House & Bakery">
+  <meta property="og:description" content="Made slowly. Poured warmly. Single-origin espresso and fresh-baked pastries.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=75">
+  <meta name="theme-color" content="#1f1510">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Ember & Oak","servesCuisine":"Coffee, Bakery","priceRange":"$$","address":{"@type":"PostalAddress","streetAddress":"24 Maple Lane","addressLocality":"Your City"},"openingHours":["Mo-Fr 07:00-18:00","Sa 08:00-20:00","Su 08:00-16:00"],"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"512"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="loader" id="loader">
+  <div class="cup"><i id="fill"></i></div>
+  <b id="pct">0</b>
+  <span>Brewing your experience</span>
+</div>
+<div class="progress" id="progress"></div>
+<div class="cursor" id="cursor"></div>
+
+<header class="nav" id="nav">
+  <a href="#top" class="logo">Ember <i>&amp;</i> Oak</a>
+  <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+  <nav>
+    <a href="#about">Story</a>
+    <a href="#signature">Signatures</a>
+    <a href="#menu">Menu</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#visit" class="pill magnet">Book a table</a>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" data-img="1554118811-1e0d58224f24" data-w="2000"></div>
+    <div class="shade"></div>
+    <div class="hero-in">
+      <p class="kicker rv">Specialty coffee · Fresh bakery</p>
+      <h1><span class="line"><span>Made slowly.</span></span><span class="line"><span><em>Poured warmly.</em></span></span></h1>
+      <p class="lead rv">Single-origin espresso, croissants baked before sunrise, and a corner table that's been waiting for you.</p>
+      <div class="cta rv"><a class="btn magnet" href="#signature">Explore signatures</a><a class="btn ghost magnet" href="#offer">Claim a free croissant</a></div>
+    </div>
+    <div class="badge" aria-hidden="true">
+      <svg viewBox="0 0 200 200"><defs><path id="c" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
+        <text><textPath href="#c">OPEN DAILY ✺ FRESH BAKED ✺ SINGLE ORIGIN ✺ </textPath></text></svg>
+      <span><svg viewBox="0 0 24 24"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5zM16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3c-1 1.2 1 2 0 3.5M12 3c-1 1.2 1 2 0 3.5"/></svg></span>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="ha main" data-img="1544787219-7f47ccb76574" data-w="700"></div>
+      <div class="ha left" data-img="1525610553991-2bede1a236e2" data-w="500"><span>Our regulars</span></div>
+      <div class="ha right" data-img="1453614512568-c4024d13c247" data-w="500"><span>Your baristas</span></div>
+    </div>
+    <a href="#about" class="scroll" aria-label="Scroll down">↓</a>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div>
+    <span>Espresso</span><span>Croissants</span><span>Cold Brew</span><span>Sourdough</span><span>Pour-over</span><span>Tarts</span>
+    <span>Espresso</span><span>Croissants</span><span>Cold Brew</span><span>Sourdough</span><span>Pour-over</span><span>Tarts</span>
+  </div></div>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div><b data-n="12" data-s="">0</b><span>single-origin beans</span></div>
+    <div><b data-n="5" data-s="am">0</b><span>first bake of the day</span></div>
+    <div><b data-n="512" data-s="+">0</b><span>five-star reviews</span></div>
+    <div><b data-n="48" data-s="k">0</b><span>cups poured last year</span></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section about">
+    <div class="wrap split">
+      <div class="collage">
+        <img class="c1" data-img="1509042239860-f550ce710b93" data-w="900" alt="Latte art on a wooden table">
+        <img class="c2" data-img="1442512595331-e89e73853f31" data-w="600" alt="Pour-over coffee being brewed">
+        <img class="c3" data-img="1555507036-ab1f4038808a" data-w="500" alt="Golden croissants">
+        <div class="since"><b>Since</b><span>2016</span></div>
+      </div>
+      <div>
+        <p class="kicker dark">Our story</p>
+        <h2>Coffee is better <em>when it's shared.</em></h2>
+        <p class="big">It started with one grinder, one oven and a belief: a good cup deserves good company.</p>
+        <p>We roast in small batches, bake every morning, keep the lights low and the music softer. Whether you're here for a ten-minute espresso or a three-hour catch-up, there's a chair for you.</p>
+        <div class="values">
+          <div><i><svg viewBox="0 0 24 24"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5zM16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3c-1 1.2 1 2 0 3.5M12 3c-1 1.2 1 2 0 3.5"/></svg></i><b>Small-batch roast</b><span>Fresh every week</span></div>
+          <div><i><svg viewBox="0 0 24 24"><path d="M3 15c0-4 3-8 9-8s9 4 9 8c0 1-1 2-2 2-1.5 0-2-1.5-3.5-1.5S13 17 12 17s-2-1.5-3.5-1.5S6 17 5 17c-1 0-2-1-2-2zM9 9l1 3M15 9l-1 3"/></svg></i><b>Baked at 5am</b><span>Warm by opening</span></div>
+          <div><i><svg viewBox="0 0 24 24"><path d="M12 21v-9M12 12C12 7 8 5 4 5c0 5 3 7 8 7zM12 14c0-4 3-6 8-6 0 5-3 7-8 7"/></svg></i><b>Plant milks</b><span>Oat, almond, soy</span></div>
+          <div><i><svg viewBox="0 0 24 24"><path d="M3 9a14 14 0 0 1 18 0M6 12.5a9.5 9.5 0 0 1 12 0M9 16a5 5 0 0 1 6 0"/><circle cx="12" cy="19" r="1"/></svg></i><b>Stay a while</b><span>Wi-Fi &amp; power</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORIZONTAL SIGNATURES -->
+  <section id="signature" class="hs">
+    <div class="hs-pin">
+      <div class="hs-head"><p class="kicker">Signatures</p><h2>Crowd <em>favourites</em></h2><p class="hint">Keep scrolling →</p></div>
+      <div class="hs-track" id="hsTrack"></div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu" class="section menu">
+    <div class="wrap">
+      <p class="kicker light center">What we pour &amp; bake</p>
+      <h2 class="center">The Menu</h2>
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-t="coffee">Coffee</button>
+        <button class="tab" data-t="cold">Cold</button>
+        <button class="tab" data-t="bakery">Bakery</button>
+      </div>
+      <div class="menu-grid">
+        <ul class="list" id="list"></ul>
+        <figure class="menu-photo"><img id="menuImg" alt=""></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="section gallery">
+    <div class="wrap">
+      <p class="kicker dark center">Our pin board</p>
+      <h2 class="center">Fresh from the <em>counter</em></h2>
+      <div class="board-bar">
+        <input id="pinSearch" type="search" placeholder="Search latte, tart, terrace…" aria-label="Search pins">
+        <div class="chips" id="pinChips">
+          <button class="chip active" data-c="all">All</button><button class="chip" data-c="Coffee">Coffee</button><button class="chip" data-c="Bakery">Bakery</button><button class="chip" data-c="Space">Space</button><button class="chip" data-c="Saved">♥ Saved <b id="savedCount">0</b></button>
+        </div>
+      </div>
+      <div class="masonry" id="masonry"></div>
+      <p class="center empty-pins" id="emptyPins" hidden>No pins here yet. Tap ♥ on a photo to save it.</p>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews" data-img="1447933601403-0c6688de566e" data-w="1800">
+    <div class="shade"></div>
+    <div class="rev-wrap">
+      <div class="stars">★★★★★ <span>4.8 · 512 reviews</span></div>
+      <div class="rev-track" id="rev"></div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </section>
+
+  <!-- OFFER -->
+  <section id="offer" class="section offer">
+    <div class="wrap offer-box">
+      <div>
+        <p class="kicker light">Join the Ember Club</p>
+        <h2>Your first <em>croissant</em> is on us.</h2>
+        <p>Get new-menu drops, event invites and a free croissant on your next visit. No spam, ever.</p>
+      </div>
+      <form id="club">
+        <input name="email" type="email" placeholder="your@email.com" required aria-label="Email">
+        <button class="btn magnet" type="submit">Claim it</button>
+        <p id="clubMsg" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section id="visit" class="section visit">
+    <div class="wrap split">
+      <div>
+        <p class="kicker dark">Visit us</p>
+        <h2>Come say <em>hello.</em></h2>
+        <p>24 Maple Lane, Old Town<br>Your City, 000000</p>
+        <table>
+          <tr><td>Mon – Fri</td><td>7:00 am – 6:00 pm</td></tr>
+          <tr><td>Saturday</td><td>8:00 am – 8:00 pm</td></tr>
+          <tr><td>Sunday</td><td>8:00 am – 4:00 pm</td></tr>
+        </table>
+        <p class="open" id="open"></p>
+        <p>hello@emberandoak.example · (555) 010-2030</p>
+      </div>
+      <form id="form">
+        <h3>Reserve a table</h3>
+        <div class="row"><input name="name" placeholder="Name" required><input name="email" type="email" placeholder="Email" required></div>
+        <div class="row"><input name="date" type="date" required><select name="guests"><option>2 guests</option><option>3 guests</option><option>4 guests</option><option>5+ guests</option></select></div>
+        <button class="btn magnet" type="submit">Request table</button>
+        <p id="msg" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <b class="logo">Ember <i>&amp;</i> Oak</b>
+  <p>Made slowly. Poured warmly.</p>
+  <small>© <span id="year"></span> Ember &amp; Oak · Photos via <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></small>
+</footer>
+
+<div class="dock"><a href="#menu">Menu</a><a href="#visit" class="hot">Book a table</a><a href="#offer">Free croissant</a></div>
+<div class="lightbox" id="lightbox"><button class="prev" aria-label="Previous">‹</button><img alt=""><button class="next" aria-label="Next">›</button><button class="x" aria-label="Close">✕</button></div>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sweet Moments – Sweet Drip</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="vendor/phosphor/regular/style.css" />
+  <link rel="stylesheet" href="vendor/phosphor/fill/style.css" />
+  <link rel="stylesheet" href="vendor/phosphor/duotone/style.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/story.css" />
+  <link rel="stylesheet" href="css/pin.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/controls.css" />
+  <link rel="stylesheet" href="css/upgrade.css" />
+  <link rel="stylesheet" href="css/business.css" />
+</head>
+<body data-page="moments">
+  <div id="site-header"></div>
+
+  <section class="page-hero" >
+    <span class="deco" style="top: 26%; left: 9%"><i class="ph-duotone ph-heart"></i></span>
+    <span class="deco violet" style="top: 60%; right: 10%; animation-delay: -2s"><i class="ph-duotone ph-camera"></i></span>
+    <span class="deco mango" style="top: 20%; right: 25%; animation-delay: -4s"><i class="ph-duotone ph-sparkle"></i></span>
+    <span class="deco mint" style="top: 66%; left: 18%; animation-delay: -1s"><i class="ph-duotone ph-ice-cream"></i></span>
+    <div class="container">
+      <span class="kicker" data-reveal="up"><i class="ph-fill ph-heart"></i> The love wall</span>
+      <h1 data-reveal="up" style="--d: 0.1s; margin-top: 16px">Sweet moments,<br />shared by you</h1>
+      <p class="lead" data-reveal="up" style="--d: 0.2s">First dates, proposals, birthdays and baby's first scoop. Like your favourites and post your own — the most-loved photo each month wins a sundae for two.</p>
+      <div class="hero-cta" data-reveal="up" style="--d: 0.3s; justify-content: center">
+        <a href="#share" class="btn btn-primary"><i class="ph ph-camera"></i> Share your moment</a>
+        <a href="#wallTop" class="btn btn-ghost">Browse the wall</a>
+      </div>
+    </div>
+    <div data-drip="bottom" data-color="#fff7ef"></div>
+  </section>
+
+  <section class="section" id="wallTop">
+    <div class="container">
+      <div class="head-row">
+        <div>
+          <span class="kicker" data-reveal="up"><i class="ph-fill ph-images"></i> Community</span>
+          <h2 class="title" data-reveal="up" style="--d: 0.1s">Made with <span class="hl">love</span></h2>
+        </div>
+        <div class="tabs" id="momentTabs" data-reveal="up" style="--d: 0.2s">
+          <span class="tab-ind"></span>
+          <button class="tab active" data-val="all"><i class="ph-duotone ph-squares-four"></i> All</button>
+          <button class="tab" data-val="couples"><i class="ph-duotone ph-heart"></i> Couples</button>
+          <button class="tab" data-val="family"><i class="ph-duotone ph-house"></i> Family</button>
+          <button class="tab" data-val="kids"><i class="ph-duotone ph-baby"></i> Kids</button>
+          <button class="tab" data-val="friends"><i class="ph-duotone ph-users-three"></i> Friends</button>
+        </div>
+      </div>
+      <div class="pin-grid" id="wall"></div>
+    </div>
+  </section>
+
+  <section class="section" id="share" style="padding-top: 0">
+    <div class="container">
+      <div class="share" data-reveal="up">
+        <label class="dropzone" id="dropzone">
+          <input type="file" id="shareFile" accept="image/*" aria-label="Choose a photo" />
+          <img class="preview" alt="Your photo preview" />
+          <div>
+            <i class="ph-duotone ph-upload-simple big-ico"></i>
+            <h4>Drop your photo here</h4>
+            <p>or tap to choose · JPG or PNG</p>
+          </div>
+        </label>
+
+        <form id="shareForm">
+          <span class="kicker" style="justify-self: start"><i class="ph-fill ph-camera"></i> Share a moment</span>
+          <h3>Post your sweet memory</h3>
+          <label class="field"><input name="name" required maxlength="40" placeholder=" " /><span>Your name(s)</span></label>
+          <label class="field"><textarea name="caption" required maxlength="120" placeholder=" " style="min-height: 100px"></textarea><span>Say something sweet (120 characters)</span></label>
+          <div class="tag-pick" role="radiogroup" aria-label="Moment type">
+            <label><input type="radio" name="tag" value="couples" checked /><span><i class="ph-duotone ph-heart"></i> Couple</span></label>
+            <label><input type="radio" name="tag" value="family" /><span><i class="ph-duotone ph-house"></i> Family</span></label>
+            <label><input type="radio" name="tag" value="kids" /><span><i class="ph-duotone ph-baby"></i> Kids</span></label>
+            <label><input type="radio" name="tag" value="friends" /><span><i class="ph-duotone ph-users-three"></i> Friends</span></label>
+          </div>
+          <button class="btn btn-primary" type="submit">Post to the love wall <i class="ph ph-paper-plane-tilt"></i></button>
+          <small style="color: var(--choc-3)">Your photo stays on this device only — nothing is uploaded to a server.</small>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container">
+      <div class="cta-band" data-reveal="zoom" style="background: linear-gradient(120deg, #ff86ad, var(--pink)); color: var(--white)">
+        <span class="deco" style="top: 18%; left: 5%"><i class="ph-duotone ph-heart"></i></span>
+        <span class="deco mango" style="bottom: 16%; right: 5%; animation-delay: -3s"><i class="ph-duotone ph-confetti"></i></span>
+        <h2>Planning a proposal or anniversary?</h2>
+        <p>We'll hide the ring in a sundae, decorate your table and keep it secret. Just ask.</p>
+        <a href="contact.html#ask" class="btn btn-white" style="margin-top: 26px">Plan a surprise <i class="ph ph-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/customize.js"></script>
+  <script src="js/business.js"></script>
+</body>
+</html>

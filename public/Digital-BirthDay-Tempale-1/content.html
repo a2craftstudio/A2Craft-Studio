@@ -1,0 +1,141 @@
+<!doctype html>
+<!--
+  Content page: scrapbook spreads + closing message.
+  src/css    : styles (style.css = shared, cover.css / content.css = per page, fonts.css = fonts)
+  src/js     : main.js (animations, page transition, scroll ring)
+  src/fonts  : font files
+  src/photos : couple photos - swap these per person (photo-01.png ... photo-09)
+  src/layers : design art (envelopes, stickers, stars, frames) - never change
+  src/preview.jpg, src/favicon.png : link preview image and tab icon
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Happy Birthday</title>
+  <meta name="description" content="A little birthday surprise, made with love ♡">
+  <meta name="theme-color" content="#722525">
+  <!-- link preview (Instagram DMs, WhatsApp, etc.). After putting the site online,
+       replace "src/preview.jpg" with the full address, e.g. https://your-site.netlify.app/src/preview.jpg -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Happy Birthday ♡">
+  <meta property="og:description" content="A little birthday surprise, made with love. Tap to open ♡">
+  <meta property="og:image" content="src/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="src/favicon.png">
+  <link rel="stylesheet" href="src/css/style.css?v=21">
+  <link rel="stylesheet" href="src/css/content.css?v=15">
+</head>
+<body>
+  <a class="back-btn" href="index.html" aria-label="Back to the first page">&#8592; Back</a>
+
+  <svg class="defs" aria-hidden="true"><clipPath id="__id10"><path d="M403.5618029739777,23.232342007434944L21.029275092936803,23.232342007434944C20.228159851301115,23.232342007434944 19.52718401486989,23.93331784386617 19.52718401486989,24.734433085501855L19.52718401486989,391.84549256505574C19.52718401486989,392.74674721189587 20.228159851301115,393.3475836431227 21.029275092936803,393.3475836431227L403.5618029739777,393.3475836431227C404.3629182156134,393.3475836431227 405.0638940520446,392.64660780669146 405.0638940520446,391.84549256505574L405.0638940520446,24.834572490706318C405.0638940520446,23.933317843866174 404.4630576208178,23.232342007434944 403.5618029739777,23.232342007434944Z"></path></clipPath><clipPath id="__id59"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath><clipPath id="__id61"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath><clipPath id="__id63"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath><clipPath id="__id65"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath><clipPath id="__id67"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath><clipPath id="__id10"><path d="M403.5618029739777,23.232342007434944L21.029275092936803,23.232342007434944C20.228159851301115,23.232342007434944 19.52718401486989,23.93331784386617 19.52718401486989,24.734433085501855L19.52718401486989,391.84549256505574C19.52718401486989,392.74674721189587 20.228159851301115,393.3475836431227 21.029275092936803,393.3475836431227L403.5618029739777,393.3475836431227C404.3629182156134,393.3475836431227 405.0638940520446,392.64660780669146 405.0638940520446,391.84549256505574L405.0638940520446,24.834572490706318C405.0638940520446,23.933317843866174 404.4630576208178,23.232342007434944 403.5618029739777,23.232342007434944Z"></path></clipPath><clipPath id="__id59"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath><clipPath id="__id61"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath><clipPath id="__id63"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath><clipPath id="__id65"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath><clipPath id="__id67"><path d="M0,0L256,0L256,256L0,256Z"></path></clipPath></svg>
+  <main>
+  <section class="page" style="--w: 930; --h: 668; --shift: -33;">
+    <div class="stage">
+      <div class="notebook-box crop">
+        <img class="notebook" src="src/layers/notebook.png" alt="">
+      </div>
+      <div class="stripes-box crop">
+        <img class="stripes" src="src/layers/stripes-red.png" alt="">
+      </div>
+      <div class="photo-1-box crop">
+        <img class="photo-1 photo" src="src/photos/photo-01.png" alt="">
+      </div>
+      <img class="favorite-person" src="src/layers/sticker-favorite-person.png" alt="">
+      <img class="heart-sticker" src="src/layers/heart-gingham.png" alt="">
+      <img class="silver-stars" src="src/layers/stars-silver.png" alt="">
+      <p class="wish-title">Happy Birthday baby!</p>
+      <p class="wish-text">Another year of being you, and somehow you keep making life a little better just by being in it. ♡</p>
+      <p class="age" title="tap me ♡">38</p>
+      <img class="cupcake" src="src/layers/cupcake.png" alt="">
+      <button class="candle" aria-label="Blow out the candle"><span class="flame"></span></button>
+      <p class="wish-hint">tap to make a wish ✨</p>
+      <p class="love-text">I love you!</p>
+    </div>
+  </section>
+
+  <section class="page" style="--w: 930; --h: 1006; --shift: 1;">
+    <div class="stage">
+      <img class="letter-envelope" src="src/layers/envelope-cream.png" alt="">
+      <img class="framed-photo-1 framed-photo" src="src/photos/photo-framed.png" alt="">
+      <img class="doodle-heart" src="src/layers/heart-doodle.svg" alt="">
+      <div class="polaroid-2-card polaroid-2">
+        <img class="polaroid-2-photo" src="src/photos/photo-polaroid.png" alt="" draggable="false">
+        <img class="polaroid-2-frame" src="src/layers/frame-polaroid-b.png" alt="" draggable="false">
+        <p class="polaroid-2-text"><span>Forever &amp; always ♡</span></p>
+      </div>
+      <div class="film-strip-box crop">
+        <img class="film-strip" src="src/layers/film-strip.png" alt="">
+      </div>
+      <div class="photo-2-box crop">
+        <img class="photo-2 photo" src="src/photos/photo-02.png" alt="">
+      </div>
+      <div class="photo-3-box crop">
+        <img class="photo-3 photo" src="src/photos/photo-03.png" alt="">
+      </div>
+      <div class="photo-4-box crop">
+        <img class="photo-4 photo" src="src/photos/photo-04.png" alt="">
+      </div>
+      <div class="photo-5-box crop">
+        <img class="photo-5 photo" src="src/photos/photo-05.png" alt="">
+      </div>
+      <div class="photo-6-box crop">
+        <img class="photo-6 photo" src="src/photos/photo-06.png" alt="">
+      </div>
+      <img class="white-bow" src="src/layers/bow-cream-outline.png" alt="">
+      <img class="red-star" src="src/layers/star-red-patch.png" alt="">
+      <img class="gold-star" src="src/layers/star-gold.png" alt="">
+      <p class="letter-1">It’s kind of funny how a whole year can pass without you even realizing it. There have been so many versions of us packed into these past few months random plans, stupid jokes, quiet moments, and days that somehow became unforgettable. I hope today reminds you just how loved you are and how much brighter you make the lives of the people around you.</p>
+      <p class="letter-2">I could keep a little box of everything from this year, it would probably be filled with blurry pictures, ridiculous conversations, tiny surprises, and all the moments that meant more than they seemed to at the time. For now, I just want you to enjoy being celebrated today because you absolutely deserve it. ❤️</p>
+    </div>
+  </section>
+
+  <section class="page" style="--w: 930; --h: 601; --shift: -74;">
+    <div class="stage">
+      <img class="paper" src="src/layers/paper-stamp-cream.png" alt="">
+      <div class="sticker-box crop">
+        <img class="sticker" src="src/layers/sticker-card-bears.png" alt="">
+      </div>
+      <div class="polaroid-card polaroid">
+        <img class="polaroid-photo" src="src/photos/photo-07.png" alt="Virat and Anushka" draggable="false">
+        <img class="polaroid-frame" src="src/layers/frame-polaroid-a.png" alt="" draggable="false">
+        <p class="polaroid-name"><span>Virat ♡ Anushka</span></p>
+      </div>
+      <img class="cassette" src="src/layers/cassette.png" alt="">
+      <a class="click-me-text click-me" href="https://www.youtube.com/watch?v=GxldQ9eX2wo" target="_blank" rel="noopener">click me!</a>
+      <img class="gold-star-2" src="src/layers/star-gold.png" alt="">
+      <img class="gold-star-3" src="src/layers/star-gold.png" alt="">
+      <img class="gold-star-4" src="src/layers/star-gold.png" alt="">
+      <img class="heart-sticker-2" src="src/layers/heart-gingham.png" alt="">
+      <div class="sticker-box-2 crop">
+        <img class="sticker-2" src="src/layers/sticker-card-bears.png" alt="">
+      </div>
+      <img class="red-bow" src="src/layers/bow-red.png" alt="">
+      <p class="closing-text">And just like that, another little chapter becomes a memory. I hope you always remember how loved you are, not just today, but in all the ordinary moments in between. Here’s to late-night conversations, silly pictures, unexpected adventures, and all the memories we haven’t made yet. Whatever comes next, I’m really glad I get to be a part of it.</p>
+    </div>
+  </section>
+
+  <!-- grand finale at the end of the page -->
+  <section class="finale">
+    <p class="finale-small">and one last thing...</p>
+    <h1 class="finale-title">Happy Birthday</h1>
+    <p class="finale-text">with all my love, today and always ♡</p>
+    <a class="finale-btn" href="index.html">Watch again ↺</a>
+  </section>
+  </main>
+  <!-- secret note: opens when the age number is tapped -->
+  <div class="secret" hidden>
+    <div class="secret-card">
+      <p class="secret-title">psst... ♡</p>
+      <p>Every year with you is my favourite year. I can't wait for all the ones still to come.</p>
+      <button class="secret-close">close ♡</button>
+    </div>
+  </div>
+  <!-- message shown after blowing out the candle -->
+  <p class="wish-toast" hidden>Your wish is on its way ✨</p>
+  <script src="src/js/main.js?v=17"></script>
+</body>
+</html>

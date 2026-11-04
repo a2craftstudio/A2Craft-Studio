@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drop Cream – Red Flower Ice-Cream</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="vendor/phosphor/regular/style.css" />
+  <link rel="stylesheet" href="vendor/phosphor/fill/style.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="loading">
+  <!-- Icon sprite -->
+    <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <img class="pre-img" src="assets/strawberry-cone.png" alt="" />
+    <p class="pre-text">Drop Cream</p>
+    <div class="pre-bar"><span></span></div>
+  </div>
+
+  <div class="progress" id="progress"></div>
+  <div class="cursor" id="cursor"></div>
+
+  <!-- Header -->
+  <header class="header" id="header" data-reveal="down">
+    <div class="container header-inner">
+      <a href="#home" class="logo" aria-label="Drop Cream home">
+        <svg viewBox="0 0 48 40" class="logo-icon" aria-hidden="true">
+          <path d="M4 34 L22 4 L26 12 L30 6 L44 34 Z" fill="#fff" />
+          <path d="M12 34 L22 18 L28 28 L32 22 L38 34 Z" fill="#8d0f22" />
+        </svg>
+        <span>Drop<br />Cream</span>
+      </a>
+
+      <nav class="nav" id="nav">
+        <a href="#home" class="active">Home</a>
+        <a href="#about">Know Us</a>
+        <a href="#flavours">Flavours</a>
+        <a href="#gallery">Moments</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#visit">Close By</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="searchBtn" aria-label="Search"><i class="ph ph-magnifying-glass i"></i></button>
+        <button class="icon-btn cart-btn" id="cartBtn" aria-label="Cart">
+          <i class="ph ph-shopping-bag i"></i>
+          <span class="badge-count" id="cartCount">0</span>
+        </button>
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-bg" id="heroBg"><div class="hero-bg-img"></div></div>
+    <div class="hero-shade"></div>
+    <div class="sprinkles" id="sprinkles"></div>
+
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <h1 class="split">Red Flower<br />Ice-Cream</h1>
+        <p data-reveal="up" style="--d: 0.55s">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <div class="hero-actions" data-reveal="up" style="--d: 0.7s">
+          <a href="#flavours" class="btn btn-outline magnet">Order Now</a>
+          <a href="#visit" class="btn btn-glass magnet">Book Table</a>
+        </div>
+      </div>
+
+      <aside class="hero-right">
+        <div class="reviews" data-reveal="right" style="--d: 0.4s">
+          <div class="review-stack">
+            <article class="review active">
+              <img src="img/face-1.jpg" alt="" />
+              <div>
+                <h4>Uzi Nexus</h4>
+                <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                <p>Indulge in frozen bliss with our irresistible ice cream delights!</p>
+              </div>
+            </article>
+            <article class="review">
+              <img src="img/face-2.jpg" alt="" />
+              <div>
+                <h4>Rio Parker</h4>
+                <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                <p>The creamiest scoops in town — the berry cone is a must try!</p>
+              </div>
+            </article>
+            <article class="review">
+              <img src="img/face-3.jpg" alt="" />
+              <div>
+                <h4>Sam Lee</h4>
+                <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph ph-star"></i></div>
+                <p>Perfect date spot. Book a table and get the mix bowl!</p>
+              </div>
+            </article>
+          </div>
+          <div class="review-dots">
+            <button class="dot active" aria-label="Review 1"></button>
+            <button class="dot" aria-label="Review 2"></button>
+            <button class="dot" aria-label="Review 3"></button>
+          </div>
+        </div>
+
+        <div class="choose" data-reveal="right" style="--d: 0.55s">
+          <span>Choose Type:</span>
+          <div class="types">
+            <button class="type active" data-type="all" title="All"><i class="ph ph-squares-four"></i>
+            </button>
+            <button class="type" data-type="cup" title="Cups &amp; bowls"><i class="ph ph-bowl-food"></i>
+            </button>
+            <button class="type" data-type="cone" title="Cones"><i class="ph ph-ice-cream"></i>
+            </button>
+            <button class="type" data-type="add" title="Custom"><i class="ph ph-plus-circle"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="trend-pill" data-reveal="zoom" style="--d: 0.75s">Trendy <i class="ph-fill ph-fire flame" aria-hidden="true"></i></div>
+      </aside>
+
+      <div class="products">
+        <article class="card tilt" data-reveal="up" style="--d: 0.6s" data-kind="cup" data-name="Mix Ice cream">
+          <div class="card-media"><img src="assets/mix-bowl.png" alt="Mix ice cream bowl" /></div>
+          <div class="card-body">
+            <h3>Mix Ice cream</h3>
+            <span class="label">Order Type:</span>
+            <div class="order-type">
+              <button class="chip active">On Table</button>
+              <button class="chip">Delivery</button>
+            </div>
+            <div class="card-foot">
+              <span class="price">Rs. <b data-price="199">199</b>/-</span>
+              <div class="qty"><button data-step="-1" aria-label="Decrease">−</button><span>01</span><button data-step="1" aria-label="Increase">+</button></div>
+              <button class="add-btn" aria-label="Add to cart"><i class="ph ph-shopping-bag i"></i></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card tilt selected" data-reveal="up" style="--d: 0.72s" data-kind="cup" data-name="Chocolate Cup">
+          <div class="card-media"><img src="assets/chocolate-cup.png" alt="Chocolate cup" /></div>
+          <div class="card-body">
+            <h3>Chocolate Cup</h3>
+            <span class="label">Order Type:</span>
+            <div class="order-type">
+              <button class="chip active">On Table</button>
+              <button class="chip">Delivery</button>
+            </div>
+            <div class="card-foot">
+              <span class="price">Rs. <b data-price="129">129</b>/-</span>
+              <div class="qty"><button data-step="-1" aria-label="Decrease">−</button><span>01</span><button data-step="1" aria-label="Increase">+</button></div>
+              <button class="add-btn" aria-label="Add to cart"><i class="ph ph-shopping-bag i"></i></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card tilt" data-reveal="up" style="--d: 0.84s" data-kind="cone" data-name="Berry Ice cream">
+          <div class="card-media"><img src="assets/berry-cone.png" alt="Berry ice cream cone" /></div>
+          <div class="card-body">
+            <h3>Berry Ice cream</h3>
+            <span class="label">Order Type:</span>
+            <div class="order-type">
+              <button class="chip active">On Table</button>
+              <button class="chip">Delivery</button>
+            </div>
+            <div class="card-foot">
+              <span class="price">Rs. <b data-price="109">109</b>/-</span>
+              <div class="qty"><button data-step="-1" aria-label="Decrease">−</button><span>01</span><button data-step="1" aria-label="Increase">+</button></div>
+              <button class="add-btn" aria-label="Add to cart"><i class="ph ph-shopping-bag i"></i></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card tilt" data-reveal="up" style="--d: 0.96s" data-kind="cone" data-name="Strawberry Ice cream">
+          <div class="card-media"><img src="assets/strawberry-cone.png" alt="Strawberry ice cream cone" /></div>
+          <div class="card-body">
+            <h3>Strawberry Ice cream</h3>
+            <span class="label">Order Type:</span>
+            <div class="order-type">
+              <button class="chip active">On Table</button>
+              <button class="chip">Delivery</button>
+            </div>
+            <div class="card-foot">
+              <span class="price">Rs. <b data-price="149">149</b>/-</span>
+              <div class="qty"><button data-step="-1" aria-label="Decrease">−</button><span>01</span><button data-step="1" aria-label="Increase">+</button></div>
+              <button class="add-btn" aria-label="Add to cart"><i class="ph ph-shopping-bag i"></i></button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="hero-bottom" data-reveal="up" style="--d: 1.1s">
+        <a href="#about" class="scroll-hint"><span class="mouse"><span></span></span>Scroll to explore</a>
+        <div class="socials">
+          <a href="#" aria-label="Google"><i class="ph-fill ph-google-logo"></i></a>
+          <a href="#" aria-label="Facebook"><i class="ph-fill ph-facebook-logo"></i></a>
+          <a href="#" aria-label="Twitter"><i class="ph-fill ph-twitter-logo"></i></a>
+          <a href="#" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee ribbons -->
+  <div class="ribbons" aria-hidden="true">
+    <div class="ribbon r2"><div class="ribbon-track">
+      <span>Fresh Daily</span><i class="ph-fill ph-star-four"></i><span>Real Fruit</span><i class="ph-fill ph-star-four"></i><span>Handmade</span><i class="ph-fill ph-star-four"></i><span>No Preservatives</span><i class="ph-fill ph-star-four"></i>
+    </div></div>
+    <div class="ribbon r1"><div class="ribbon-track">
+      <span>Strawberry</span><i class="ph-fill ph-star-four"></i><span>Chocolate</span><i class="ph-fill ph-star-four"></i><span>Berry</span><i class="ph-fill ph-star-four"></i><span>Vanilla Rose</span><i class="ph-fill ph-star-four"></i><span>Mix Bowl</span><i class="ph-fill ph-star-four"></i>
+    </div></div>
+  </div>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="glow g1"></div>
+    <div class="container about-inner">
+      <div class="about-visual" data-reveal="zoom">
+        <div class="ring"></div>
+        <div class="blob"></div>
+        <img src="assets/pink-cone.png" alt="Vanilla rose soft serve cone" />
+        <div class="badge b1" data-speed="0.06"><i class="ph-fill ph-heart"></i>Real Fruit</div>
+        <div class="badge b2" data-speed="-0.05"><i class="ph-fill ph-leaf"></i>100% Natural</div>
+        <div class="badge b3" data-speed="0.04"><i class="ph-fill ph-star"></i>4.9 Rating</div>
+      </div>
+
+      <div class="about-text">
+        <span class="eyebrow" data-reveal="up">Know Us</span>
+        <h2 class="section-title" data-reveal="up" style="--d: 0.1s">Scooped with love, <em>served with joy</em></h2>
+        <p data-reveal="up" style="--d: 0.2s">Drop Cream started as a tiny cart with one red-flower recipe. Today we churn small batches every morning using fresh milk, real fruit and zero shortcuts — so every scoop tastes like the first one.</p>
+        <ul class="checks">
+          <li data-reveal="left" style="--d: 0.3s"><i class="ph ph-check i"></i>Churned fresh every single morning</li>
+          <li data-reveal="left" style="--d: 0.4s"><i class="ph ph-check i"></i>Seasonal fruit from local farms</li>
+          <li data-reveal="left" style="--d: 0.5s"><i class="ph ph-check i"></i>Dine in or get it delivered frozen</li>
+        </ul>
+        <div class="stats">
+          <div class="stat" data-reveal="up" style="--d: 0.4s"><strong data-count="25" data-suffix="+">0</strong><span>Flavours</span></div>
+          <div class="stat" data-reveal="up" style="--d: 0.5s"><strong data-count="12000" data-suffix="+">0</strong><span>Happy customers</span></div>
+          <div class="stat" data-reveal="up" style="--d: 0.6s"><strong data-count="12">0</strong><span>Stores near you</span></div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- ===== About: sub navigation ===== -->
+    <nav class="about-subnav container" id="aboutNav" aria-label="About sections" data-reveal="up">
+      <a href="#about-story" class="on">Our story</a>
+      <a href="#about-process">How we make it</a>
+      <a href="#about-values">What we stand for</a>
+      <a href="#about-team">The team</a>
+    </nav>
+
+    <!-- ===== Story / timeline ===== -->
+    <div class="container about-block" id="about-story">
+      <div class="block-head">
+        <span class="eyebrow" data-reveal="up">Our story</span>
+        <h3 class="block-title" data-reveal="up" style="--d: 0.1s">From one red flower <em>to twelve stores</em></h3>
+        <p data-reveal="up" style="--d: 0.2s">A tiny cart, a family recipe and a lot of early mornings. Here is how Drop Cream grew up.</p>
+      </div>
+      <div class="timeline" id="timeline">
+        <span class="timeline-line"><span id="timelineFill"></span></span>
+        <article class="t-item" data-reveal="right">
+          <span class="t-dot"></span>
+          <div class="t-card"><span class="t-year">2015</span><h4>The red-flower cart</h4><p>One cart, one flavour. A strawberry-and-rose recipe that sold out by 6 PM, every single day.</p></div>
+        </article>
+        <article class="t-item" data-reveal="left">
+          <span class="t-dot"></span>
+          <div class="t-card"><span class="t-year">2018</span><h4>Our first parlour</h4><p>A 12-seat shop with a pink neon sign. We added cones, cups and the now-famous vanilla rose.</p></div>
+        </article>
+        <article class="t-item" data-reveal="right">
+          <span class="t-dot"></span>
+          <div class="t-card"><span class="t-year">2021</span><h4>Frozen delivery</h4><p>Insulated boxes and a promise: it arrives cold or we send another. Orders tripled in a year.</p></div>
+        </article>
+        <article class="t-item" data-reveal="left">
+          <span class="t-dot"></span>
+          <div class="t-card"><span class="t-year">2023</span><h4>Twelve stores</h4><p>Twelve parlours, a central kitchen and 80+ people who love dessert as much as we do.</p></div>
+        </article>
+        <article class="t-item" data-reveal="right">
+          <span class="t-dot"></span>
+          <div class="t-card"><span class="t-year">Today</span><h4>25+ flavours and counting</h4><p>A flavour lab for seasonal batches and a loyal community of 12,000+ happy customers.</p></div>
+        </article>
+      </div>
+    </div>
+
+    <!-- ===== Behind the scenes gallery ===== -->
+    <div class="container about-block">
+      <div class="about-gallery">
+        <figure class="ag a1" data-reveal="zoom"><img src="img/shop-front.jpg" alt="Drop Cream storefront" loading="lazy" /><figcaption>Our first parlour</figcaption></figure>
+        <figure class="ag a2" data-reveal="zoom" style="--d: 0.1s"><img src="img/pl-gelato-counter.jpg" alt="The gelato counter" loading="lazy" /><figcaption>The scoop counter</figcaption></figure>
+        <figure class="ag a3" data-reveal="zoom" style="--d: 0.2s"><img src="img/shop-neon.jpg" alt="Neon cone sign" loading="lazy" /><figcaption>That neon cone</figcaption></figure>
+        <figure class="ag a4" data-reveal="zoom" style="--d: 0.3s"><img src="img/shop-interior.jpg" alt="Inside the parlour" loading="lazy" /><figcaption>Sunny seating</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- ===== Process ===== -->
+    <div class="container about-block" id="about-process">
+      <div class="block-head">
+        <span class="eyebrow" data-reveal="up">How we make it</span>
+        <h3 class="block-title" data-reveal="up" style="--d: 0.1s">From farm to cone <em>in four steps</em></h3>
+      </div>
+      <div class="process">
+        <article class="p-card tilt" data-reveal="up"><span class="p-num">01</span><i class="ph-fill ph-plant"></i><h4>Source</h4><p>Milk from nearby dairies and fruit picked in season. We know every farmer by name.</p></article>
+        <article class="p-card tilt" data-reveal="up" style="--d: 0.1s"><span class="p-num">02</span><i class="ph-fill ph-cooking-pot"></i><h4>Churn</h4><p>Small batches every morning, slowly, so every scoop is creamy and never icy.</p></article>
+        <article class="p-card tilt" data-reveal="up" style="--d: 0.2s"><span class="p-num">03</span><i class="ph-fill ph-fork-knife"></i><h4>Taste</h4><p>Every batch is tasted by our flavour team and only approved when it is perfect.</p></article>
+        <article class="p-card tilt" data-reveal="up" style="--d: 0.3s"><span class="p-num">04</span><i class="ph-fill ph-ice-cream"></i><h4>Serve</h4><p>Scooped fresh in the parlour, or delivered frozen in insulated boxes.</p></article>
+      </div>
+    </div>
+
+    <!-- ===== Values bento ===== -->
+    <div class="container about-block" id="about-values">
+      <div class="block-head">
+        <span class="eyebrow" data-reveal="up">What we stand for</span>
+        <h3 class="block-title" data-reveal="up" style="--d: 0.1s">Sweet on the outside, <em>honest inside</em></h3>
+      </div>
+      <div class="bento">
+        <article class="bento-tile big" data-reveal="up"><i class="ph-fill ph-drop"></i><h4>Fresh milk, every day</h4><p>Collected each morning and churned within hours. No powders, no long-life shortcuts.</p><strong class="bento-stat"><span data-count="1200" data-suffix=" L">0</span> of milk a week</strong></article>
+        <article class="bento-tile" data-reveal="up" style="--d: 0.1s"><i class="ph-fill ph-orange"></i><h4>Real fruit</h4><p>Whole fruit and fresh pulp, never flavour essence.</p></article>
+        <article class="bento-tile" data-reveal="up" style="--d: 0.2s"><i class="ph-fill ph-flask"></i><h4>No artificial colours</h4><p>The pink comes from strawberries and rose, not a bottle.</p></article>
+        <article class="bento-tile" data-reveal="up" style="--d: 0.1s"><i class="ph-fill ph-leaf"></i><h4>Vegetarian &amp; eggless</h4><p>Everyone at the table can enjoy a scoop.</p></article>
+        <article class="bento-tile wide" data-reveal="up" style="--d: 0.2s"><i class="ph-fill ph-recycle"></i><h4>Kinder packaging</h4><p>Paper cups, wooden spoons and compostable lids across all 12 stores, because dessert shouldn't cost the planet.</p></article>
+      </div>
+    </div>
+
+    <!-- ===== Team ===== -->
+    <div class="container about-block" id="about-team">
+      <div class="block-head">
+        <span class="eyebrow" data-reveal="up">The team</span>
+        <h3 class="block-title" data-reveal="up" style="--d: 0.1s">The people behind <em>every scoop</em></h3>
+      </div>
+      <div class="team">
+        <article class="member tilt" data-reveal="up"><img src="img/team-arjun.jpg" alt="Arjun Rao" loading="lazy" /><div><h4>Arjun Rao</h4><span>Founder &amp; head churner</span><p>"If it isn't creamy enough, it doesn't leave the kitchen."</p></div></article>
+        <article class="member tilt" data-reveal="up" style="--d: 0.1s"><img src="img/team-priya.jpg" alt="Priya Nair" loading="lazy" /><div><h4>Priya Nair</h4><span>Flavour lab lead</span><p>"Every new flavour starts with a fruit and a question."</p></div></article>
+        <article class="member join tilt" data-reveal="up" style="--d: 0.2s"><i class="ph-fill ph-hand-waving"></i><div><h4>You?</h4><span>We are hiring</span><p>Scoopers, delivery riders and flavour tasters. Free ice cream included.</p><a href="#visit" class="btn btn-glass">Say hello</a></div></article>
+      </div>
+    </div>
+
+    <!-- ===== Promise band ===== -->
+    <div class="container about-block">
+      <div class="promise" data-reveal="zoom">
+        <div class="promise-copy"><span class="eyebrow">Our promise</span><h3>If it isn't the best scoop you've had, we'll make it right.</h3></div>
+        <div class="promise-actions"><a href="#flavours" class="btn btn-solid magnet">Explore flavours <i class="ph ph-arrow-right"></i></a><a href="#visit" class="btn btn-outline">Find a store</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flavours -->
+  <section class="flavours" id="flavours">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow" data-reveal="up">Our Menu</span>
+          <h2 class="section-title" data-reveal="up" style="--d: 0.1s">Pick your <em>favourite flavour</em></h2>
+        </div>
+        <div class="tabs" id="tabs" data-reveal="up" style="--d: 0.2s">
+          <span class="tab-indicator"></span>
+          <button class="tab active" data-filter="all">All</button>
+          <button class="tab" data-filter="cup">Cups</button>
+          <button class="tab" data-filter="cone">Cones</button>
+        </div>
+      </div>
+
+      <div class="flavour-grid">
+        <article class="flavour tilt" data-reveal="up" style="--d: 0s; --c: #9a5530" data-kind="cup" data-name="Chocolate Cup">
+          <span class="tag">Bestseller</span>
+          <div class="media"><img src="assets/chocolate-cup.png" alt="Chocolate cup ice cream" /></div>
+          <h3>Chocolate Cup</h3>
+          <p>Rich Belgian cocoa scooped into a crunchy cup.</p>
+          <div class="flavour-foot"><span class="price">Rs. 129</span><button class="add-btn pill"><i class="ph ph-shopping-bag i"></i>Add</button></div>
+        </article>
+
+        <article class="flavour tilt" data-reveal="up" style="--d: 0.08s; --c: #8bbf6a" data-kind="cup" data-name="Mix Ice cream">
+          <div class="media"><img src="assets/mix-bowl.png" alt="Mix ice cream bowl" /></div>
+          <h3>Mix Ice cream</h3>
+          <p>Pistachio, strawberry and choco — the perfect trio.</p>
+          <div class="flavour-foot"><span class="price">Rs. 199</span><button class="add-btn pill"><i class="ph ph-shopping-bag i"></i>Add</button></div>
+        </article>
+
+        <article class="flavour tilt" data-reveal="up" style="--d: 0.16s; --c: #9b3b8a" data-kind="cone" data-name="Berry Ice cream">
+          <span class="tag">New</span>
+          <div class="media"><img src="assets/berry-cone.png" alt="Berry ice cream cone" /></div>
+          <h3>Berry Ice cream</h3>
+          <p>Wild blackberry swirl on a golden waffle cone.</p>
+          <div class="flavour-foot"><span class="price">Rs. 109</span><button class="add-btn pill"><i class="ph ph-shopping-bag i"></i>Add</button></div>
+        </article>
+
+        <article class="flavour tilt" data-reveal="up" style="--d: 0.24s; --c: #e0457b" data-kind="cone" data-name="Strawberry Ice cream">
+          <div class="media"><img src="assets/strawberry-cone.png" alt="Strawberry ice cream cone" /></div>
+          <h3>Strawberry Ice cream</h3>
+          <p>Fresh strawberries, creamy and bursting bright.</p>
+          <div class="flavour-foot"><span class="price">Rs. 149</span><button class="add-btn pill"><i class="ph ph-shopping-bag i"></i>Add</button></div>
+        </article>
+
+        <article class="flavour tilt" data-reveal="up" style="--d: 0.32s; --c: #f2a7c3" data-kind="cone" data-name="Vanilla Rose">
+          <div class="media"><img src="assets/pink-cone.png" alt="Vanilla rose soft serve cone" /></div>
+          <h3>Vanilla Rose</h3>
+          <p>Silky soft serve with a gentle hint of rose.</p>
+          <div class="flavour-foot"><span class="price">Rs. 119</span><button class="add-btn pill"><i class="ph ph-shopping-bag i"></i>Add</button></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="center-head">
+        <span class="eyebrow" data-reveal="up">Moments</span>
+        <h2 class="section-title" data-reveal="up" style="--d: 0.1s">Made for <em>happy moments</em></h2>
+      </div>
+      <div class="gal-grid">
+        <figure data-reveal="up" class="g-tall"><img src="img/moment-friends.jpg" alt="Friends sharing ice cream" loading="lazy" /><figcaption>With friends</figcaption></figure>
+        <figure data-reveal="up" style="--d: 0.08s"><img src="img/ic-party-cones.jpg" alt="Party cones" loading="lazy" /><figcaption>Party cones</figcaption></figure>
+        <figure data-reveal="up" style="--d: 0.16s"><img src="img/shop-neon.jpg" alt="Neon shop sign" loading="lazy" /><figcaption>Our parlour</figcaption></figure>
+        <figure data-reveal="up" class="g-wide" style="--d: 0.24s"><img src="img/moment-sunset-cone.jpg" alt="Cone at sunset" loading="lazy" /><figcaption>Golden hour scoops</figcaption></figure>
+        <figure data-reveal="up" style="--d: 0.32s"><img src="img/pl-gelato-counter.jpg" alt="Gelato counter" loading="lazy" /><figcaption>Fresh daily</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="reviews-sec" id="reviews">
+    <div class="container">
+      <div class="center-head">
+        <span class="eyebrow" data-reveal="up">Reviews</span>
+        <h2 class="section-title" data-reveal="up" style="--d: 0.1s">Sweet words from <em>sweet people</em></h2>
+      </div>
+
+      <div class="slider" data-reveal="up" style="--d: 0.2s">
+        <div class="track" id="track">
+          <article class="t-card">
+            <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+            <p>Indulge in frozen bliss with our irresistible ice cream delights! Honestly the best red flower scoop I've had.</p>
+            <div class="t-user"><img src="img/face-1.jpg" alt="" /><div><h4>Uzi Nexus</h4><span>Food blogger</span></div></div>
+          </article>
+          <article class="t-card">
+            <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+            <p>The creamiest scoops in town. The berry cone with real blackberries is a must try every visit.</p>
+            <div class="t-user"><img src="img/face-2.jpg" alt="" /><div><h4>Rio Parker</h4><span>Regular</span></div></div>
+          </article>
+          <article class="t-card">
+            <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph ph-star"></i></div>
+            <p>Cosy place, fast delivery and the chocolate cup arrived perfectly frozen. Will order again!</p>
+            <div class="t-user"><img src="img/face-3.jpg" alt="" /><div><h4>Sam Lee</h4><span>Delivery customer</span></div></div>
+          </article>
+          <article class="t-card">
+            <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+            <p>We booked a table for my daughter's birthday — the staff and the mix bowl made her day.</p>
+            <div class="t-user"><img src="img/team-priya.jpg" alt="" /><div><h4>Ari Khan</h4><span>Parent</span></div></div>
+          </article>
+          <article class="t-card">
+            <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+            <p>Vanilla rose soft serve is unreal. Light, floral and not too sweet. My new weekend ritual.</p>
+            <div class="t-user"><img src="img/team-arjun.jpg" alt="" /><div><h4>Noor Das</h4><span>Dessert lover</span></div></div>
+          </article>
+        </div>
+      </div>
+      <div class="s-dots" id="sDots"></div>
+    </div>
+  </section>
+
+  <!-- Visit / Book -->
+  <section class="visit" id="visit">
+    <div class="glow g2"></div>
+    <div class="container visit-inner">
+      <div class="visit-info">
+        <span class="eyebrow" data-reveal="up">Close By</span>
+        <h2 class="section-title" data-reveal="up" style="--d: 0.1s">Come say hi, <em>grab a scoop</em></h2>
+        <div class="info-list">
+          <div class="info-item" data-reveal="left" style="--d: 0.2s"><span class="info-icon"><i class="ph ph-map-pin i"></i></span><div><h4>Address</h4><p>21 Rose Street, Sweet Avenue</p></div></div>
+          <div class="info-item" data-reveal="left" style="--d: 0.3s"><span class="info-icon"><i class="ph ph-clock i"></i></span><div><h4>Open Hours</h4><p>Mon – Sun · 11:00 AM – 11:00 PM</p></div></div>
+          <div class="info-item" data-reveal="left" style="--d: 0.4s"><span class="info-icon"><i class="ph ph-phone i"></i></span><div><h4>Call Us</h4><p>+91 98765 43210</p></div></div>
+        </div>
+        <div class="map photo" data-reveal="zoom" style="--d: 0.3s">
+          <img src="img/shop-front.jpg" alt="Drop Cream shop front" />
+          <span class="map-label"><i class="ph-fill ph-map-pin"></i> Drop Cream · 21 Rose Street</span>
+        </div>
+      </div>
+
+      <form class="book-card" id="bookForm" data-reveal="right" style="--d: 0.2s">
+        <h3>Book a Table</h3>
+        <p>Reserve your spot and we'll have your favourite scoop ready.</p>
+        <label class="field"><span>Your name</span><input name="name" type="text" required placeholder="Jane Doe" /></label>
+        <label class="field"><span>Phone</span><input name="phone" type="tel" required placeholder="+91 00000 00000" /></label>
+        <div class="row">
+          <label class="field"><span>Date</span><input name="date" type="date" required /></label>
+          <label class="field"><span>Time</span>
+            <select name="time" required>
+              <option value="12:00">12:00 PM</option>
+              <option value="15:00">3:00 PM</option>
+              <option value="18:00" selected>6:00 PM</option>
+              <option value="20:00">8:00 PM</option>
+            </select>
+          </label>
+        </div>
+        <label class="field"><span>Guests</span>
+          <select name="guests">
+            <option>1 guest</option>
+            <option selected>2 guests</option>
+            <option>4 guests</option>
+            <option>6+ guests</option>
+          </select>
+        </label>
+        <button type="submit" class="btn btn-solid">Confirm Booking</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand" data-reveal="up">
+          <a href="#home" class="logo">
+            <svg viewBox="0 0 48 40" class="logo-icon" aria-hidden="true">
+              <path d="M4 34 L22 4 L26 12 L30 6 L44 34 Z" fill="#fff" />
+              <path d="M12 34 L22 18 L28 28 L32 22 L38 34 Z" fill="#8d0f22" />
+            </svg>
+            <span>Drop<br />Cream</span>
+          </a>
+          <p>Small-batch ice cream made fresh every morning. Dine in, take away or get it delivered.</p>
+        </div>
+        <div data-reveal="up" style="--d: 0.1s">
+          <h4>Explore</h4>
+          <a href="#home">Home</a><a href="#about">Know Us</a><a href="#flavours">Flavours</a><a href="#visit">Close By</a>
+        </div>
+        <div data-reveal="up" style="--d: 0.2s">
+          <h4>Help</h4>
+          <a href="#">Delivery</a><a href="#">FAQs</a><a href="#">Privacy</a><a href="#">Terms</a>
+        </div>
+        <div data-reveal="up" style="--d: 0.3s">
+          <h4>Follow Us</h4>
+          <div class="socials">
+            <a href="#" aria-label="Google"><i class="ph-fill ph-google-logo"></i></a>
+            <a href="#" aria-label="Facebook"><i class="ph-fill ph-facebook-logo"></i></a>
+            <a href="#" aria-label="Twitter"><i class="ph-fill ph-twitter-logo"></i></a>
+            <a href="#" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-big" data-reveal="up">DROP CREAM</div>
+      <div class="footer-bottom">
+        <p>Dropcream.com all right reserve</p>
+        <p>Made with <i class="ph-fill ph-heart"></i> &amp; sprinkles</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" aria-label="Back to top"><i class="ph ph-arrow-up i"></i></button>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
