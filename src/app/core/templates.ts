@@ -413,6 +413,13 @@ export function isSameOrigin(t: WebTemplate, baseUri: string): boolean {
   }
 }
 
+/** The categories with at least one template, in CATEGORIES order. A category with nothing in
+ *  it has no page worth linking to, so the chips and any other category list are built from
+ *  this rather than from CATEGORIES, which also carries the ones we have no designs for yet. */
+export function stockedCategories(): Category[] {
+  return templatesByCategory().map((g) => g.category);
+}
+
 /** Templates grouped by category, in CATEGORIES order, skipping categories with nothing in them. */
 export function templatesByCategory(): { category: Category; items: WebTemplate[] }[] {
   return CATEGORIES.map((category) => ({

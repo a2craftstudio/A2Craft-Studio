@@ -6,7 +6,7 @@ import { map } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SeoService } from '../core/services';
 import {
-  Category, CATEGORIES, categoryFromSlug, categorySlug, templatesByCategory, templateThumb, templateUrl, WebTemplate,
+  Category, categoryFromSlug, categorySlug, stockedCategories, templatesByCategory, templateThumb, templateUrl, WebTemplate,
 } from '../core/templates';
 
 @Component({
@@ -81,7 +81,8 @@ export class TemplatesPage {
   private route = inject(ActivatedRoute);
   private doc = inject(DOCUMENT);
 
-  categories = CATEGORIES;
+  /** Only the categories we have designs for: a chip onto an empty category is a dead end. */
+  categories = stockedCategories();
   slugOf = categorySlug;
 
   /** Set on /templates/c/:category; unset on /templates, which shows every category. */

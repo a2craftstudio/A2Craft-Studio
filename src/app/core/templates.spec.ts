@@ -1,5 +1,5 @@
 import {
-  categoryFromSlug, categorySlug, isSameOrigin, SPA_TEMPLATE_URLS, templateBySlug,
+  categoryFromSlug, categorySlug, isSameOrigin, SPA_TEMPLATE_URLS, stockedCategories, templateBySlug,
   pagesUrl, templatesByCategory, templateUrl, WEB_TEMPLATES, WebTemplate,
 } from './templates';
 import { emptyOverlay, highlightSlots, overlayIsEmpty, TextSlot } from './template-overlay';
@@ -47,6 +47,18 @@ describe('website templates', () => {
     expect(groups.length).toBeGreaterThan(0);
     expect(groups.every((g) => g.items.length > 0)).toBeTrue();
     expect(groups.map((g) => g.items.length).reduce((a, b) => a + b)).toBe(WEB_TEMPLATES.length);
+  });
+
+  it('offers no category chip that opens onto an empty page', () => {
+    // CATEGORIES carries every category we have artwork or a blurb for, including ones with no
+    // designs yet; the chips are built from the stocked ones so none of them is a dead end.
+    const stocked = stockedCategories();
+    expect(stocked.length).toBeGreaterThan(0);
+    for (const c of stocked) {
+      expect(WEB_TEMPLATES.some((t) => t.category === c)).withContext(c).toBeTrue();
+      expect(categoryFromSlug(categorySlug(c))).withContext(c).toBe(c);
+    }
+    expect(stocked).toEqual(templatesByCategory().map((g) => g.category));
   });
 
   it('round-trips a category through its route segment', () => {
