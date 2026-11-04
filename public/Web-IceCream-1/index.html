@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sweet Drip – Ice Cream, Falooda, Gola &amp; Chocolates</title>
+  <meta name="description" content="Sweet Drip dessert parlour: ice cream, falooda, ice gola, kulfi, chocolates, shakes, sundaes and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="vendor/phosphor/regular/style.css" />
+  <link rel="stylesheet" href="vendor/phosphor/fill/style.css" />
+  <link rel="stylesheet" href="vendor/phosphor/duotone/style.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/story.css" />
+  <link rel="stylesheet" href="css/pin.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/controls.css" />
+  <link rel="stylesheet" href="css/upgrade.css" />
+  <link rel="stylesheet" href="css/business.css" />
+</head>
+<body data-page="home">
+  <div id="site-header"></div>
+
+  <!-- ===== Modern hero ===== -->
+  <section class="phero" id="phero">
+    <div class="container">
+      <h1>Get your next<span class="word-wrap" id="heroWords"></span></h1>
+      <div class="hero-dots" id="heroDots"></div>
+      <p class="phero-sub">45+ handmade desserts — falooda, ice gola, kulfi, truffles, shakes and sundaes. Save your favourites, build a gola, order in a tap.</p>
+      <div class="phero-cta">
+        <a href="#feed-sec" class="btn btn-primary">Start exploring <i class="ph ph-arrow-down"></i></a>
+        <a href="#builder" class="btn btn-ghost"><i class="ph ph-magic-wand"></i> Build a gola</a>
+        <span class="status-pill" data-status>Open now</span>
+      </div>
+    </div>
+    <div class="cols" id="cols">
+      <div class="col" style="--c: 0"><img alt="" /><img alt="" /></div>
+      <div class="col" style="--c: 1"><img alt="" /><img alt="" /></div>
+      <div class="col" style="--c: 2"><img alt="" /><img alt="" /></div>
+      <div class="col" style="--c: 3"><img alt="" /><img alt="" /></div>
+      <div class="col" style="--c: 4"><img alt="" /><img alt="" /></div>
+      <div class="col" style="--c: 5"><img alt="" /><img alt="" /></div>
+      <div class="col" style="--c: 6"><img alt="" /><img alt="" /></div>
+      <div class="cols-fade"></div>
+    </div>
+    <a href="#feed-sec" class="scroll-cue">See today's picks <i class="ph ph-caret-down"></i></a>
+  </section>
+
+  <!-- ===== Recently viewed ===== -->
+  <section id="recentSec" hidden style="padding: 10px 0">
+    <div class="container" style="max-width: 1600px">
+      <div class="recent-head">
+        <h3><i class="ph-fill ph-clock-counter-clockwise"></i> Pick up where you left off</h3>
+        <button class="btn btn-ghost btn-sm" id="recentClear">Clear</button>
+      </div>
+      <div class="recent-row" id="recentRow"></div>
+    </div>
+  </section>
+
+  <!-- ===== Feed ===== -->
+  <section id="feed-sec" style="padding: 20px 0 60px">
+    <div class="container" style="max-width: 1600px">
+      <div class="head-row" style="margin-bottom: 4px">
+        <div>
+          <span class="kicker" data-reveal="up"><i class="ph-fill ph-star"></i> Today's picks</span>
+          <h2 class="title" data-reveal="up" style="--d: 0.1s">Ideas you'll <span class="hl">love</span></h2>
+        </div>
+        <a href="menu.html" class="btn btn-ghost btn-sm" data-reveal="up">Explore all <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="topics" id="topics"></div>
+      <div class="pin-grid" id="feed" style="margin-top: 16px"></div>
+      <div style="text-align: center; margin-top: 10px"><button class="btn btn-ghost" id="feedMore">See more ideas <i class="ph ph-caret-down"></i></button></div>
+    </div>
+  </section>
+
+  <!-- ===== Boards ===== -->
+  <section class="section" id="boards-sec" style="padding-top: 20px">
+    <div class="container" style="max-width: 1600px">
+      <div class="head-row">
+        <div>
+          <span class="kicker" data-reveal="up"><i class="ph-fill ph-squares-four"></i> Our categories</span>
+          <h2 class="title" data-reveal="up" style="--d: 0.1s">Browse by <span class="hl">category</span></h2>
+        </div>
+      </div>
+      <div class="boards" id="boards"></div>
+    </div>
+  </section>
+
+  <!-- ===== Real gola builder ===== -->
+  <section class="section builder" id="builder">
+    <div class="container builder-inner">
+      <div data-reveal="zoom">
+        <div class="rgola" id="rgola">
+          <img src="img/gola-base.jpg" alt="Shaved-ice gola" />
+          <span class="syrup-layer"></span>
+          <span class="syrup-layer"></span>
+          <span class="syrup-layer"></span>
+          <span class="syrup-gloss"></span>
+          <img class="rtop tp-pista" data-top="pista" src="img/toppings/pista.png" alt="" />
+          <img class="rtop tp-mango" data-top="mango" src="img/toppings/mango.png" alt="" />
+          <img class="rtop tp-bear tp-bear1" data-top="bears" src="img/toppings/bear0.png" alt="" />
+          <img class="rtop tp-bear tp-bear2" data-top="bears" src="img/toppings/bear3.png" alt="" />
+          <img class="rtop tp-bear tp-bear3" data-top="bears" src="img/toppings/bear5.png" alt="" />
+          <img class="rtop tp-scoop" data-top="scoop" src="img/toppings/scoop.png" alt="" />
+          <img class="rtop tp-cherry" data-top="cherry" src="img/toppings/cherry.png" alt="" />
+        </div>
+        <p class="pour-note" id="pourNote" style="text-align: center"></p>
+      </div>
+
+      <div class="gola-panel">
+        <span class="kicker" data-reveal="up"><i class="ph-fill ph-magic-wand"></i> Make it yours</span>
+        <h2 class="title" data-reveal="up" style="--d: 0.1s">Build your own <span class="hl">ice gola</span></h2>
+        <p class="lead" data-reveal="up" style="--d: 0.2s; margin-top: 14px">Real shaved ice, real syrup, real toppings. Pick up to three flavours, watch them soak in layer by layer, then crown it with a scoop and a cherry.</p>
+
+        <div class="gola-steps">
+          <div data-reveal="up" style="--d: 0.3s">
+            <h4>1. Pour syrups <small style="font-weight: 400; color: var(--choc-3)">(max 3 · +₹10 each extra)</small></h4>
+            <div class="syrups" id="syrups">
+              <button class="syrup" data-color="#5b2a86" data-name="Kala Khatta" style="--sw: #5b2a86"><span class="sw"></span>Kala Khatta</button>
+              <button class="syrup" data-color="#ff2e63" data-name="Rose" style="--sw: #ff2e63"><span class="sw"></span>Rose</button>
+              <button class="syrup" data-color="#ff8a1c" data-name="Orange" style="--sw: #ff8a1c"><span class="sw"></span>Orange</button>
+              <button class="syrup" data-color="#1fb6d4" data-name="Blue Raspberry" style="--sw: #1fb6d4"><span class="sw"></span>Blue Raspberry</button>
+              <button class="syrup" data-color="#ffd23f" data-name="Mango" style="--sw: #ffd23f"><span class="sw"></span>Mango</button>
+              <button class="syrup" data-color="#7bd389" data-name="Kachi Kairi" style="--sw: #7bd389"><span class="sw"></span>Kachi Kairi</button>
+              <button class="syrup" data-color="#e8202f" data-name="Strawberry" style="--sw: #e8202f"><span class="sw"></span>Strawberry</button>
+            </div>
+          </div>
+          <div data-reveal="up" style="--d: 0.4s">
+            <h4>2. Add real toppings</h4>
+            <div class="toppings" id="toppings">
+              <button class="chip" data-top="scoop" data-price="40"><img src="img/toppings/scoop.png" alt="" /> Choco scoop <small>+₹40</small></button>
+              <button class="chip" data-top="cherry" data-price="15"><img src="img/toppings/cherry.png" alt="" /> Cherry <small>+₹15</small></button>
+              <button class="chip" data-top="pista" data-price="25"><img src="img/toppings/pista.png" alt="" /> Pista <small>+₹25</small></button>
+              <button class="chip" data-top="mango" data-price="20"><img src="img/toppings/mango.png" alt="" /> Mango cubes <small>+₹20</small></button>
+              <button class="chip" data-top="bears" data-price="15"><img src="img/toppings/bear0.png" alt="" /> Gummy bears <small>+₹15</small></button>
+            </div>
+          </div>
+          <div class="builder-total" data-reveal="up" style="--d: 0.5s; margin-top: 0">
+            <div class="price" id="golaPrice">₹79</div>
+            <button class="btn btn-primary" id="golaAdd">Add my gola <i class="ph ph-basket"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Promo ===== -->
+  <section class="promo" id="offers">
+    <div class="container">
+      <div class="promo-card" data-reveal="up">
+        <div class="promo-text">
+          <span class="kicker"><i class="ph-fill ph-timer"></i> Limited time</span>
+          <h2>Monsoon <em>Falooda</em> Fest</h2>
+          <p>Every falooda is 30% off this week. Royal rose, kesar pista, strawberry — slurp them all before the clock runs out.</p>
+          <div class="countdown">
+            <div><b data-unit="d">00</b><span>Days</span></div>
+            <div><b data-unit="h">00</b><span>Hours</span></div>
+            <div><b data-unit="m">00</b><span>Mins</span></div>
+            <div><b data-unit="s">00</b><span>Secs</span></div>
+          </div>
+          <div><a href="menu.html?topic=falooda" class="btn btn-primary">Grab the deal <i class="ph ph-arrow-right"></i></a></div>
+        </div>
+        <div class="promo-media">
+          <img src="img/fa-royal-rose.jpg" alt="Rose falooda glasses" data-parallax="0.12" />
+          <div class="promo-badge"><div>30%<small>OFF</small></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Story teaser ===== -->
+  <section class="section" id="parlour">
+    <div class="container teaser">
+      <div>
+        <span class="kicker" data-reveal="up"><i class="ph-fill ph-storefront"></i> Inside our parlour</span>
+        <h2 class="title" data-reveal="up" style="--d: 0.1s">Three generations, <span class="hl">one scoop</span> at a time</h2>
+        <p class="lead" data-reveal="up" style="--d: 0.2s; margin-top: 14px">It started with Dada's hand-cranked gola cart in 1968. Meet the family, the team and the little parlour that grew into six.</p>
+        <ul class="checks">
+          <li data-reveal="left" style="--d: 0.3s"><i class="ph ph-check"></i>Family recipes, three generations old</li>
+          <li data-reveal="left" style="--d: 0.4s"><i class="ph ph-check"></i>80+ people in our kitchens &amp; parlours</li>
+          <li data-reveal="left" style="--d: 0.5s"><i class="ph ph-check"></i>1,200 litres of fresh milk every week</li>
+        </ul>
+        <a href="about.html" class="btn btn-dark" data-reveal="up" style="--d: 0.6s; margin-top: 30px">Read our story <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="teaser-pics" data-reveal="zoom" style="--d: 0.2s">
+        <img class="t1" src="img/shop-interior.jpg" alt="Inside the parlour" data-zoom />
+        <img class="t2" src="img/memory-dad-daughter.jpg" alt="Family memory, 1974" data-zoom style="filter: sepia(0.5)" />
+        <img class="t3" src="img/team-dada.jpg" alt="Our founder, Dada" data-zoom />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Stats ===== -->
+  <section class="stats-band" id="stats">
+    <div class="container stats">
+      <div class="stat" data-reveal="up"><b data-count="45" data-suffix="+">0</b><span>Desserts on the menu</span></div>
+      <div class="stat" data-reveal="up" style="--d: 0.1s"><b data-count="12000" data-suffix="+">0</b><span>Happy customers</span></div>
+      <div class="stat" data-reveal="up" style="--d: 0.2s"><b data-count="6">0</b><span>Parlours in the city</span></div>
+      <div class="stat" data-reveal="up" style="--d: 0.3s"><b data-count="57" data-suffix=" yrs">0</b><span>Of family recipes</span></div>
+    </div>
+  </section>
+
+  <!-- ===== Moments teaser ===== -->
+  <section class="section" id="moments">
+    <div class="container teaser">
+      <div class="teaser-pics" data-reveal="zoom">
+        <img class="t1" src="img/couple-share.jpg" alt="Couple sharing a cone" data-zoom />
+        <img class="t2" src="img/couple-counter.jpg" alt="Couple at the counter" data-zoom />
+        <img class="t3" src="img/kid-toddler.jpg" alt="Baby's first ice cream" data-zoom />
+        <span class="heart-burst"><i class="ph-fill ph-heart"></i></span>
+      </div>
+      <div>
+        <span class="kicker" data-reveal="up"><i class="ph-fill ph-heart"></i> Sweet moments</span>
+        <h2 class="title" data-reveal="up" style="--d: 0.1s">First dates, birthdays &amp; <span class="hl">proposals</span></h2>
+        <p class="lead" data-reveal="up" style="--d: 0.2s; margin-top: 14px">Couples, families and little ones share their Sweet Drip memories every day. Post yours on the love wall — the most-liked photo each month wins a free sundae for two.</p>
+        <div class="hero-cta" data-reveal="up" style="--d: 0.3s">
+          <a href="moments.html" class="btn btn-primary">See the love wall <i class="ph ph-arrow-right"></i></a>
+          <a href="moments.html#share" class="btn btn-ghost"><i class="ph ph-camera"></i> Share your photo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Reviews ===== -->
+  <section class="section reviews" id="reviews">
+    <div class="container">
+      <div class="head-center">
+        <span class="kicker" data-reveal="up"><i class="ph-fill ph-chats-circle"></i> Reviews</span>
+        <h2 class="title" data-reveal="up" style="--d: 0.1s">Sweet words from <span class="hl">sweet people</span></h2>
+      </div>
+      <div class="slider" data-reveal="up" style="--d: 0.2s">
+        <div class="track" id="track">
+          <article class="t-card"><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div><p>The royal rose falooda is exactly like the ones from my childhood in Mumbai. Generous, chilled and not too sweet.</p><div class="t-user"><img src="img/face-1.jpg" alt="" /><div><h4>Ritika S.</h4><span>Falooda fan</span></div></div></article>
+          <article class="t-card"><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div><p>Rainbow kala khatta gola on a hot evening — pure nostalgia. My kids now refuse to go anywhere else.</p><div class="t-user"><img src="img/face-2.jpg" alt="" /><div><h4>Arjun M.</h4><span>Dad of two</span></div></div></article>
+          <article class="t-card"><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div><p>He proposed at the counter with a ring hidden in a sundae. Best night of my life — and the best sundae too!</p><div class="t-user"><img src="img/couple-counter.jpg" alt="" /><div><h4>Maya &amp; Dev</h4><span>Engaged here</span></div></div></article>
+          <article class="t-card"><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph ph-star"></i></div><p>Brownie sizzler + Oreo shake is my weekend combo. Delivery came super fast and still frozen.</p><div class="t-user"><img src="img/couple-laugh.jpg" alt="" /><div><h4>Rhea K.</h4><span>Weekend regular</span></div></div></article>
+          <article class="t-card"><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div><p>Mango matka kulfi tastes like real Alphonso. Best kulfi I've had outside of Old Delhi.</p><div class="t-user"><img src="img/face-3.jpg" alt="" /><div><h4>Mr. Iyer</h4><span>Kulfi purist</span></div></div></article>
+        </div>
+      </div>
+      <div class="slider-nav">
+        <button class="arrow" id="prev" aria-label="Previous"><i class="ph ph-arrow-left"></i></button>
+        <div class="dots" id="dots"></div>
+        <button class="arrow" id="next" aria-label="Next"><i class="ph ph-arrow-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Questions + newsletter ===== -->
+
+  <!-- ===== Order, cater, grow ===== -->
+  <section class="biz-section" id="services">
+    <div class="container">
+      <div class="head-center">
+        <span class="kicker" data-reveal="up"><i class="ph-fill ph-storefront"></i> More ways to enjoy Sweet Drip</span>
+        <h2 class="title" data-reveal="up" style="--d: 0.1s">Order, <span class="hl">celebrate</span> or grow with us</h2>
+      </div>
+      <div class="features" style="margin-top: 40px">
+        <a class="feature" href="order.html" data-reveal="up"><div class="ico"><i class="ph-duotone ph-moped"></i></div><h3>Order online</h3><p>Frozen delivery in 25–35 minutes, or pick up in 15. Free above ₹499.</p></a>
+        <a class="feature" href="catering.html" data-reveal="up" style="--d:.1s"><div class="ico" style="--bg:#c9f2ee;--fg:#149c90"><i class="ph-duotone ph-confetti"></i></div><h3>Catering &amp; events</h3><p>Gola counters and dessert tables. Get an instant estimate.</p></a>
+        <a class="feature" href="franchise.html" data-reveal="up" style="--d:.2s"><div class="ico" style="--bg:#ffe2b8;--fg:#d98a00"><i class="ph-duotone ph-handshake"></i></div><h3>Franchise</h3><p>Open a Sweet Drip in your city with training and full support.</p></a>
+        <a class="feature" href="careers.html" data-reveal="up" style="--d:.3s"><div class="ico" style="--bg:#e6d6fb;--fg:#7b3fd0"><i class="ph-duotone ph-briefcase"></i></div><h3>Careers</h3><p>Join our team of 80+. Training, growth and free ice cream.</p></a>
+      </div>
+      <div class="trust-strip" style="margin-top: 40px" data-reveal="up">
+        <div><i class="ph-duotone ph-star"></i><p><b>4.8 rating</b><span>1,200+ guest reviews</span></p></div>
+        <div><i class="ph-duotone ph-leaf"></i><p><b>100% vegetarian</b><span>Eggless options marked</span></p></div>
+        <div><i class="ph-duotone ph-seal-check"></i><p><b>FSSAI licensed</b><span>Audited every quarter</span></p></div>
+        <div><i class="ph-duotone ph-clock"></i><p><b>Open 11 AM – 1 AM</b><span>Every day, six parlours</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="club">
+    <div class="container" style="display: grid; gap: 30px">
+      <div class="cta-band" data-reveal="zoom" style="background: var(--butter)">
+        <span class="deco" style="top: 18%; left: 5%"><i class="ph-duotone ph-question"></i></span>
+        <span class="deco choc" style="bottom: 16%; right: 5%; animation-delay: -3s"><i class="ph-duotone ph-chat-circle-dots"></i></span>
+        <h2>Got a question? Ask us anything</h2>
+        <p>Allergies, party bookings, bulk orders, eggless cakes — our team replies within a few hours.</p>
+        <div class="hero-cta" style="justify-content: center">
+          <a href="contact.html#ask" class="btn btn-dark">Ask a question <i class="ph ph-arrow-right"></i></a>
+          <a href="contact.html#faq-sec" class="btn btn-white">Read FAQs</a>
+        </div>
+      </div>
+
+      <div class="cta-band" data-reveal="zoom" style="background: var(--blush)">
+        <span class="deco" style="top: 14%; left: 6%"><i class="ph-duotone ph-gift"></i></span>
+        <span class="deco violet" style="bottom: 14%; right: 6%; animation-delay: -3s"><i class="ph-duotone ph-cake"></i></span>
+        <h2>Get a free scoop on your birthday</h2>
+        <p>Join the Sweet Club for secret flavours, early deals and a birthday treat on us.</p>
+        <form class="sub-form" id="subForm">
+          <input type="email" required placeholder="Your email address" aria-label="Email" />
+          <button class="btn btn-dark" type="submit">Join the club</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/customize.js"></script>
+  <script src="js/business.js"></script>
+</body>
+</html>

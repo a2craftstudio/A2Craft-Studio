@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Happy Birthday – A Little Book of You</title>
+  <meta name="description" content="A soft little 3D birthday book made just for you.">
+  <meta name="theme-color" content="#f3d3e1">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Happy Birthday 🎀 A Little Book of You">
+  <meta property="og:description" content="Open a soft little 3D birthday book made just for you.">
+  <meta property="og:image" content="src/photos/photo-01.jpg">
+  <meta property="og:image:alt" content="A 3D spiral-bound birthday book you can flip through">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Caveat:wght@500&family=DM+Sans:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/base.css?v=169">
+  <link rel="stylesheet" href="src/css/theme.css?v=169">
+</head>
+<body>
+  <!-- the 3D book is drawn here -->
+  <canvas id="scene" aria-label="A 3D spiral-bound birthday album. Use the arrow buttons or arrow keys to turn the pages."></canvas>
+
+  <p class="hint">tap the notes & 3D things to open your wishes ♡</p>
+
+  <div class="top-btns">
+    <button class="round-btn" id="music" type="button" aria-pressed="false" aria-label="Play music box song">♫</button>
+    <button class="round-btn" id="share" type="button" aria-label="Share this birthday book">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>
+    </button>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <nav class="controls">
+    <button class="nav-btn" id="prev" type="button" aria-label="Previous page">‹</button>
+    <span class="counter" id="counter">cover</span>
+    <button class="nav-btn" id="next" type="button" aria-label="Next page">›</button>
+  </nav>
+
+  <canvas class="confetti" id="confetti"></canvas>
+
+  <div class="loader" id="loader">
+    <p>opening your book…</p>
+    <div class="bar"><span id="loadBar"></span></div>
+  </div>
+
+  <!-- 3D engine (Three.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <!-- the pages: pictures, text, notes, stickers and 3D models -->
+  <script src="src/js/pages.js?v=169"></script>
+  <!-- the look of this book: colours, cover stickers, cake -->
+  <script src="src/js/theme.js?v=169"></script>
+  <!-- each order's data from an API (falls back to the static data above), then the shared 3D engine, models and sounds -->
+  <script src="../shared/config.js?v=169"></script>
+  <script src="../shared/remote.js?v=169"></script>
+  <!-- animated 3D pop-up models and little sounds -->
+  <!-- builds the 3D book, page turning, wish, confetti -->
+</body>
+</html>

@@ -1,0 +1,54 @@
+/* content.html: position and size of every element.
+   left / top = position on the 930px-wide design, rotate / scale = turn and size. */
+
+.notebook-box { left: 30.57px; top: 65.42px; width: 869px; height: 603px; }
+.notebook { left: -17.65px; top: 0px; width: 904px; height: 603px; }
+.stripes-box { left: 536.92px; top: 241.56px; width: 251px; height: 250px; }
+.stripes { left: 0px; top: -174.45px; width: 251px; height: 446px; }
+.photo-1-box { left: 587.14px; top: 228.35px; rotate: 5.71deg; scale: 0.5; width: 431px; height: 501px; clip-path: url("#__id10"); }
+.photo-1 { left: 0px; top: 0px; width: 431px; height: 501px; }
+.favorite-person { left: 672.14px; top: 195.75px; width: 126px; height: 92px; }
+.heart-sticker { left: 575.04px; top: 230.32px; rotate: -13.34deg; width: 36px; height: 31px; }
+.silver-stars { left: 727.82px; top: 471.59px; rotate: -5.71deg; width: 72px; height: 48px; }
+.wish-title { left: 123.58px; top: 406.1px; scale: 0.88; width: 318px; height: 28px; font-family: Schoolbell, cursive; font-size: 20.7106px; font-weight: 400; color: rgb(126, 41, 41); line-height: 28px; text-align: center; white-space: nowrap; }
+.wish-text { left: 123.58px; top: 430.85px; scale: 0.88; width: 318px; height: 84px; font-family: Schoolbell, cursive; font-size: 20.7106px; font-weight: 400; color: rgb(126, 41, 41); line-height: 28px; text-align: center; white-space: normal; }
+.age { left: 119.92px; top: 242.36px; scale: 1.04; width: 277px; height: 186px; font-family: Para, serif; font-size: 133.516px; font-weight: 400; color: rgb(126, 41, 41); line-height: 186px; text-align: center; white-space: nowrap; }
+.cupcake { left: 313.67px; top: 297.91px; transform: matrix(0.99, 0.13, -0.12, 0.99, 0, 0); width: 78px; height: 86px; }
+.candle { left: 313.67px; top: 297.91px; transform: matrix(0.99, 0.13, -0.12, 0.99, 0, 0); width: 78px; height: 86px; }
+.wish-hint { left: 300px; top: 270px; rotate: 6deg; width: 110px; font-family: Schoolbell, cursive; font-size: 11px; color: rgb(126, 41, 41); text-align: center; white-space: nowrap; }
+.love-text { left: 626.25px; top: 512.6px; scale: 0.8; width: 90px; height: 28px; font-family: Schoolbell, cursive; font-size: 20.7106px; font-weight: 400; color: rgb(126, 41, 41); line-height: 28px; text-align: justify; white-space: nowrap; }
+.letter-envelope { left: 90.98px; top: 97.22px; rotate: -15.71deg; width: 242px; height: 294px; }
+.framed-photo-1 { left: 130.29px; top: 176.56px; width: 261px; height: 186px; }
+.doodle-heart { left: 179.18px; top: 131.9px; width: 42px; height: 33px; }
+.polaroid-2-card { left: 570px; top: 386px; width: 218px; height: 299px; }
+.film-strip-box { left: 86.61px; top: 972.5px; rotate: -90deg; width: 227px; height: 765px; }
+.film-strip { left: 0px; top: -100.28px; width: 227px; height: 965px; }
+.photo-2-box { left: 133.86px; top: 797.65px; scale: 0.48; width: 256px; height: 256px; clip-path: url("#__id59"); }
+.photo-2 { left: 0px; top: 0px; width: 256px; height: 256px; }
+.photo-3-box { left: 270.76px; top: 797.65px; scale: 0.48; width: 256px; height: 256px; clip-path: url("#__id61"); }
+.photo-3 { left: 0px; top: 0px; width: 256px; height: 256px; }
+.photo-4-box { left: 407.65px; top: 797.65px; scale: 0.48; width: 256px; height: 256px; clip-path: url("#__id63"); }
+.photo-4 { left: 0px; top: 0px; width: 256px; height: 256px; }
+.photo-5-box { left: 544.54px; top: 797.65px; scale: 0.48; width: 256px; height: 256px; clip-path: url("#__id65"); }
+.photo-5 { left: 0px; top: 0px; width: 256px; height: 256px; }
+.photo-6-box { left: 681.43px; top: 797.65px; scale: 0.48; width: 256px; height: 256px; clip-path: url("#__id67"); }
+.photo-6 { left: 0px; top: 0px; width: 256px; height: 256px; }
+.white-bow { left: 32.15px; top: 741.05px; rotate: -11.53deg; width: 108px; height: 123px; }
+.red-star { left: 552px; top: 368px; rotate: -14.45deg; width: 39px; height: 37px; z-index: 6; }
+.gold-star { left: 817.41px; top: 817.13px; rotate: 9.74deg; width: 82px; height: 71px; }
+.letter-1 { left: 438.55px; top: 148.57px; scale: 0.96; width: 422px; height: 182px; font-family: Schoolbell, cursive; font-size: 18.6666px; font-weight: 400; color: rgb(250, 244, 233); line-height: 26px; text-align: left; white-space: normal; }
+.letter-2 { left: 84.74px; top: 463.58px; scale: 0.96; width: 422px; height: 156px; font-family: Schoolbell, cursive; font-size: 18.6666px; font-weight: 400; color: rgb(250, 244, 233); line-height: 26px; text-align: left; white-space: normal; }
+.paper { left: 78.87px; top: 128.21px; width: 639px; height: 426px; }
+.sticker-box { left: 30.57px; top: 445.52px; width: 196px; height: 119px; }
+.sticker { left: 0px; top: -206.29px; width: 489px; height: 326px; }
+.polaroid-card { left: 608.68px; top: 181.07px; rotate: 10.41deg; width: 282px; height: 361px; z-index: 5; }
+.cassette { left: 433.82px; top: 421.23px; rotate: -9.74deg; width: 210px; height: 140px; z-index: 6; }
+.click-me-text { left: 532.78px; top: 507.9px; rotate: -9.61deg; scale: 0.66; width: 68px; height: 28px; z-index: 6; font-family: Schoolbell, cursive; font-size: 20.7106px; font-weight: 400; color: rgb(250, 244, 233); line-height: 28px; text-align: justify; white-space: nowrap; }
+.gold-star-2 { left: 140.43px; top: 304.21px; rotate: -17.35deg; scale: 1.01; width: 31px; height: 27px; }
+.gold-star-3 { left: 543.94px; top: 232.66px; rotate: 10.97deg; width: 31px; height: 27px; }
+.gold-star-4 { left: 239.98px; top: 449.27px; rotate: -8.62deg; width: 31px; height: 27px; }
+.heart-sticker-2 { left: 849.56px; top: 210.99px; rotate: 3.43deg; width: 46px; height: 41px; z-index: 6; }
+.sticker-box-2 { left: 578px; top: 528px; rotate: 9.74deg; width: 90px; height: 68px; z-index: 7; }
+.sticker-2 { left: -291.08px; top: -185.35px; width: 381px; height: 254px; z-index: 7; }
+.red-bow { left: 149.27px; top: 231.8px; rotate: -10.97deg; width: 51px; height: 33px; }
+.closing-text { left: 187.86px; top: 270.08px; scale: 0.91; width: 399px; height: 168px; font-family: Schoolbell, cursive; font-size: 17.5643px; font-weight: 400; color: rgb(126, 41, 41); line-height: 24px; text-align: center; white-space: normal; }

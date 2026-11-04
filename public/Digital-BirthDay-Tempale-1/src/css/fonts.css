@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Amsterdam One";
+  src: url("../fonts/amsterdam-one.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Schoolbell";
+  src: url("../fonts/schoolbell.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Para";
+  src: url("../fonts/para.woff") format("woff");
+  font-display: swap;
+}

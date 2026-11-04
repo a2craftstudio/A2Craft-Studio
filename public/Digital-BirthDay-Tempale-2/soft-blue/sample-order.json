@@ -1,0 +1,36 @@
+{
+  "name": "Sample",
+  "from": "A friend",
+  "coil": "#ff8a65",
+  "cover": {
+    "top": "an order from the API",
+    "foot": "made just for you"
+  },
+  "photos": [
+    "photo-03.jpg",
+    "photo-02.jpg"
+  ],
+  "wishes": [
+    "may every day feel like your birthday",
+    "may your favourite people stay close",
+    "may the little things make you smile",
+    "may this year be your best one"
+  ],
+  "quotes": [
+    "age is just a number",
+    "good things take time",
+    "the best is yet to come",
+    "cake first, worries later"
+  ],
+  "letter": "Happy birthday! This letter came from the API order, not from the static data. Thank you for being exactly who you are.",
+  "signature": "— from the API",
+  "pages": {
+    "2": {
+      "texts": [
+        {
+          "text": "this page was edited by the order"
+        }
+      ]
+    }
+  }
+}

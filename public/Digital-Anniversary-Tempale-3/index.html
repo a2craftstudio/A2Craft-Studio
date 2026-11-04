@@ -1,0 +1,595 @@
+<!doctype html>
+<!--
+  Template 3 - Our Love Story. Envelope reveal + slides.
+  src/photos : couple photos (swap per user)
+  src/layers : envelope, wax seals, paper, hearts and per-slide layer art (design - never change)
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our Love Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@500;600&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --wine: #74160d;
+    --wine-2: #8c1d23;
+    --blush: #f2e1df;
+    --cream: #fff8f2;
+    --s: .5;
+    --ease: cubic-bezier(.2, .75, .2, 1);
+    --spring: cubic-bezier(.34, 1.56, .64, 1);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--wine); overflow-x: hidden; font-family: Quicksand, system-ui, sans-serif; }
+  body.locked { overflow: hidden; }
+
+  /* ---------- Slides: each Canva page is a 1920x1080 stage scaled to the screen ---------- */
+  .slide { position: relative; height: calc(1080px * var(--s)); overflow: hidden; }
+  .stage {
+    position: absolute; left: 50%; top: 0; width: 1920px; height: 1080px;
+    transform-origin: 50% 0; transform: translateX(-50%) scale(var(--s));
+    overflow: hidden;
+  }
+  .stage div, .stage img, .stage i, .stage svg { position: absolute; left: 0; top: 0; display: block; }
+  .stage img { width: 100%; height: 100%; object-fit: cover; }
+  .stage i { width: 100%; height: 100%; }
+  .stage .crop { width: 100%; height: 100%; overflow: hidden; }
+  .stage p { margin: 0; white-space: nowrap; display: table; }
+  .stage p[style*="center"] { margin: 0 auto; }
+  .script { font-family: "Great Vibes", cursive; font-weight: 400; }
+  .body { font-family: Quicksand, sans-serif; font-weight: 500; }
+
+  /* ---------- Reveal animations (individual translate/scale/rotate keep Canva's own transforms intact) ---------- */
+  .stage > .el {
+    opacity: 0; translate: 0 50px;
+    transition: opacity .9s ease, translate 1.2s var(--ease), scale 1.2s var(--spring), rotate 1.2s var(--spring);
+    transition-delay: calc(.1s + var(--i, 0) * 110ms);
+  }
+  .slide.in .stage > .el { opacity: 1; translate: 0 0; }
+  .stage > .el.bg { translate: none; transition-duration: 1.2s; transition-delay: 0s; }
+  .stage > .el.deco { translate: 0 0; scale: .85; }
+  .slide.in .stage > .el.deco { scale: 1; }
+  .stage > .el.seal { translate: 0 0; scale: 0; rotate: -120deg; }
+  .slide.in .stage > .el.seal { scale: 1; rotate: 0deg; }
+  .stage > .el.from-right { translate: 160px 0; }
+  .stage > .el.from-left { translate: -160px 0; }
+  .slide.in .stage > .el.from-right, .slide.in .stage > .el.from-left { translate: 0 0; }
+  .el.photo img { filter: brightness(1.8) contrast(.6); transition: filter 1.8s ease-out; transition-delay: calc(.4s + var(--i, 0) * 110ms); }
+  .slide.in .el.photo img { filter: none; }
+  /* Slow "living photo" zoom inside each frame */
+  .slide.in .el.photo img { animation: kenburns 16s ease-in-out infinite alternate; }
+  @keyframes kenburns { from { scale: 1; } to { scale: 1.09; } }
+  /* Lace circles turn round and round */
+  .el.spin-ring > img { animation: spin 40s linear infinite; }
+  .el.spin-ring.rev > img { animation-direction: reverse; }
+  .el.txt .script { clip-path: inset(-30% 100% -40% 0); transition: clip-path 1.8s var(--ease) .45s; }
+  .slide.in .el.txt .script { clip-path: inset(-30% -10% -40% -10%); }
+  .el.txt.title img { clip-path: inset(0 100% 0 0); transition: clip-path 1.8s var(--ease) .45s; }
+  .slide.in .el.txt.title img { clip-path: inset(0 0 0 0); }
+  .el.bow > *, .el.sway > * { animation: sway 5s ease-in-out infinite; transform-origin: 50% 25%; }
+  @keyframes sway { 50% { rotate: 5deg; } }
+  .el.heart > * { animation: thump 1.6s ease-in-out infinite; }
+  @keyframes thump { 0%, 40%, 100% { scale: 1; } 15% { scale: 1.1; } 28% { scale: 1.03; } }
+  .el.float > * { animation: float 6s ease-in-out infinite; }
+  @keyframes float { 50% { translate: 0 -14px; } }
+  .spin { animation: spin 80s linear infinite; }
+  @keyframes spin { to { rotate: 360deg; } }
+
+  /* Page 1: the photo slides up out of the envelope, then the wax seal gives a little wiggle */
+  .slide.in .el.envpop { animation: envpop 1.9s var(--ease) 1.1s backwards; }
+  @keyframes envpop {
+    0% { translate: 0 190px; scale: .82; opacity: 0; }
+    35% { opacity: 1; }
+    70% { translate: 0 -34px; scale: 1.03; }
+    100% { translate: 0 0; scale: 1; opacity: 1; }
+  }
+  .slide.in .el.seal img { animation: waxwiggle 4s ease-in-out 3.2s infinite; transform-origin: 50% 50%; }
+  @keyframes waxwiggle { 0%, 80%, 100% { rotate: 0deg; scale: 1; } 86% { rotate: -9deg; scale: 1.07; } 93% { rotate: 7deg; scale: 1.04; } }
+
+  /* ---------- Stand-ins for Canva elements that only exist inside the editor ---------- */
+  .net {
+    background:
+      radial-gradient(circle, transparent 5px, rgba(255,255,255,.5) 6px 7.5px, transparent 8px) 0 0 / 20px 20px,
+      radial-gradient(circle, transparent 5px, rgba(255,255,255,.5) 6px 7.5px, transparent 8px) 10px 10px / 20px 20px,
+      var(--wine-2);
+  }
+  .blob0 { border-left: 12px solid rgba(255,255,255,.85); }
+  .blob1 { background: var(--wine-2); }
+  .blob1::after { content: ""; position: absolute; inset: 0; background: url(src/layers/lace-pink.png) 0 0 / 300px; opacity: .35; filter: blur(2px); }
+  .lace-tint { background: var(--wine-2); -webkit-mask: url(src/layers/lace-pink.png) center / contain no-repeat; mask: url(src/layers/lace-pink.png) center / contain no-repeat; opacity: .75; }
+  .lace-tint.bl { -webkit-mask-position: left bottom; mask-position: left bottom; -webkit-mask-size: 520px; mask-size: 520px; }
+  .lace-tint.tr { -webkit-mask-position: right top; mask-position: right top; }
+  .blob5 { background: #fbf8f2; box-shadow: 0 18px 40px rgba(40,5,8,.35); }
+  .blob7 {
+    background: radial-gradient(circle, transparent 7px, rgba(255,255,255,.8) 8px 11px, transparent 12px) 0 0 / 30px 30px, #e9c4c0;
+    filter: blur(1px);
+  }
+  .blob7::after { content: ""; position: absolute; inset: 15% 13%; background: #7a1515; box-shadow: 0 0 40px 20px rgba(122,21,21,.5); }
+  .frame { background: #fbf8f2; box-shadow: 0 20px 45px rgba(40,5,8,.35); }
+  .roses-bg { background: #efd6d2; overflow: hidden; }
+  .roses-bg svg { width: 100%; height: 100%; color: rgba(140,29,35,.6); filter: blur(4px); }
+  .ring-soft { background: radial-gradient(closest-side, var(--blush) 80%, rgba(242,225,223,0) 100%); }
+  .lacestrip {
+    background:
+      radial-gradient(circle, transparent 5px, rgba(255,240,238,.85) 6px 8px, transparent 9px) 0 0 / 22px 22px,
+      radial-gradient(circle, transparent 5px, rgba(255,240,238,.85) 6px 8px, transparent 9px) 11px 11px / 22px 22px,
+      #e2aaa6;
+    filter: blur(2px);
+  }
+  .doily-blush { color: rgba(250,232,230,.95); }
+  .doily-wine { color: rgba(140,29,35,.45); }
+  .doily svg, .bowsvg { width: 100%; height: 100%; }
+  .bowsvg path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ================= INTRO: the theme envelope with a photo card inside ================= */
+  .intro {
+    position: fixed; inset: 0; z-index: 100; overflow: hidden;
+    display: grid; place-items: center; align-content: center; gap: 26px;
+    background: var(--wine) url(src/layers/texture-plaid-red.jpg) center / 760px;
+    transition: opacity 1.1s var(--ease), transform 1.4s var(--ease), visibility 0s 1.4s;
+  }
+  .intro.done { opacity: 0; transform: scale(1.2); visibility: hidden; pointer-events: none; }
+  /* White rose lace from the theme framing both sides */
+  .intro .lace { position: absolute; top: 0; height: 100%; width: min(30vw, 400px); object-fit: cover; object-position: left center;
+    pointer-events: none; opacity: .95; transition: transform 1.4s var(--ease), opacity 1.2s ease; }
+  .intro .lace.r { right: 0; }
+  @media (max-width: 700px) { .intro .lace { width: 14vw; opacity: .8; } .intro-kicker b { font-size: 34px; } }
+  .intro .lace.l { left: 0; transform: scaleX(-1); }
+  .intro.opening.show .lace.r { transform: translateX(40%); opacity: .5; }
+  .intro.opening.show .lace.l { transform: scaleX(-1) translateX(40%); opacity: .5; }
+  .intro-kicker { position: relative; z-index: 2; margin: 0; text-align: center; color: var(--cream);
+    transition: opacity .6s ease, transform .8s var(--ease); }
+  .intro-kicker b { display: block; font: 400 clamp(38px, 5vw, 62px)/1 "Great Vibes", cursive; text-shadow: 0 4px 18px rgba(30,0,0,.5); }
+  .intro-kicker small { display: block; margin-top: 10px; font: 600 12px/1 Quicksand, sans-serif; letter-spacing: .32em; text-transform: uppercase; opacity: .8; }
+  .intro.opening .intro-kicker { opacity: 0; transform: translateY(-20px); }
+
+  /* The theme envelope: back, the photo card, then the front pocket cut along its V */
+  .env2 { position: relative; z-index: 2; width: min(560px, 86vw, 64vh * .825); aspect-ratio: 660 / 800;
+    animation: envdrop 1.3s var(--spring) both, envbob 4.5s ease-in-out 1.3s infinite; }
+  @keyframes envdrop { from { transform: translateY(-90vh) rotate(-14deg) scale(.6); opacity: 0; } 60% { opacity: 1; } to { transform: none; opacity: 1; } }
+  @keyframes envbob { 50% { transform: translateY(-10px) rotate(-1deg); } }
+  .env2 > .env-back, .env2 > .env-front { position: absolute; inset: 0; width: 100%; height: 100%;
+    transition: transform 1.1s var(--ease), opacity .9s ease; }
+  .env2 > .env-back { filter: drop-shadow(0 26px 30px rgba(30,0,0,.5)); }
+  .env2 > .env-front { z-index: 3; clip-path: polygon(0 41%, 37.9% 65.3%, 61.4% 65.3%, 100% 41%, 100% 100%, 0 100%);
+    filter: drop-shadow(0 -3px 4px rgba(90,50,10,.28)); }
+  .intro.opening.show .env-back, .intro.opening.show .env-front { transform: translateY(75vh) rotate(8deg); opacity: 0; }
+
+  /* The photo card plays the theme photos like a short film */
+  .letter { position: absolute; left: 12%; right: 12%; top: 19%; height: 50%; z-index: 2; background: #fbf8f2;
+    padding: 3.5% 3.5% 13%; box-shadow: 0 10px 30px rgba(40,5,8,.35); rotate: -3deg;
+    transition: transform 1.3s var(--ease) .45s, rotate 1.3s var(--ease) .45s; }
+  .intro.opening .letter { transform: translateY(-72%); rotate: 0deg; }
+  .intro.opening.show .letter { transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(var(--cs, 1.5)); transition: transform 1.4s var(--ease); }
+  .reel { position: relative; width: 100%; height: 100%; overflow: hidden; background: #1b1b1b; }
+  .reel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease; }
+  .reel img.on { opacity: 1; animation: reelzoom 3.4s linear forwards; }
+  @keyframes reelzoom { from { transform: scale(1); } to { transform: scale(1.14) translate(-1.5%, -1.5%); } }
+  .reel::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,.45)); pointer-events: none; }
+  .reel .reel-title { inset: auto; left: 50%; top: 50%; width: 50%; height: auto; object-fit: contain; z-index: 2;
+    transform: translate(-50%, -50%); opacity: 0; clip-path: inset(0 100% 0 0); animation: none;
+    transition: opacity .6s ease 2.6s, clip-path 1.8s var(--ease) 2.6s; filter: drop-shadow(0 4px 14px rgba(0,0,0,.5)); }
+  .intro.opening .reel .reel-title { opacity: 1; clip-path: inset(0 0 0 0); }
+  .reel-cap { position: absolute; left: 0; right: 0; bottom: 2.5%; text-align: center; color: var(--wine);
+    font: 400 clamp(16px, 2.6vw, 30px)/1 "Great Vibes", cursive; }
+
+  /* The real wax seal on the pocket, glowing until it is tapped */
+  .seal-btn { position: absolute; left: 50%; top: 65%; width: 27%; z-index: 5; cursor: pointer; border: 0; padding: 0; background: none;
+    transform: translate(-50%, -50%); transition: transform .8s var(--ease), opacity .6s ease; }
+  .seal-btn img { width: 100%; display: block; filter: drop-shadow(0 6px 8px rgba(40,0,0,.5)); animation: sealpulse 2s ease-in-out infinite; }
+  @keyframes sealpulse { 50% { scale: 1.07; } }
+  .intro.opening .seal-btn { transform: translate(-50%, -50%) translateY(-40px) scale(1.5) rotate(220deg); opacity: 0; }
+  
+  .begin { position: absolute; left: 50%; bottom: 7vh; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+    border: 0; border-radius: 999px; padding: 15px 34px; cursor: pointer; z-index: 6;
+    font: 600 15px/1 Quicksand, sans-serif; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--wine); background: var(--cream); box-shadow: 0 12px 30px rgba(40,5,8,.4), 0 0 0 6px rgba(255,248,242,.18);
+    transition: opacity .8s ease 1s, transform .8s var(--spring) 1s, background .3s; }
+  .begin:hover { background: #fff; }
+  .intro.show .begin { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; animation: beat 2.4s ease-in-out 2s infinite; }
+  @keyframes beat { 0%, 100% { box-shadow: 0 12px 30px rgba(40,5,8,.4), 0 0 0 6px rgba(255,248,242,.18); } 50% { box-shadow: 0 12px 30px rgba(40,5,8,.4), 0 0 0 16px rgba(255,248,242,0); } }
+
+
+  /* More life on the first screen: glowing rays, rising hearts, sparkles and a wiggling seal */
+  .rise { position: absolute; bottom: -40px; z-index: 1; width: var(--sz); aspect-ratio: 1; background: var(--c); opacity: 0; pointer-events: none;
+    clip-path: path("M12 21C6 17 2 13 2 8.5 2 5.4 4.4 3 7.3 3c1.9 0 3.6 1 4.7 2.6C13.1 4 14.8 3 16.7 3 19.6 3 22 5.4 22 8.5 22 13 18 17 12 21z");
+    animation: rise var(--t) linear var(--dl) infinite; }
+  @keyframes rise { 0% { transform: translate(0, 0) rotate(0); opacity: 0; } 12% { opacity: .85; } 100% { transform: translate(var(--dx), -112vh) rotate(var(--rot)); opacity: 0; } }
+  .spark { animation-delay: var(--d); position: absolute; z-index: 5; width: 14px; height: 14px; pointer-events: none; background: #fff6e8; opacity: 0;
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: twinkle 2.4s ease-in-out infinite; }
+  @keyframes twinkle { 0%, 100% { opacity: 0; scale: .2; } 50% { opacity: 1; scale: 1.3; rotate: 90deg; } }
+  .seal-btn { animation: sealshake 3.2s ease-in-out 1.6s infinite; }
+  @keyframes sealshake { 0%, 70%, 100% { rotate: 0deg; } 74% { rotate: -12deg; } 78% { rotate: 10deg; } 82% { rotate: -8deg; } 86% { rotate: 5deg; } }
+  .intro-kicker b { animation: kickin 1.1s var(--ease) .5s both; }
+  .intro-kicker small { animation: kickin 1.1s var(--ease) .9s both; }
+  @keyframes kickin { from { opacity: 0; transform: translateY(-26px) scale(.9); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+  .intro.opening .env2 { animation: envshake .7s ease-in-out; }
+  @keyframes envshake { 0%, 100% { transform: none; } 20% { transform: translateX(-9px) rotate(-3deg); } 40% { transform: translateX(9px) rotate(3deg); } 60% { transform: translateX(-6px) rotate(-2deg); } 80% { transform: translateX(5px) rotate(1deg); } }
+
+  /* ---------- Chrome ---------- */
+  .progress { position: fixed; left: 0; top: 0; height: 3px; width: 100%; z-index: 80; transform-origin: left; transform: scaleX(0); background: linear-gradient(90deg, #e48b92, var(--cream)); }
+  .dots { position: fixed; right: 14px; top: 50%; transform: translateY(-50%); z-index: 80; display: grid; gap: 11px; }
+  .dots a { display: block; width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.5); box-shadow: 0 0 0 1px rgba(116,22,13,.45); transition: transform .3s, background .3s; }
+  .dots a.on { background: #e48b92; transform: scale(1.5); }
+  #petals { position: fixed; inset: 0; z-index: 60; pointer-events: none; }
+  .burst { position: fixed; z-index: 95; pointer-events: none; width: var(--sz); aspect-ratio: 1; margin: calc(var(--sz) / -2) 0 0 calc(var(--sz) / -2); background: var(--c);
+    clip-path: path("M12 21C6 17 2 13 2 8.5 2 5.4 4.4 3 7.3 3c1.9 0 3.6 1 4.7 2.6C13.1 4 14.8 3 16.7 3 19.6 3 22 5.4 22 8.5 22 13 18 17 12 21z");
+    animation: burst 1.3s var(--ease) forwards; }
+  @keyframes burst { to { transform: translate(var(--x), var(--y)) rotate(var(--rot)) scale(.4); opacity: 0; } }
+  #file { display: none; }
+
+  .static *, .static *::before, .static *::after { transition: none !important; animation: none !important; }
+  .static .intro, .static #petals { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .stage > .el { opacity: 1 !important; translate: none !important; scale: none !important; rotate: none !important; }
+    .el.photo img { filter: none !important; }
+    .el.txt .script { clip-path: none !important; }
+    #petals { display: none; }
+  }
+</style>
+<style>html{scrollbar-width:none}html::-webkit-scrollbar{display:none}</style>
+</head>
+<body class="locked">
+
+<div class="intro" id="intro">
+  <img class="lace l" src="src/layers/slide01-layer-1.png" alt="">
+  <img class="lace r" src="src/layers/slide01-layer-1.png" alt="">
+  <p class="intro-kicker"><b>A love letter for you</b><small>Tap the seal to open</small></p>
+  <div class="env2">
+    <img class="env-back" src="src/layers/envelope-front.png" alt="">
+    <div class="letter">
+      <div class="reel">
+        <img class="on" src="src/photos/photo-01.jpg" alt=""><img src="src/photos/photo-02.jpg" alt=""><img src="src/photos/photo-03.jpg" alt="">
+        <img src="src/photos/photo-04.jpg" alt=""><img src="src/photos/photo-05.jpg" alt=""><img src="src/photos/photo-06.jpg" alt="">
+        <img class="reel-title" src="src/layers/slide01-layer-2.png" alt="Love Story">
+      </div>
+      <b class="reel-cap">Happy Anniversary</b>
+    </div>
+    <img class="env-front" src="src/layers/envelope-front.png" alt="">
+    <i class="spark" style="left:6%;top:14%;--d:0s"></i><i class="spark" style="left:88%;top:8%;--d:.7s"></i><i class="spark" style="left:94%;top:62%;--d:1.3s"></i><i class="spark" style="left:2%;top:70%;--d:.4s"></i><i class="spark" style="left:48%;top:-4%;--d:1.8s"></i>
+    <button class="seal-btn" id="openSeal" aria-label="Open the letter"><img src="src/layers/wax-seal-poppy-a.png" alt=""></button>
+  </div>
+  <button class="begin" id="begin">Open our story &#10084;</button>
+</div>
+
+<canvas id="petals"></canvas>
+
+<nav class="dots" id="dots" aria-label="Pages"></nav>
+
+<main>
+<!-- 1 · LOVE STORY -->
+<section class="slide" id="p1" data-title="Love Story"><div class="stage" style="background: rgb(242, 225, 223);">
+<div class="el" style="width:1920px;height:1920px;transform:translate(0px,-420px);"><div style="width:1920px;height:1920px;overflow:hidden;"><img src="src/layers/texture-plaid-red.jpg" alt=""></div></div>
+<div class="el deco from-right" style="width:732px;height:1080px;transform:translate(1188px,0px);"><img src="src/layers/slide01-layer-1.png" alt=""></div>
+<div class="el" style="width:578.7px;height:700.1px;transform:matrix(0.9843, -0.1763, 0.1763, 0.9843, 18.4, 313.2);transform-origin:289.3px 350px;"><div style="width:579.5px;height:701px;transform:matrix(0.9987, 0, 0, 0.9987, 0, 0);transform-origin:0px 0px;clip-path:path('M579.5,2.0927L39.5,0L1.8925,209.9L1.7223,253.9L0,698.8L576.8,701L577.3,554.9L579.5,2.0927Z');overflow:hidden;"><div style="width:579.5px;height:701.1px;transform:translate(0px,-0.1422px);"><img src="src/layers/envelope-back.png" alt=""></div></div></div>
+<div class="el envpop" style="width:435.8px;height:435.9px;transform:matrix(0.9906, -0.1368, 0.1368, 0.9906, 133.7, 490.7);transform-origin:217.9px 217.9px;"><div style="width:436px;height:436.1px;transform:matrix(0.9996, 0, 0, 0.9996, 0, 0);transform-origin:0px 0px;overflow:hidden;"><img src="src/layers/paper-white-a.png" alt=""></div></div>
+<div class="el photo envpop" style="width:389.2px;height:386.2px;transform:matrix(0.9903, -0.1391, 0.1391, 0.9903, 156.9, 513.1);transform-origin:194.6px 193.1px;"><div style="width:390.1px;height:387px;transform:matrix(0.9978, 0, 0, 0.9978, 0, 0);transform-origin:0px 0px;clip-path:path('M387.9,5.2C387.7,5.2 387.6,5.1 387.5,5.1L9.7,0C7.8,-0.0301 6.2,1.4732 6.2,3.3473L0,375.2C0,375.2 0,375.2 0,375.2L0,375.2C0,377 1.2728,378.4 2.9264,378.6C3.0567,378.6 3.197,378.6 3.3272,378.6L381.1,387C383,387 384.6,385.5 384.6,383.6L389.9,59.9L390.1,6.4C389.5,5.8 388.8,5.3 387.9,5.2Z');overflow:hidden;"><div style="width:390.6px;height:585.6px;transform:translate(-0.2525px,-99.2px);"><img src="src/photos/photo-01.jpg" alt=""></div></div></div>
+<div class="el seal" style="width:154px;height:147px;transform:translate(129.1px,845.8px);"><img src="src/layers/wax-seal-thistle.png" alt=""></div>
+<div class="el from-right" style="width:284.2px;height:293.8px;transform:translate(1430.3px,0px);"><div style="width:285px;height:294.7px;transform:matrix(0.9972, 0, 0, 0.9972, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:285px;height:403.2px;transform:translate(-0.013px,-107.4px);"><img src="src/layers/paper-white-b.png" alt=""></div></div></div>
+<div class="el photo from-right" style="width:259.1px;height:280.6px;transform:translate(1442.8px,0px);"><div style="width:260px;height:281.6px;transform:matrix(0.9966, 0, 0, 0.9966, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:501.8px;height:376.9px;transform:translate(-120.3px,-95.2px);"><img src="src/photos/photo-07.jpg" alt=""></div></div></div>
+<div class="el from-right" style="width:284.2px;height:401px;transform:translate(1430.3px,339.3px);"><div style="width:285px;height:402.1px;transform:matrix(0.9972, 0, 0, 0.9972, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:285px;height:403.2px;"><img src="src/layers/paper-white-b.png" alt=""></div></div></div>
+<div class="el photo from-right" style="width:260px;height:375.5px;transform:translate(1442.8px,351.6px);"><div style="width:260.3px;height:376px;transform:matrix(0.9987, 0, 0, 0.9987, 0, 0);transform-origin:0px 0px;clip-path:path('M0,0L0,372.4L255.7,376L260.3,31L260.3,1.1015L0,0Z');overflow:hidden;"><div style="width:260.3px;height:390.5px;transform:translate(0px,-7.4px);"><img src="src/photos/photo-08.jpg" alt=""></div></div></div>
+<div class="el from-right" style="width:284.2px;height:294.3px;transform:translate(1430.3px,785.7px);"><div style="width:285px;height:295.1px;transform:matrix(0.9972, 0, 0, 0.9972, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:285px;height:403.2px;"><img src="src/layers/paper-white-b.png" alt=""></div></div></div>
+<div class="el photo from-right" style="width:260px;height:282px;transform:translate(1442.8px,798px);"><div style="width:260.9px;height:283px;transform:matrix(0.9965, 0, 0, 0.9965, 0, 0);transform-origin:0px 0px;clip-path:path('M0,0L0,283L257.5,283L260.9,31.1L260.9,1.1039L0,0Z');overflow:hidden;"><div style="width:260.9px;height:391.3px;transform:translate(0px,-7.4px);"><img src="src/photos/photo-09.jpg" alt=""></div></div></div>
+<div class="el txt title" style="width:610px;height:677px;transform:translate(621px,231px);"><img src="src/layers/slide01-layer-2.png" alt=""></div>
+</div></section>
+
+<!-- 2 · THE DAY WE MET -->
+<section class="slide" id="p2" data-title="The Day We Met"><div class="stage" style="background: rgb(242, 225, 223);">
+<div class="el deco" style="width:887px;height:1080px;transform:translate(0px,0px);"><img src="src/layers/slide02-layer-6.png" alt=""></div>
+<div class="el deco" style="width:401px;height:293px;transform:translate(1519px,787px);"><img src="src/layers/slide02-layer-5.png" alt=""></div>
+<div class="el from-right" style="width:371.5px;height:372.3px;transform:translate(1548.5px,0px);"><div style="width:372.3px;height:373px;transform:matrix(0.998, 0, 0, 0.998, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:679.3px;height:592.2px;transform:translate(0px,-219.2px);"><img src="src/layers/torn-paper-red-strip.png" alt=""></div></div></div>
+<div class="el bow" style="width:384px;height:437px;transform:translate(1389px,154px);"><img src="src/layers/slide02-layer-1.png" alt=""></div>
+<div class="el photo from-left" style="width:612.5px;height:1117.2px;transform:matrix(0.9748, -0.2229, 0.2229, 0.9748, -110.7, 2.806);transform-origin:306.2px 558.6px;"><div style="width:613px;height:1118.2px;transform:matrix(0.9992, 0, 0, 0.9992, 0, 0);transform-origin:0px 0px;clip-path:path('M244.1,2.2318C240.6,1.4312 237.1,0.6806 233.5,0L0,1021.4L423.2,1118.2C536.3,1006.9 611,824.2 613,617.1C615.9,308.2 455.9,50.7 244.1,2.2318Z');overflow:hidden;"><div style="width:613px;height:1118.2px;transform:matrix(-1, 0, 0, 1, 0, 0);transform-origin:306.5px 559.1px;"><div style="width:1707.9px;height:1254.3px;transform:translate(-847.6px,-15.4px);"><img src="src/photos/photo-10.jpg" alt=""></div></div></div></div>
+<div class="el txt title" style="width:803px;height:215px;transform:translate(850px,426px);"><img src="src/layers/slide02-layer-2.png" alt=""></div>
+<div class="el txt" style="width:685px;height:77px;transform:translate(876px,648px);"><img src="src/layers/slide02-layer-3.png" alt=""></div>
+<div class="el txt" style="width:620px;height:160px;transform:translate(876px,730px);"><img src="src/layers/slide02-layer-4.png" alt=""></div>
+</div></section>
+
+<!-- 3 · MY FAVORITE PERSON -->
+<section class="slide" id="p3" data-title="My Favorite Person"><div class="stage" style="background: rgb(116, 22, 13);">
+<div class="el deco" style="width:883.4px;height:621.4px;transform:matrix(0.1025, -0.9947, 0.9947, 0.1025, 869.8, 361.1);transform-origin:441.7px 310.7px;"><div style="width:884.3px;height:622px;transform:matrix(0.999, 0, 0, 0.999, 0, 0);transform-origin:0px 0px;clip-path:path('M879.4,0L0,6.9L63.4,622L884.3,615.6L879.4,0Z');overflow:hidden;"><div style="width:926.7px;height:622.8px;transform:translate(-42.4px,0px);"><img src="src/layers/envelope-pink.png" alt=""></div></div></div>
+<div class="el deco" style="width:293px;height:295px;transform:translate(0px,785px);"><img src="src/layers/slide03-layer-7.png" alt=""></div>
+<div class="el seal" style="width:122.1px;height:125.3px;transform:translate(1452.2px,310.3px);"><img src="src/layers/wax-seal-poppy-c.png" alt=""></div>
+<div class="el deco from-left" style="width:1920px;height:138px;transform:translate(0px,0px);"><img src="src/layers/slide03-layer-5.png" alt=""></div>
+<div class="el" style="width:345.1px;height:486.8px;transform:matrix(0.9974, -0.0715, 0.0715, 0.9974, 1232.8, 473.1);transform-origin:172.6px 243.4px;"><div style="width:346px;height:488px;transform:matrix(0.9975, 0, 0, 0.9975, 0, 0);transform-origin:0px 0px;overflow:hidden;"><img src="src/layers/paper-white-c.png" alt=""></div></div>
+<div class="el photo" style="width:316px;height:455px;transform:matrix(0.9976, -0.0689, 0.0689, 0.9976, 1247.6, 488.4);transform-origin:158px 227.5px;"><div style="width:317px;height:456.5px;transform:matrix(0.9968, 0, 0, 0.9968, 0, 0);transform-origin:0px 0px;clip-path:path('M317,0.642L0,0L1.0032,452.8L311.9,456.5L317,0.642Z');overflow:hidden;"><div style="width:686.3px;height:458.8px;transform:translate(-183.9px,-1.1105px);"><img src="src/photos/photo-11.jpg" alt=""></div></div></div>
+<div class="el" style="width:350px;height:394px;transform:translate(982px,612px);"><img src="src/layers/slide03-layer-6.png" alt=""></div>
+<div class="el photo" style="width:272.5px;height:261.5px;transform:matrix(0.9922, 0.1249, -0.1249, 0.9922, 1022.6, 648.3);transform-origin:136.2px 130.7px;"><div style="width:273px;height:262px;transform:matrix(0.998, 0, 0, 0.998, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:349.1px;height:262px;transform:translate(-38px,0px);"><img src="src/photos/photo-07.jpg" alt=""></div></div></div>
+<div class="el" style="width:365px;height:408px;transform:translate(975px,605px);"><img src="src/layers/slide03-layer-3.png" alt=""></div>
+<div class="el bow" style="width:354px;height:208.2px;transform:translate(752.3px,871.8px);"><div style="width:435.3px;height:256px;transform:matrix(0.8133, 0, 0, 0.8133, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:435.3px;height:469.7px;"><img src="src/layers/bow-plaid.png" alt=""></div></div></div>
+<div class="el txt title" style="width:762px;height:171px;transform:translate(218px,310px);"><img src="src/layers/slide03-layer-1.png" alt=""></div>
+<div class="el txt" style="width:717px;height:77px;transform:translate(234px,484px);"><img src="src/layers/slide03-layer-2.png" alt=""></div>
+<div class="el txt" style="width:583px;height:242px;transform:translate(234px,566px);"><img src="src/layers/slide03-layer-4.png" alt=""></div>
+</div></section>
+
+<!-- 4 · LITTLE THINGS MATTER -->
+<section class="slide" id="p4" data-title="Little Things Matter"><div class="stage" style="background: rgb(242, 225, 223);">
+<div class="el deco" style="width:1360px;height:978px;transform:translate(217px,81px);"><img src="src/layers/slide04-layer-4.png" alt=""></div>
+<div class="el heart" style="width:291px;height:332px;transform:translate(1466.8px,540px);"><img src="src/layers/heart-torn-red.png" alt=""></div>
+<div class="el deco" style="width:108px;height:583.2px;transform:translate(1812px,0px);"><div style="width:256px;height:1382.3px;transform:matrix(0.4219, 0, 0, 0.4219, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:1280px;height:2048px;transform:translate(0px,-665.7px);"><img src="src/layers/torn-paper-red-piece.png" alt=""></div></div></div>
+<div class="el" style="width:356px;height:356px;transform:translate(106px,61px);"><img src="src/layers/slide04-layer-1.png" alt=""></div>
+<div class="el photo" style="width:278px;height:275.1px;transform:matrix(0.9906, -0.1365, 0.1365, 0.9906, 144.8, 99.6);transform-origin:139px 137.5px;"><div style="width:279px;height:276px;transform:matrix(0.9965, 0, 0, 0.9965, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:413.7px;height:276.3px;transform:translate(-67.6px,-0.1174px);"><img src="src/photos/photo-12.jpg" alt=""></div></div></div>
+<div class="el" style="width:356px;height:356px;transform:translate(1234px,694px);"><img src="src/layers/slide04-layer-3.png" alt=""></div>
+<div class="el photo" style="width:277.7px;height:275.5px;transform:matrix(0.9905, -0.1373, 0.1373, 0.9905, 1273.1, 732.2);transform-origin:138.9px 137.8px;"><div style="width:278.2px;height:276px;transform:matrix(0.9983, 0, 0, 0.9983, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:278.3px;height:433.6px;transform:translate(-0.0411px,-79px);"><img src="src/photos/photo-13.jpg" alt=""></div></div></div>
+<div class="el txt title" style="width:805px;height:440px;transform:translate(492px,350px);"><img src="src/layers/slide04-layer-2.png" alt=""></div>
+</div></section>
+
+<!-- 5 · OUR KIND OF HAPPINESS -->
+<section class="slide" id="p5" data-title="Our Kind of Happiness"><div class="stage" style="background: rgb(242, 225, 223);">
+<div class="el bg" style="width:1920px;height:1920px;transform:translate(0px,-420px);"><div style="width:1920px;height:1920px;overflow:hidden;"><img src="src/layers/texture-plaid-red.jpg" alt=""></div></div>
+<div class="el deco spin-ring" style="width:654px;height:654px;transform:translate(230px,133px);"><img src="src/layers/slide05-layer-4.png" alt=""></div>
+<div class="el deco spin-ring rev" style="width:654px;height:654px;transform:translate(1036px,293px);"><img src="src/layers/slide05-layer-2.png" alt=""></div>
+<div class="el photo" style="width:383.4px;height:383.4px;transform:translate(365.2px,268.2px);"><div style="width:384px;height:384px;transform:matrix(0.9985, 0, 0, 0.9985, 0, 0);transform-origin:0px 0px;clip-path:path('M192,0C86,0 0,86 0,192C0,298 86,384 192,384C298,384 383.9,298.1 384,192.1L384,191.9C384,85.9 298,0 192,0Z');overflow:hidden;"><div style="width:384px;height:576px;transform:translate(0px,-173.9px);"><img src="src/photos/photo-01.jpg" alt=""></div></div></div>
+<div class="el photo" style="width:383.4px;height:383.4px;transform:translate(1171.4px,428.4px);"><div style="width:384px;height:384px;transform:matrix(0.9985, 0, 0, 0.9985, 0, 0);transform-origin:0px 0px;clip-path:path('M192,0C86,0 0,86 0,192C0,298 85.9,383.9 191.9,384L192.1,384C298.1,383.9 384,298 384,192C384,86 298,0 192,0Z');overflow:hidden;"><div style="width:576px;height:384px;transform:translate(-96px,0px);"><img src="src/photos/photo-14.jpg" alt=""></div></div></div>
+<div class="el txt title" style="width:885px;height:191px;transform:translate(896px,112px);"><img src="src/layers/slide05-layer-3.png" alt=""></div>
+<div class="el txt" style="width:721px;height:202px;transform:translate(273px,823px);"><img src="src/layers/slide05-layer-1.png" alt=""></div>
+</div></section>
+
+<!-- 6 · ADVENTURE PARTNER -->
+<section class="slide" id="p6" data-title="Adventure Partner"><div class="stage" style="background: rgb(242, 225, 223);">
+<div class="el bg" style="width:969px;height:1080px;transform:translate(0px,0px);"><img src="src/layers/slide06-layer-5.png" alt=""></div>
+<div class="el deco" style="width:254px;height:326px;transform:translate(1666px,754px);"><img src="src/layers/slide06-layer-7.png" alt=""></div>
+<div class="el" style="width:816.1px;height:556.1px;transform:matrix(-0.2471, -0.969, 0.969, -0.2471, 61.3, 472.6);transform-origin:408px 278px;"><div style="width:817.4px;height:557px;transform:matrix(0.9983, 0, 0, 0.9983, 0, 0);transform-origin:0px 0px;clip-path:path('M810.1,557L812.9,344.4L817.4,9.1L139.3,0L0,546.1L810.1,557Z');overflow:hidden;"><div style="width:827.7px;height:558.9px;transform:translate(-10.2px,-1.9152px);"><img src="src/layers/envelope-pink.png" alt=""></div></div></div>
+<div class="el" style="width:535px;height:574px;transform:translate(149px,465px);"><img src="src/layers/slide06-layer-6.png" alt=""></div>
+<div class="el photo" style="width:367.3px;height:352.3px;transform:matrix(0.9886, -0.1503, 0.1503, 0.9886, 197.9, 518.6);transform-origin:183.6px 176.2px;"><div style="width:368px;height:353px;transform:matrix(0.998, 0, 0, 0.998, 0, 0);transform-origin:0px 0px;overflow:hidden;"><div style="width:530.6px;height:353.3px;transform:translate(-81.4px,-0.1313px);"><img src="src/photos/photo-15.jpg" alt=""></div></div></div>
+<div class="el bow" style="width:232px;height:250px;transform:translate(469.5px,231.2px);"><div style="width:256px;height:275.9px;transform:matrix(0.9063, 0, 0, 0.9063, 0, 0);transform-origin:0px 0px;overflow:hidden;"><img src="src/layers/bow-plaid.png" alt=""></div></div>
+<div class="el" style="width:969px;height:1080px;transform:translate(0px,0px);"><img src="src/layers/slide06-layer-1.png" alt=""></div>
+<div class="el txt title" style="width:841px;height:214px;transform:translate(1000px,346px);"><img src="src/layers/slide06-layer-3.png" alt=""></div>
+<div class="el txt" style="width:699px;height:77px;transform:translate(1026px,567px);"><img src="src/layers/slide06-layer-4.png" alt=""></div>
+<div class="el txt" style="width:701px;height:159px;transform:translate(1026px,650px);"><img src="src/layers/slide06-layer-2.png" alt=""></div>
+</div></section>
+
+<!-- 7 · THE COMFORT OF US -->
+<section class="slide" id="p7" data-title="The Comfort of Us"><div class="stage" style="background: rgb(116, 22, 13);">
+<div class="el deco float" style="width:722px;height:650px;transform:translate(0px,415px);"><img src="src/layers/slide07-layer-5.png" alt=""></div>
+<div class="el deco from-right" style="width:1022px;height:1080px;transform:translate(898px,0px);"><img src="src/layers/slide07-layer-1.png" alt=""></div>
+<div class="el photo float" style="width:569.7px;height:352.7px;transform:translate(0px,563.3px);"><div class="crop" style="clip-path:path('M260.3 0C150.97.04 54.92 32.44 0 81.32V271.38H0c54.96 48.91 151.1 81.32 260.51 81.32 170.77 0 309.2-78.95 309.2-176.35C569.71 78.99 431.39.07 260.72 0Z');"><img src="src/photos/photo-16.jpg" alt="" style="left:-48.7px;top:-30px;width:618.6px;height:413.3px"></div></div>
+<div class="el bow" style="width:284px;height:322px;transform:translate(304px,518px);"><img src="src/layers/slide07-layer-2.png" alt=""></div>
+<div class="el photo float" style="width:618.4px;height:352.7px;transform:translate(1050.4px,247.5px);"><div class="crop" style="clip-path:path('M309.2 0C138.43 0 0 78.95 0 176.35 0 273.7 138.32 352.63 308.99 352.7h.42c170.67-.07 308.98-78.99 308.98-176.35C618.39 78.95 479.96 0 309.2 0Z');"><img src="src/photos/photo-03.jpg" alt="" style="left:0;top:-30px;width:618.6px;height:413.3px"></div></div>
+<div class="el deco from-right" style="width:398px;height:1080px;transform:translate(1522px,0px);"><img src="src/layers/slide07-layer-4.png" alt=""></div>
+<div class="el txt title" style="width:836px;height:215px;transform:translate(109px,195px);"><img src="src/layers/slide07-layer-3.png" alt=""></div>
+<div class="el txt" style="width:816px;height:242px;transform:translate(753px,792px);"><img src="src/layers/slide07-layer-6.png" alt=""></div>
+</div></section>
+
+<!-- 8 · CAUGHT ON CAMERA -->
+<section class="slide" id="p8" data-title="Caught on Camera"><div class="stage" style="background: rgb(242, 225, 223);">
+<div class="el" style="width:593.3px;height:716.9px;transform:translate(1174.2px,181.3px) rotate(7.933deg);"><img src="src/layers/envelope-front.png" alt="" style="object-fit:fill"></div>
+<div class="el seal" style="width:122.1px;height:125.3px;transform:translate(1389.9px,597.5px);"><img src="src/layers/wax-seal-poppy-b.png" alt=""></div>
+<div class="el" style="width:356px;height:357px;transform:translate(1161px,220px);"><img src="src/layers/slide08-layer-2.png" alt=""></div>
+<div class="el photo" style="width:277.7px;height:275.5px;transform:translate(1200.3px,259.1px) rotate(-7.886deg);"><div class="crop"><img src="src/photos/photo-02.jpg" alt="" style="left:0;top:-70.7px;width:277.8px;height:417.1px"></div></div>
+<div class="el" style="width:343px;height:343px;transform:translate(1503px,433px);"><img src="src/layers/slide08-layer-3.png" alt=""></div>
+<div class="el photo" style="width:277.5px;height:275.3px;transform:translate(1535.7px,464.8px) rotate(5.117deg);"><div class="crop"><img src="src/photos/photo-04.jpg" alt="" style="left:-0.1px;top:-70.8px;width:277.7px;height:417.1px"></div></div>
+<div class="el txt title" style="width:825px;height:452px;transform:translate(250px,318px);"><img src="src/layers/slide08-layer-1.png" alt=""></div>
+</div></section>
+
+<!-- 9 · GROWING TOGETHER -->
+<section class="slide" id="p9" data-title="Growing Together"><div class="stage" style="background: rgb(242, 225, 223);">
+<div class="el bg" style="width:1920px;height:1920px;transform:translate(0px,-420px);"><img src="src/layers/texture-plaid-red.jpg" alt=""></div>
+<div class="el bg" style="width:1094px;height:1080px;transform:translate(0px,0px);"><img src="src/layers/slide09-layer-4.png" alt=""></div>
+<div class="el" style="width:477px;height:555px;transform:translate(1196px,267px);"><img src="src/layers/slide09-layer-2.png" alt=""></div>
+<div class="el photo" style="width:424.1px;height:407.2px;transform:translate(1220.2px,294.6px);"><div class="crop"><img src="src/photos/photo-05.jpg" alt="" style="left:0;top:-114.2px;width:424.6px;height:635.8px"></div></div>
+<div class="el" style="width:492px;height:569px;transform:translate(1190px,260px);"><img src="src/layers/slide09-layer-3.png" alt=""></div>
+<div class="el txt title" style="width:703px;height:193px;transform:translate(156px,383px);"><img src="src/layers/slide09-layer-5.png" alt=""></div>
+<div class="el txt" style="width:668px;height:67px;transform:translate(182px,576px);"><img src="src/layers/slide09-layer-6.png" alt=""></div>
+<div class="el txt" style="width:542px;height:137px;transform:translate(182px,646px);"><img src="src/layers/slide09-layer-1.png" alt=""></div>
+</div></section>
+
+<!-- 10 · MORE MEMORIES TO MAKE -->
+<section class="slide" id="p10" data-title="More Memories to Make"><div class="stage" style="background: rgb(242, 225, 223);">
+<div class="el deco" style="width:1130px;height:795px;transform:translate(395px,248px);"><img src="src/layers/slide10-layer-4.png" alt=""></div>
+<div class="el photo" style="width:780.9px;height:445.4px;transform:translate(569.6px,422.9px);"><div class="crop" style="border-radius:50%;"><img src="src/photos/photo-06.jpg" alt="" style="left:-5.9px;top:0;width:793.3px;height:445.4px"></div></div>
+<div class="el seal" style="width:122.2px;height:125.3px;transform:translate(234.1px,256.1px);"><img src="src/layers/wax-seal-poppy-a.png" alt=""></div>
+<div class="el deco from-left" style="width:1525px;height:832px;transform:translate(0px,248px);"><img src="src/layers/slide10-layer-1.png" alt=""></div>
+<div class="el deco from-right" style="width:262px;height:381px;transform:translate(1658px,0px);"><img src="src/layers/slide10-layer-3.png" alt=""></div>
+<div class="el txt title" style="width:1131px;height:215px;transform:translate(405px,74px);"><img src="src/layers/slide10-layer-2.png" alt=""></div>
+</div></section>
+</main>
+
+<script>
+(() => {
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const $ = (s, el = document) => [...el.querySelectorAll(s)];
+  const slides = $(".slide");
+
+  // ---------- Scale each 1920x1080 page to the screen ----------
+  function fit() {
+    // Always fill the full screen width, so there are no empty bands at the sides
+    const s = document.documentElement.clientWidth / 1920;
+    document.documentElement.style.setProperty("--s", s);
+  }
+  fit(); addEventListener("resize", fit);
+  // Letterbox bands match each page's background colour
+  slides.forEach(sl => sl.style.background = sl.querySelector(".stage").style.background);
+  // Stagger order for the reveal
+  slides.forEach(sl => $(".stage > .el", sl).forEach((el, i) => el.style.setProperty("--i", i)));
+
+  // ---------- Decorations for the editor-only Canva elements ----------
+  function doily() {
+    let s = `<svg viewBox="-110 -110 220 220" preserveAspectRatio="none"><g fill="none" stroke="currentColor">`;
+    const ring = (n, R, fn) => { for (let i = 0; i < n; i++) s += `<g transform="rotate(${i / n * 360}) translate(0 ${-R})">${fn()}</g>`; };
+    ring(36, 98, () => `<circle r="9" stroke-width="3.2"/>`);
+    ring(36, 98, () => `<circle r="2" fill="currentColor" stroke="none"/>`);
+    ring(72, 84, () => `<circle r="1.6" fill="currentColor" stroke="none"/>`);
+    ring(24, 72, () => `<path d="M0 8 C-7 0 -5 -9 0 -12 C5 -9 7 0 0 8Z" stroke-width="1.6"/>`);
+    s += `<circle r="62" stroke-width="1.4" stroke-dasharray="1 4" stroke-linecap="round"/>`;
+    ring(48, 56, () => `<circle r="3.4" stroke-width="1.2"/>`);
+    return s + `</g></svg>`;
+  }
+  $("[data-doily]").forEach(el => el.innerHTML = doily());
+
+  const BOW = `<path stroke-width="5" d="M100 62 C72 18 18 14 26 52 C32 80 76 74 100 62 C124 74 168 80 174 52 C182 14 128 18 100 62"/>
+    <path stroke-width="4" d="M100 62 C92 96 70 120 54 170 M100 62 C112 98 136 122 152 172"/>
+    <ellipse cx="100" cy="62" rx="10" ry="8" fill="currentColor" stroke="none"/>`;
+  $("[data-bow]").forEach(el => el.innerHTML = BOW);
+
+  function roses(el, color, spiral) {
+    el.setAttribute("viewBox", "0 0 400 800");
+    let s = "";
+    [[30, 60, 1.1], [360, 170, .9], [60, 330, .8], [340, 430, 1.2], [40, 600, 1], [330, 720, .85], [200, -20, .7], [210, 840, .8]].forEach(([x, y, k], i) => {
+      s += `<g transform="translate(${x} ${y}) rotate(${(i * 47) % 360}) scale(${k})">`;
+      for (const a of [35, 155]) s += `<g transform="rotate(${a})"><path d="M36 0 C56 -26 104 -30 128 0 C104 30 56 26 36 0Z" fill="${color}"/><path d="M44 0 Q86 -4 122 0" fill="none" stroke="${spiral}" stroke-width="2" opacity=".7"/></g>`;
+      for (let j = 0; j < 6; j++) { const a = j * Math.PI / 3; s += `<circle cx="${(Math.cos(a) * 26).toFixed(1)}" cy="${(Math.sin(a) * 26).toFixed(1)}" r="24" fill="${color}"/>`; }
+      s += `<path d="M0 -3 C7 -6 10 5 0 8 C-11 10 -14 -10 0 -14 C17 -16 20 14 0 18 C-22 20 -24 -18 -4 -24" fill="none" stroke="${spiral}" stroke-width="3" stroke-linecap="round"/></g>`;
+    });
+    el.innerHTML = s;
+  }
+  $("[data-roses]").forEach(el => el.dataset.roses === "white" ? roses(el, "#fff", "#8c1d23") : roses(el, "currentColor", "#efd6d2"));
+
+  // ---------- Reveal on scroll ----------
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add("in");
+  }), { threshold: .35 });
+
+  // ---------- Intro: break the seal ----------
+  const intro = document.getElementById("intro");
+  // Fallback for browsers/webviews where IntersectionObserver doesn't fire
+  function revealVisible() {
+    slides.forEach(s => {
+      const r = s.getBoundingClientRect();
+      if (r.top < innerHeight * 0.75 && r.bottom > innerHeight * 0.25) s.classList.add("in");
+    });
+  }
+  function start() {
+    document.body.classList.remove("locked");
+    slides.forEach(s => io.observe(s));
+    revealVisible();
+    addEventListener("scroll", revealVisible, { passive: true });
+    addEventListener("resize", revealVisible);
+  }
+  // The photo card cycles through the theme photos like a short film
+  const frames = $(".reel img:not(.reel-title)");
+  let reelIndex = 0, reelTimer = null, autoTimer = null;
+  function playReel() {
+    reelTimer = setInterval(() => {
+      frames[reelIndex].classList.remove("on");
+      reelIndex = (reelIndex + 1) % frames.length;
+      frames[reelIndex].classList.add("on");
+    }, 2600);
+  }
+  function finishIntro() {
+    if (intro.classList.contains("done")) return;
+    clearInterval(reelTimer); clearTimeout(autoTimer);
+    burst(innerWidth / 2, innerHeight / 2, 30);
+    intro.classList.add("done");
+    start();
+  }
+  // Hearts drift up behind the envelope while it waits
+  const RISE = ["#c3242c", "#e48b92", "#fff8f2", "#f4b6bb", "#8c1d23"];
+  if (!reduceMotion) for (let i = 0; i < 22; i++) {
+    const h = document.createElement("i");
+    h.className = "rise";
+    h.style.cssText = `left:${Math.random() * 100}%;--sz:${12 + Math.random() * 22}px;--c:${RISE[i % RISE.length]};--t:${6 + Math.random() * 6}s;--dl:${-Math.random() * 10}s;--dx:${(Math.random() - .5) * 120}px;--rot:${(Math.random() - .5) * 140}deg`;
+    intro.append(h);
+  }
+  function openLetter() {
+    if (intro.classList.contains("opening")) return;
+    intro.classList.add("opening");
+    playReel();
+    burst(innerWidth / 2, innerHeight * .55, 60);
+    setTimeout(() => burst(innerWidth * .3, innerHeight * .5, 26), 250); setTimeout(() => burst(innerWidth * .7, innerHeight * .5, 26), 450);
+    if (reduceMotion) return finishIntro();
+    setTimeout(() => {
+      // Grow the card to fill most of the screen once it is out of the envelope
+      const card = intro.querySelector(".letter");
+      const target = Math.min(760, innerWidth * .9, innerHeight * .62 * card.offsetWidth / card.offsetHeight);
+      // Measure where the card sits without its transform, then glide it to the screen centre
+      card.style.transition = "none"; card.style.transform = "none";
+      const r = card.getBoundingClientRect();
+      card.style.transform = ""; void card.offsetWidth; card.style.transition = "";
+      intro.style.setProperty("--cs", (target / card.offsetWidth).toFixed(3));
+      intro.style.setProperty("--tx", (innerWidth / 2 - (r.left + r.width / 2)).toFixed(1) + "px");
+      intro.style.setProperty("--ty", (innerHeight * .44 - (r.top + r.height / 2)).toFixed(1) + "px");
+      intro.classList.add("show");
+    }, 2400);
+    autoTimer = setTimeout(finishIntro, 16000);
+  }
+  document.getElementById("openSeal").addEventListener("click", openLetter);
+  document.getElementById("begin").addEventListener("click", finishIntro);
+  if (location.hash || reduceMotion) { intro.classList.add("opening", "done"); start(); }
+  // ?static shows every page fully revealed with no motion (handy for previews and printing)
+  if (/static/.test(location.search)) {
+    document.documentElement.classList.add("static");
+    intro.classList.add("opening", "done"); start();
+    slides.forEach(s => s.classList.add("in"));
+    const only = new URLSearchParams(location.search).get("page");
+    if (only) slides.forEach(s => s.hidden = s.id !== "p" + only);
+  }
+
+  // ---------- Nav dots, progress, keyboard ----------
+  const dots = document.getElementById("dots");
+  slides.forEach(s => { const a = document.createElement("a"); a.href = "#" + s.id; a.title = s.dataset.title; a.setAttribute("aria-label", s.dataset.title); dots.append(a); });
+  const dotLinks = $("a", dots);
+  const activeIO = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) dotLinks.forEach((a, i) => a.classList.toggle("on", slides[i] === e.target));
+  }), { threshold: .55 });
+  slides.forEach(s => activeIO.observe(s));
+  const progress = {style:{}};
+  addEventListener("scroll", () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  }, { passive: true });
+  addEventListener("keydown", e => {
+    if (!["ArrowDown", "PageDown", "ArrowUp", "PageUp"].includes(e.key)) return;
+    if (!intro.classList.contains("done")) { if (/Down/.test(e.key)) openLetter(); e.preventDefault(); return; }
+    const cur = slides.findIndex(s => s.getBoundingClientRect().top > -s.offsetHeight / 2);
+    const next = slides[Math.max(0, Math.min(slides.length - 1, cur + (/Down/.test(e.key) ? 1 : -1)))];
+    if (next) { e.preventDefault(); next.scrollIntoView({ behavior: "smooth" }); }
+  });
+
+  // ---------- Heart burst (double-click anywhere) ----------
+  const COLORS = ["#c3242c", "#e48b92", "#fff8f2", "#8c1d23", "#f4b6bb"];
+  function burst(x, y, n = 18) {
+    if (reduceMotion) return;
+    for (let i = 0; i < n; i++) {
+      const h = document.createElement("i");
+      const a = Math.random() * Math.PI * 2, d = 80 + Math.random() * 180;
+      h.className = "burst";
+      h.style.cssText = `left:${x}px;top:${y}px;--sz:${14 + Math.random() * 18}px;--c:${COLORS[i % COLORS.length]};--x:${Math.cos(a) * d}px;--y:${Math.sin(a) * d - 60}px;--rot:${(Math.random() - .5) * 120}deg`;
+      document.body.append(h);
+      setTimeout(() => h.remove(), 1400);
+    }
+  }
+  addEventListener("dblclick", e => burst(e.clientX, e.clientY));
+
+  // ---------- Drifting petals ----------
+  const cv = document.getElementById("petals"), ctx = cv.getContext("2d");
+  let W, H, petals = [];
+  const dpr = () => Math.min(2, devicePixelRatio || 1);
+  function newPetal(any) {
+    const k = dpr();
+    return { x: Math.random() * W, y: any ? Math.random() * H : -20 * k, r: (5 + Math.random() * 7) * k,
+      vy: (.35 + Math.random() * .7) * k, vx: (Math.random() - .3) * .6 * k, a: Math.random() * 6.28, va: (Math.random() - .5) * .03, sw: Math.random() * 6.28,
+      c: ["rgba(214,70,82,.55)", "rgba(244,182,187,.7)", "rgba(255,240,236,.65)"][Math.floor(Math.random() * 3)] };
+  }
+  function size() {
+    W = cv.width = innerWidth * dpr(); H = cv.height = innerHeight * dpr();
+    cv.style.width = innerWidth + "px"; cv.style.height = innerHeight + "px";
+    petals = Array.from({ length: innerWidth < 600 ? 12 : 22 }, () => newPetal(true));
+  }
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    petals.forEach((p, i) => {
+      p.sw += .02; p.y += p.vy; p.x += p.vx + Math.sin(p.sw) * .5; p.a += p.va;
+      if (p.y > H + 30) petals[i] = newPetal(false);
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.scale(1, Math.abs(Math.sin(p.sw)) * .6 + .4);
+      ctx.fillStyle = p.c; ctx.beginPath(); ctx.moveTo(0, -p.r);
+      ctx.bezierCurveTo(p.r, -p.r * .6, p.r * .8, p.r * .7, 0, p.r); ctx.bezierCurveTo(-p.r * .8, p.r * .7, -p.r, -p.r * .6, 0, -p.r);
+      ctx.fill(); ctx.restore();
+    });
+    if (!document.hidden) requestAnimationFrame(frame);
+  }
+  if (!reduceMotion) {
+    size(); addEventListener("resize", size); requestAnimationFrame(frame);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) requestAnimationFrame(frame); });
+  }
+})();
+</script>
+</body>
+</html>

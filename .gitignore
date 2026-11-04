@@ -53,3 +53,7 @@ reference/
 .claude/
 server/node_modules/
 *.sqlite*
+
+# A scrape of einvite.website whose Nuxt bundle carries that site's own live Stripe and
+# Razorpay keys. Never commit it; it is kept out of the repo entirely.
+public/web-romance-elegant/

@@ -1,0 +1,542 @@
+@import url("fonts.css");
+
+/* ==========================================================================
+   1. Base
+   ========================================================================== */
+:root {
+  /* colour palette - change these to re-colour the whole site */
+  --wine: #722525;        /* main background (matches the design) */
+  --wine-light: #93393a;  /* top glow */
+  --wine-dark: #3d1012;   /* bottom / edges */
+  --cream: #fbf3e6;       /* light text & buttons */
+  --rose: #f2a7b5;        /* soft pink accents */
+  --rose-deep: #e0738b;   /* hover / highlights */
+  --s: 1; /* scale factor, set by js/main.js */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  background: var(--wine-dark);
+  overflow-x: hidden;
+  /* native scrollbar hidden: a round progress ring shows while scrolling instead (see .progress) */
+  scrollbar-width: none;
+}
+::-webkit-scrollbar { display: none; }
+
+body {
+  min-height: 100vh;
+  /* clip (not hidden): hidden on both html and body makes body a second scroll container = double scrollbar */
+  overflow-x: clip;
+  /* soft glowing wine background instead of a flat colour */
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(242, 167, 181, 0.22), transparent 70%),
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(20, 0, 2, 0.45), transparent 70%),
+    linear-gradient(180deg, var(--wine-light) 0%, var(--wine) 35%, #5e1c1e 75%, var(--wine-dark) 100%);
+  background-attachment: fixed;
+}
+
+/* gentle dark vignette around the edges of the screen */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  box-shadow: inset 0 0 140px rgba(20, 0, 2, 0.5);
+}
+
+main { width: 100%; }
+
+/* ==========================================================================
+   2. Page layout
+   Each section is designed at a fixed size (--w x --h) and scaled to the screen.
+   ========================================================================== */
+.page {
+  position: relative;
+  width: 100%;
+  height: calc(var(--h) * var(--s) * 1px);
+  overflow: hidden;
+  background: transparent; /* let the body glow show through */
+}
+
+.stage {
+  position: absolute;
+  /* --shift moves the content down/up inside its page so every page has the same space above and below */
+  top: calc(var(--shift, 0) * var(--s) * 1px);
+  left: 0;
+  width: calc(var(--w) * 1px);
+  height: calc(var(--h) * 1px);
+  transform: scale(var(--s));
+  transform-origin: 0 0;
+}
+
+/* every element is placed by one transform from the top-left corner (see cover.css / content.css) */
+.stage > *, .crop > *, .bob > * {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  transform-origin: 0 0;
+}
+.crop { overflow: hidden; }
+.bob-group, .bob { width: 100%; height: 100%; } /* the card group covers the page so it can be detected on screen */
+.stage img { display: block; user-select: none; -webkit-user-drag: none; }
+img.photo { object-fit: cover; }
+
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* Cover page: zooms its content to fit the screen, no scrolling (see main.js) */
+body.fit-screen { height: 100vh; overflow: hidden; }
+body.fit-screen .page { height: 100vh; }
+body.fit-screen .stage {
+  transform: translate(var(--tx, 0), var(--ty, 0)) scale(var(--fit, 1));
+  transform-origin: 0 0;
+}
+
+/* ==========================================================================
+   3. "click me!" buttons
+   ========================================================================== */
+.click-me {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { scale: 1; text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+  50% { scale: 1.12; text-shadow: 0 0 10px rgba(251, 243, 230, 0.9), 0 0 22px rgba(242, 167, 181, 0.7); }
+}
+
+/* Back button on the content page */
+.back-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 80;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--wine);
+  border: 1px solid rgba(242, 167, 181, 0.6);
+  font-family: "Schoolbell", cursive;
+  font-size: 18px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: background 0.2s ease, translate 0.2s ease;
+}
+.back-btn:hover { background: var(--rose); color: var(--wine-dark); translate: -3px 0; }
+
+/* ==========================================================================
+   4. Photo styles
+   ========================================================================== */
+
+/* Striped frame: the two stripe SVGs repeat along each edge.
+   Works for any photo size or shape - the photo is cropped, never stretched. */
+img.framed-photo {
+  --border: 12px;
+  box-sizing: border-box;
+  padding: var(--border);
+  object-fit: cover;
+  object-position: center 58%;
+  background:
+    url("../layers/frame-stripes-h.svg") left top / auto var(--border) repeat-x,
+    url("../layers/frame-stripes-h.svg") left bottom / auto var(--border) repeat-x,
+    url("../layers/frame-stripes-v.svg") left top / var(--border) auto repeat-y,
+    url("../layers/frame-stripes-v.svg") right top / var(--border) auto repeat-y,
+    #fbd9dc;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35), 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+/* Polaroid: the photo sits behind photo-7-frame.png (its window is transparent),
+   the names are written on the frame's bottom strip.
+   Sizes come from the frame image (1500px): card 919 x 1181, window 846 x 818,
+   scaled so the card is 281px wide (factor 0.3058). */
+.polaroid-photo {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  width: 259px;
+  height: 250px;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.polaroid-frame {
+  position: absolute;
+  left: -87px;
+  top: -59px;
+  width: 459px;
+  height: 459px;
+  max-width: none;
+  pointer-events: none;
+}
+.polaroid-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 258px;
+  height: 103px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 18px;
+  font-family: "Amsterdam One", cursive;
+  font-size: 20px;
+  color: var(--wine);
+  white-space: nowrap;
+}
+/* Second polaroid (content.html, section 2): the photo sits behind polaroid-photo-frame.png.
+   Sizes come from the frame image (2000px): card 1146 x 1574, window 1019 x 1189,
+   scaled so the card is 218px wide (factor 0.1902), centred where the old photo was. */
+.polaroid-2-photo {
+  position: absolute;
+  left: 12px;
+  top: 11px;
+  width: 194px;
+  height: 226px;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.polaroid-2-frame {
+  position: absolute;
+  left: -79px;
+  top: -32px;
+  width: 380px;
+  height: 380px;
+  max-width: none;
+  pointer-events: none;
+}
+
+/* caption written on the second polaroid's bottom strip */
+.polaroid-2-text {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 237px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Amsterdam One", cursive;
+  font-size: 18px;
+  color: var(--wine);
+  white-space: nowrap;
+}
+
+/* write-on effect, starts when the polaroid scrolls into view */
+.polaroid-name span,
+.polaroid-2-text span {
+  display: inline-block;
+  clip-path: inset(0 100% 0 0);
+  animation: write-name 2.6s steps(40, end) 0.9s forwards, float-name 3s ease-in-out 3.6s infinite;
+}
+.anim:not(.in) .polaroid-name span,
+.anim:not(.in) .polaroid-2-text span { animation-play-state: paused; }
+
+
+@keyframes write-name { to { clip-path: inset(0 0 0 0); } }
+@keyframes float-name {
+  0%, 100% { translate: 0 0; rotate: -2deg; }
+  50% { translate: 0 -3px; rotate: 1deg; }
+}
+
+
+/* ==========================================================================
+   5. Entrance animation (classes added by main.js)
+   Each item fades up gently once when it scrolls into view.
+   ========================================================================== */
+.anim { opacity: 0; }
+.anim.in {
+  opacity: 1;
+  animation: fade-up 0.9s ease-out var(--delay, 0s) both;
+}
+/* after the fade finishes the animation is removed completely (set by main.js),
+   so the item is a plain static element and can never flicker or hide */
+.anim.done { animation: none; opacity: 1; translate: none; }
+@keyframes fade-up {
+  from { opacity: 0; translate: 0 24px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+/* ==========================================================================
+   6. Small extras
+   ========================================================================== */
+
+/* cover: the "Happy Birthday" card bobs inside the envelope */
+.bob { animation: bob 3.4s ease-in-out 2s infinite; }
+@keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -9px; } }
+
+/* page fade in / out when moving between pages */
+main { animation: page-in 0.9s ease both; }
+body.leaving main { animation: page-out 0.55s ease forwards; }
+@keyframes page-in { from { opacity: 0; scale: 1.02; } }
+@keyframes page-out { to { opacity: 0; scale: 0.97; filter: blur(4px); } }
+
+/* music: hidden YouTube player + floating play / pause button */
+.music-player {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: 1px;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.music-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 80;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(242, 167, 181, 0.6);
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--wine);
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.music-btn.playing { animation: spin 4s linear infinite; }
+.music-btn:not(.playing) { opacity: 0.75; }
+@keyframes spin { to { rotate: 360deg; } }
+
+/* round scroll indicator: a ring that fills as you scroll, visible only while scrolling */
+.progress {
+  position: fixed;
+  right: 18px;
+  bottom: 22px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--rose) calc(var(--progress, 0) * 360deg), rgba(255, 255, 255, 0.18) 0);
+  box-shadow: 0 0 12px rgba(242, 167, 181, 0.55);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+.progress::before {
+  content: "";
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--wine-dark);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f2a7b5'><path d='M12 21s-8-5.2-8-11.2C4 6.6 6.2 5 8.3 5c1.5 0 2.9.8 3.7 2 .8-1.2 2.2-2 3.7-2C17.8 5 20 6.6 20 9.8 20 15.8 12 21 12 21z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+}
+.progress.show { opacity: 1; transform: scale(1); }
+
+/* ==========================================================================
+   7. Background hearts & sparkles, click burst
+   ========================================================================== */
+.floaters { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 50; }
+.floater {
+  position: absolute;
+  bottom: -30px;
+  color: rgba(251, 243, 230, 0.6);
+  text-shadow: 0 0 6px rgba(242, 167, 181, 0.8);
+  animation: drift linear forwards;
+}
+@keyframes drift {
+  0% { translate: 0 0; rotate: 0deg; opacity: 0; }
+  10% { opacity: 1; }
+  100% { translate: var(--sway, 30px) -110vh; rotate: 40deg; opacity: 0; }
+}
+
+.burst {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  color: var(--rose);
+  font-size: 16px;
+  text-shadow: 0 0 6px rgba(224, 115, 139, 0.8);
+  animation: burst 0.9s ease-out forwards;
+}
+.confetti {
+  position: fixed;
+  z-index: 60;
+  width: 7px;
+  height: 11px;
+  border-radius: 2px;
+  pointer-events: none;
+  animation: burst 1.2s cubic-bezier(.2, .7, .4, 1) forwards;
+}
+@keyframes burst {
+  from { translate: 0 0; scale: 0.4; opacity: 1; }
+  to { translate: var(--dx) var(--dy); scale: 1.2; rotate: 260deg; opacity: 0; }
+}
+
+/* ==========================================================================
+   8. Surprises: birthday candle, secret note, grand finale
+   ========================================================================== */
+
+/* candle: tap the cupcake to blow out the flame */
+.candle {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.flame {
+  position: absolute;
+  left: 35.8px;
+  top: 0.6px;
+  width: 7px;
+  height: 12px;
+  border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
+  background: radial-gradient(ellipse at 50% 75%, #fff8d6 0 25%, #ffd36b 45%, #ff9a3c 75%, rgba(255, 120, 40, 0) 100%);
+  box-shadow: 0 0 6px 2px rgba(255, 200, 90, 0.75), 0 0 14px 5px rgba(255, 170, 60, 0.35);
+  transform-origin: 50% 100%;
+  animation: flicker 0.18s ease-in-out infinite alternate;
+  transition: opacity 0.35s ease, scale 0.35s ease;
+}
+@keyframes flicker {
+  from { scale: 1 1; rotate: -3deg; }
+  to { scale: 0.9 1.08; rotate: 3deg; }
+}
+.candle.out .flame { opacity: 0; scale: 0.2; animation: none; }
+/* little puff of smoke when it goes out */
+.candle.out::after {
+  content: "";
+  position: absolute;
+  left: 37px;
+  top: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(160, 160, 160, 0.7);
+  animation: smoke 1.4s ease-out forwards;
+}
+@keyframes smoke {
+  to { translate: 4px -26px; scale: 3.5; opacity: 0; }
+}
+
+.wish-hint, .wish-hint.done { animation: hint 1.6s ease-in-out infinite; }
+.wish-hint.gone { opacity: 0; transition: opacity 0.4s; animation: none; }
+@keyframes hint { 50% { translate: 0 -2px; } }
+
+.wish-toast {
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  z-index: 90;
+  translate: -50% -50%;
+  padding: 14px 26px;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--wine);
+  font-family: "Schoolbell", cursive;
+  font-size: 22px;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  animation: toast 3s ease forwards;
+}
+@keyframes toast {
+  0% { opacity: 0; scale: 0.7; }
+  12%, 80% { opacity: 1; scale: 1; }
+  100% { opacity: 0; scale: 0.95; }
+}
+
+/* secret note: tap the age number */
+.age { cursor: pointer; }
+.secret {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(40, 8, 10, 0.55);
+  backdrop-filter: blur(3px);
+  animation: fade-in 0.3s ease both;
+}
+.secret[hidden] { display: none; }
+.secret-card {
+  max-width: 340px;
+  padding: 26px 24px 20px;
+  border-radius: 14px;
+  background: var(--cream);
+  color: var(--wine);
+  text-align: center;
+  font-family: "Schoolbell", cursive;
+  font-size: 19px;
+  line-height: 1.45;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  animation: pop-card 0.45s cubic-bezier(.3, 1.5, .5, 1) both;
+}
+.secret-title { font-family: "Amsterdam One", cursive; font-size: 30px; margin-bottom: 8px; }
+.secret-close {
+  margin-top: 16px;
+  padding: 6px 18px;
+  border: 1px solid var(--rose);
+  border-radius: 999px;
+  background: none;
+  color: var(--wine);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+.secret-close:hover { background: var(--rose); }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes pop-card { from { opacity: 0; scale: 0.6; rotate: -4deg; } }
+
+/* grand finale at the end of the content page */
+.finale {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px 16px 100px;
+  text-align: center;
+  color: var(--cream);
+}
+.finale > * { opacity: 0; translate: 0 20px; transition: opacity 1s ease, translate 1s ease; }
+.finale.show > * { opacity: 1; translate: 0 0; }
+.finale.show > :nth-child(2) { transition-delay: 0.4s; }
+.finale.show > :nth-child(3) { transition-delay: 0.9s; }
+.finale.show > :nth-child(4) { transition-delay: 1.4s; }
+.finale-small { font-family: "Schoolbell", cursive; font-size: clamp(16px, 2.4vw, 22px); color: var(--rose); }
+.finale-title {
+  font-family: "Amsterdam One", cursive;
+  font-weight: 400;
+  font-size: clamp(44px, 8vw, 100px);
+  line-height: 1.6;
+  margin: 0.15em 0 0.35em;
+  text-shadow: 0 0 18px rgba(242, 167, 181, 0.55);
+}
+.finale-text { font-family: "Schoolbell", cursive; font-size: clamp(18px, 2.8vw, 26px); }
+.finale-btn {
+  margin-top: 18px;
+  padding: 10px 26px;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--wine);
+  font-family: "Schoolbell", cursive;
+  font-size: 20px;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transition: background 0.2s ease;
+}
+.finale-btn:hover { background: var(--rose); }
+
+/* ==========================================================================
+   9. Reduced motion: show everything without animation
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .anim { opacity: 1; }
+  .anim.in, .bob, .click-me, main, .floater, .burst, .music-btn, .flame, .wish-hint { animation: none !important; }
+  .finale > * { opacity: 1; translate: none; }
+  .polaroid-name span, .polaroid-2-text span { clip-path: none; animation: none; }
+  .floaters { display: none; }
+}

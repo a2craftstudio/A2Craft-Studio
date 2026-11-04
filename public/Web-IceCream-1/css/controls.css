@@ -1,0 +1,451 @@
+/* =========================================================
+   Themed dropdowns, calendar, loading shimmer & small upgrades
+   ========================================================= */
+
+/* the native control stays in the form for submit + validation, just invisible */
+.csel > select,
+.cdate-native {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.csel,
+.cdate {
+  position: relative;
+  width: 100%;
+}
+
+.csel.pill {
+  width: auto;
+}
+
+/* ---------- Trigger buttons ---------- */
+.csel-btn,
+.cdate-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  font-weight: 500;
+  color: var(--choc);
+  background: var(--chip);
+  border: 2px solid transparent;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.csel-btn > i,
+.cdate-btn > i {
+  font-size: 18px;
+  color: var(--choc-3);
+  transition: rotate 0.3s var(--bounce);
+}
+
+.csel.open .csel-btn > i {
+  rotate: 180deg;
+}
+
+.csel-btn:hover,
+.cdate-btn:hover {
+  background: #e4e4e4;
+}
+
+.csel.open .csel-btn,
+.cdate.open .cdate-btn,
+.csel-btn:focus-visible,
+.cdate-btn:focus-visible {
+  background: var(--white);
+  border-color: rgba(0, 132, 255, 0.6);
+  box-shadow: 0 0 0 4px rgba(0, 132, 255, 0.15);
+  outline: none;
+}
+
+.csel-val {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cdate-btn.empty .cdate-val {
+  color: var(--choc-3);
+}
+
+/* inside floating-label form fields */
+.field .csel-btn,
+.field .cdate-btn {
+  min-height: 58px;
+  padding: 22px 16px 8px;
+  border-radius: 16px;
+  font-size: 16px;
+}
+
+.field .csel + span,
+.field .cdate + span {
+  top: 7px;
+  font-size: 12px;
+  color: var(--choc-3);
+}
+
+.field .csel.open + span,
+.field .cdate.open + span {
+  color: #0a6fd8;
+}
+
+/* pill variant (Explore sort) */
+.csel.pill .csel-btn {
+  height: 44px;
+  padding: 0 14px 0 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* cart drawer variant */
+.mode-extra .csel-btn {
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 14px;
+}
+
+/* ---------- Dropdown list ---------- */
+.csel-list,
+.cdate-pop {
+  position: absolute;
+  z-index: 90;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 100%;
+  padding: 8px;
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 -6px;
+  scale: 0.98;
+  transform-origin: top center;
+  transition: opacity 0.18s, translate 0.25s var(--ease), scale 0.25s var(--ease), visibility 0s 0.25s;
+}
+
+.csel.pill .csel-list {
+  left: auto;
+  right: 0;
+  min-width: 230px;
+}
+
+.csel.up .csel-list,
+.cdate.up .cdate-pop {
+  top: auto;
+  bottom: calc(100% + 8px);
+  transform-origin: bottom center;
+  translate: 0 6px;
+}
+
+.csel.open .csel-list,
+.cdate.open .cdate-pop {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  scale: 1;
+  transition: opacity 0.18s, translate 0.25s var(--ease), scale 0.25s var(--ease), visibility 0s;
+}
+
+.csel-list {
+  max-height: 290px;
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.csel-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.csel-list li.hi {
+  background: var(--chip);
+}
+
+.csel-list li i {
+  font-size: 18px;
+  color: var(--pink);
+  opacity: 0;
+}
+
+.csel-list li.sel {
+  font-weight: 700;
+}
+
+.csel-list li.sel i {
+  opacity: 1;
+}
+
+/* ---------- Calendar ---------- */
+.cdate-pop {
+  width: 320px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.cd-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cd-head b {
+  font-size: 16px;
+}
+
+.cd-head button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  transition: background 0.15s;
+}
+
+.cd-head button:hover:not(:disabled) {
+  background: var(--chip);
+}
+
+.cd-head button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.cd-week,
+.cd-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+
+.cd-week span {
+  padding: 6px 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--choc-3);
+}
+
+.cd-grid button {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cd-grid button:hover:not(:disabled) {
+  background: var(--chip);
+}
+
+.cd-grid button.today {
+  box-shadow: inset 0 0 0 2px var(--choc);
+}
+
+.cd-grid button.on {
+  background: var(--pink);
+  color: var(--white);
+  box-shadow: none;
+}
+
+.cd-grid button:disabled {
+  color: #c4c4c4;
+  cursor: not-allowed;
+}
+
+.cd-quick {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.cd-quick button {
+  flex: 1;
+  padding: 8px 6px;
+  border-radius: 999px;
+  background: var(--chip);
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 0.15s;
+}
+
+.cd-quick button:hover {
+  background: #e2e2e2;
+}
+
+/* ---------- Loading shimmer for pins ---------- */
+.pin-img {
+  background: linear-gradient(100deg, #efefef 30%, #f8f8f8 50%, #efefef 70%) 0 0 / 220% 100%;
+  animation: shimmer 1.3s linear infinite;
+}
+
+.pin-img.done {
+  animation: none;
+  background: var(--cream-2);
+}
+
+.pin-img img {
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.7s var(--ease);
+}
+
+.pin-img img.loaded {
+  opacity: 1;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+/* ---------- Pin pop-up: next / previous ---------- */
+.pm-nav {
+  position: fixed;
+  top: 50%;
+  z-index: 3;
+  width: 52px;
+  height: 52px;
+  margin-top: -26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--white);
+  font-size: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s var(--bounce);
+}
+
+.pm-nav:hover {
+  transform: scale(1.1);
+}
+
+.pm-nav.prev {
+  left: max(16px, calc(50% - 600px));
+}
+
+.pm-nav.next {
+  right: max(16px, calc(50% - 600px));
+}
+
+/* ---------- Recently viewed ---------- */
+.recent-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.recent-head h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+}
+
+.recent-head h3 i {
+  color: var(--pink);
+}
+
+.recent-row {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+
+.recent-card {
+  flex: 0 0 150px;
+  scroll-snap-align: start;
+  text-align: left;
+}
+
+.recent-card img {
+  width: 150px;
+  height: 150px;
+  border-radius: 18px;
+  object-fit: cover;
+  transition: transform 0.35s var(--bounce);
+}
+
+.recent-card:hover img {
+  transform: translateY(-4px);
+}
+
+.recent-card span {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.recent-card small {
+  color: var(--choc-3);
+  font-weight: 600;
+}
+
+/* ---------- Search suggestion keyboard highlight ---------- */
+.suggest-list a.hi,
+.suggest-chips a.hi {
+  background: var(--chip);
+  box-shadow: inset 0 0 0 2px rgba(0, 132, 255, 0.45);
+}
+
+@media (max-width: 900px) {
+  .pm-nav {
+    top: auto;
+    bottom: 18px;
+    margin-top: 0;
+    width: 48px;
+    height: 48px;
+    position: fixed;
+  }
+
+  .pm-nav.prev {
+    left: 18px;
+  }
+
+  .pm-nav.next {
+    right: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .cdate-pop {
+    width: min(320px, calc(100vw - 48px));
+  }
+
+  .recent-card {
+    flex-basis: 120px;
+  }
+
+  .recent-card img {
+    width: 120px;
+    height: 120px;
+  }
+}

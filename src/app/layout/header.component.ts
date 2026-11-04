@@ -11,6 +11,7 @@ import { LogoMarkComponent } from '../shared/logo.component';
 export const NAV = [
   { label: 'Home', path: '/' },
   { label: 'Shop', path: '/shop' },
+  { label: 'Templates', path: '/templates' },
   { label: 'Our Work', path: '/our-work' },
   { label: 'Custom Orders', path: '/custom-order' },
   { label: 'About', path: '/about' },
